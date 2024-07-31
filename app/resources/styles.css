@@ -1,0 +1,195 @@
+.customform {
+    font-family: 'Arial', sans-serif;
+    border-radius: 1px;
+    box-shadow: 0 2px 4px #00000033;
+    font-size: 18px;
+    width: 840px;
+    background: #ffffff;
+    border: 1px solid #000;
+    margin-top: 20px;
+    border-collapse: collapse;
+    padding: 10px;
+    /* esse border-collapse é o responsável pelas bordas ficarem completas e sem sobras entre uma e outra*/
+}
+
+body {
+    margin-top: 4.5cm;
+    margin-bottom: 1cm;
+}
+
+.header {
+    position: fixed;
+    top: 0cm;
+    width: 100%;
+    height: 2.8cm;
+    background-color: #ffffff;
+}
+
+.header .img {
+    max-width: 80px;
+    max-height: 80px;
+    width: auto;
+    height: auto;
+}
+
+.customform .formtitle {
+    padding: 15px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+    color: #fff;
+    background: #e0e0e0ef;
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.customform td.sectiontitle {
+    padding: 6px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 18px;
+    color: #ffffff;
+    background: #023b53;
+    border-radius: 0;
+}
+
+.customform td.bordash {
+    border-bottom: 1px solid #000000;
+    border-left: 1px solid #000000;
+}
+
+.customform td.bordasl {
+    padding: 6px;
+    color: #ffffff;
+    font-size: 18px;
+    border-bottom: 1px solid #000000;
+    border-left: 1px solid #000000;
+    background: #023b53;
+}
+
+.customform td.rodape {
+    border-left: 1px solid #000000;
+}
+
+.customform td.bordas {
+    border-left: 1px solid #000000;
+}
+
+.customform .formfield {
+    background: #e1e0e0;
+    border: 1px solid #000;
+    color: #000000;
+    border-radius: 3px;
+    height: 30px;
+    display: block;
+    padding: 4px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+caption {
+    font-size: 18px;
+    font-family: 'Arial', sans-serif;
+    font-weight: bold;
+    padding: 10px;
+    color: #ffffff;
+    background-color: #023b53;
+}
+
+.customform tr.oddrow {
+    background: #ffffff;
+}
+
+.customform td {
+    padding: 10px;
+}
+
+td.bordas:nth-of-type(odd) {
+    background: #e1e0e0;
+}
+
+td.bordash:nth-of-type(odd) {
+    background: #e1e0e0;
+}
+
+td.rodape:nth-of-type(odd) {
+    background: #e1e0e0;
+}
+
+footer::after {
+    content: "Página " counter(page);
+}
+
+footer {
+    position: fixed;
+    bottom: 0cm;
+    left: 0cm;
+    right: 0cm;
+    text-align: right;
+    width: 100%;
+    border-top: 1px solid #000000;
+    margin-bottom: -10px;
+    padding: 6px;
+}
+
+@page {
+    font-family: Arial, Helvetica, sans-serif;
+    size: A4 portrait;
+    margin: 1cm 1cm 1cm;
+    counter-increment: page;
+}
+
+/*Dicas*/
+
+/*
+Fazer gradiente:
+.customform {
+   background-image: linear-gradient(to right, #023b53, #000000);
+}
+*/
+
+/*como puxar uma fonte baixada
+@font-face {
+    font-family: 'Danger';
+    src: url('app/resources/anotherdanger.otf') format('opentype');
+    font-weight: normal;
+    font-style: normal;
+}
+*/
+
+/* A pseudo-classe é usada quando quer que ao passar o mouse por cima de algum
+elemento ele mude de cor, ou sublinhe, por exemplo
+
+a {
+    color: red;
+    text-decoration: none;
+    font-weight: bold;
+}
+
+a:hover {
+    color: blue;
+    text-decoration: underline;
+}
+
+O pseudo-elemento é usado para adicionar estilos a partes específicas de um 
+elemento que não são representadas diretamente no código HTML.
+
+.a::before{
+    content:'->';
+}
+
+.a::after{
+    content:'<-';
+}
+
+nesses exemplos de pseudo-classe e elemento, tudo esta relacionado com a classe "a"
+
+Esse símbolo > indica children, no caso ser o filho, exemplo: 
+
+    div > p{
+        display: none;
+    }
+
+    Os paragráfos que estao dentro da div não irá aparecer
+
+*/
