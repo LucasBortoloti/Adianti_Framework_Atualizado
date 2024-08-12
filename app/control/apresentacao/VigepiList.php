@@ -68,29 +68,38 @@ class VigepiList extends TPage
     {
         try {
             $data = $this->form->getData();
-            $date_from = $data->date_from;
-            $date_to = $data->date_to;
-            $pesquisa = $data->pesquisa;
 
             $this->form->setData($data);
 
-            $source = TTransaction::open('defciv');
+            $source = TTransaction::open('vigepi');
 
-            $query = "  SELECT      o.sinistro_id,
-                                    s.descricao, 
-                                    count(*) as QTDE,
-                                    sum(CASE WHEN status = 'B' THEN 1 ELSE 0 END) as BAIXADAS,
-                                    sum(CASE WHEN status = 'A' THEN 1 ELSE 0 END) as ABERTAS
-                        from        ocorrencia o
-                        left join   sinistro s on s.id = o.sinistro_id
-                        where o.{$pesquisa} >= '{$date_from}' and o.{$pesquisa} <= '{$date_to}'
-                        group by    o.sinistro_id, s.descricao
-                        order by    s.descricao";
+            $query = "  SELECT      p.id as programacao_id,
+		                            ag.descricao as descricao_agravo,
+		                            ati.sigla as sigla_atividade_tipo,
+		                            ati.descricao as descricao_atividade,
+		                            a.created_at as periodo,
+		                            p.concluida as concluida,
+		                            it.sigla as imovel_tipo_sigla,
+		                            a.tipo_visita as recuperados_fechados_recusados,
+		                            rg.id as numero_imoveis,
+		                            q.descricao as numero_quarteiroes
+                        from        vigepi.atividade a
+			                    left join vigepi.programacao p on p.id = a.programacao_id
+			                    left join vigepi.atividade_tipo ati on ati.id = p.atividade_tipo_id	
+			                    left join vigepi.agravo ag on ag.id = p.agravo_id 
+			                    left join vigepi.reconhecimento_geografico rg on rg.id = a.rg_id 
+			                    left join vigepi.imovel_tipo it on it.id = rg.imovel_tipo_id
+			                    left join vigepi.foco f on f.id = p.foco_id
+			                    left join vigepi.analise an on an.id = f.analise_id
+			                    left join vigepi.amostra am on am.id = an.amostra_id 
+			                    left join vigepi.deposito d on d.id = am.deposito_id
+			                    left join vigepi.deposito_tipo dt on dt.id = d.deposito_tipo_id
+			                    left join vigepi.quarteirao q on q.id = rg.quarteirao_id 
+		                where p.id = '8'
+		                order by p.id";
 
             $rows = TDatabase::getData($source, $query, null, null);
 
-            $date_from_formatado = date('d/m/Y', strtotime($date_from));
-            $date_to_formatado = date('d/m/Y', strtotime($date_to));
             $data = date('d/m/Y   h:i:s');
 
             $content = '<html>
@@ -114,7 +123,7 @@ class VigepiList extends TPage
                         </tr>
                         <tr>
                             <td>(047) 2106-8000</td>
-                            <td class="cor_ocorrencia colspan=4">Ocorrência de ' . $date_from_formatado . ' até ' . $date_to_formatado . '</td>                     
+                            <td class="cor_ocorrencia colspan=4">Programação Id:' . $programacao_id . '</td>                     
                         </tr>
                     </table>
                 </div>
