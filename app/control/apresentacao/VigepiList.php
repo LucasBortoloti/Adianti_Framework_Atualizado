@@ -127,18 +127,19 @@ class VigepiList extends TPage
                             <td class="cor_ocorrencia colspan=4">Programação Id: ' . $programacao_id . '</td>                     
                         </tr>
                     </table>
-                </div>
-                <table class="borda_tabela" style="width: 100%">
-                    <tr>
-                        <td class="borda_inferior_centralizador"><b>Id</b></td> 
-                        <td class="borda_inferior"><b>Descrição Agravo</b></td>
-                        <td class="borda_inferior_centralizador"><b>Sigla</b></td>
-                        <td class="borda_inferior_centralizador"><b>Descricao atividade</b></td>
-                        <td class="borda_inferior_centralizador"><b>Periodo</b></td>
-                    </tr>';
+                </div>';
 
-            foreach ($rows as $row) {
-                $content .= "<tr>
+                    foreach ($rows as $row) {
+                        $content .= "
+                                <table class='borda_tabela' style='width: 100%'>
+                            <tr>
+                                <td class='borda_inferior_centralizador'><b>Id</b></td> 
+                                <td class='borda_inferior'><b>DescriçãoAgravo</b></td>
+                                <td class='borda_inferior_centralizador'><b>Sigla</b></td>
+                                <td class='borda_inferior_centralizador'><b>Descricao atividade</b></td>
+                                <td class='borda_inferior_centralizador'><b>Periodo</b></td>
+                            </tr>
+                            <tr>
                                 <td class='borda_inferior_e_direita_centralizador'>{$row['programacao_id']}</td>
                                 <td class='borda_inferior_e_direita_centralizador'>{$row['descricao_agravo']}</td>
                                 <td class='borda_inferior_e_direita_centralizador'>{$row['sigla_atividade_tipo']}</td>
@@ -147,9 +148,9 @@ class VigepiList extends TPage
                             </tr>
                             <tr>
                                 <td class='borda_inferior_centralizador'><b>Concluido</b></td> 
-                                <td class='borda_inferior'><b>Imovel Sigla</b></td>
+                                <td class='borda_inferior_centralizador'><b>Imovel Sigla</b></td>
                                 <td class='borda_inferior_centralizador'><b>Recuperados, Fechados ou Recusados</b></td>
-                                <td class='borda_inferior_centralizador'><b> Número Imóveis</b></td>
+                                <td class='borda_inferior_centralizador'><b>Número Imóveis</b></td>
                                 <td class='borda_inferior_centralizador'><b>Número Quarteirões</b></td>
                             </tr>
                             <tr>
@@ -158,11 +159,12 @@ class VigepiList extends TPage
                                 <td class='borda_direita_esquerda'>{$row['recuperados_fechados_recusados']}</td>
                                 <td class='borda_direita_esquerda'>{$row['numero_imoveis']}</td>
                                 <td class='centralizar'>{$row['numero_quarteiroes']}</td>
-                            </tr>       
+                            </tr>
                         </table>
-                    </body>
-                </html>";
-            }
+                        <br>";
+                    }
+
+                $content .= "</body></html>";
 
             // Debug the final HTML content
             file_put_contents('app/output/debug.html', $content);
