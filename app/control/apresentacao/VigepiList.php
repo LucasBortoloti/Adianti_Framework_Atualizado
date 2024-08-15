@@ -69,40 +69,69 @@ class VigepiList extends TPage
         try {
             $data = $this->form->getData();
             $programacao_id = $data->programacao_id;
-
+    
             $this->form->setData($data);
-
+    
             $source = TTransaction::open('vigepi');
-
-            $query = "  SELECT      p.id as programacao_id,
-		                            ag.descricao as descricao_agravo,
-		                            ati.sigla as sigla_atividade_tipo,
-		                            ati.descricao as descricao_atividade,
-		                            a.created_at as periodo,
-		                            p.concluida as concluida,
-		                            it.sigla as imovel_tipo_sigla,
-		                            a.tipo_visita as recuperados_fechados_recusados,
-		                            rg.id as numero_imoveis,
-		                            q.descricao as numero_quarteiroes
-                        from        vigepi.atividade a
-			                    left join vigepi.programacao p on p.id = a.programacao_id
-			                    left join vigepi.atividade_tipo ati on ati.id = p.atividade_tipo_id	
-			                    left join vigepi.agravo ag on ag.id = p.agravo_id 
-			                    left join vigepi.reconhecimento_geografico rg on rg.id = a.rg_id 
-			                    left join vigepi.imovel_tipo it on it.id = rg.imovel_tipo_id
-			                    left join vigepi.foco f on f.id = p.foco_id
-			                    left join vigepi.analise an on an.id = f.analise_id
-			                    left join vigepi.amostra am on am.id = an.amostra_id 
-			                    left join vigepi.deposito d on d.id = am.deposito_id
-			                    left join vigepi.deposito_tipo dt on dt.id = d.deposito_tipo_id
-			                    left join vigepi.quarteirao q on q.id = rg.quarteirao_id 
-		                where p.id = '{$programacao_id}'
-		                order by p.id = '{$programacao_id}'";
-
-            $rows = TDatabase::getData($source, $query, null, null);
-
+    
+            // Primeira consulta SQL
+            $query1 = "SELECT p.id as programacao_id,
+                            ag.descricao as descricao_agravo,
+                            ati.sigla as sigla_atividade_tipo,
+                            ati.descricao as descricao_atividade,
+                            a.created_at as periodo,
+                            p.concluida as concluida,
+                            it.sigla as imovel_tipo_sigla,
+                            a.tipo_visita as recuperados_fechados_recusados,
+                            rg.id as numero_imoveis,
+                            q.descricao as numero_quarteiroes
+                       FROM vigepi.atividade a
+                  LEFT JOIN vigepi.programacao p ON p.id = a.programacao_id
+                  LEFT JOIN vigepi.atividade_tipo ati ON ati.id = p.atividade_tipo_id 
+                  LEFT JOIN vigepi.agravo ag ON ag.id = p.agravo_id 
+                  LEFT JOIN vigepi.reconhecimento_geografico rg ON rg.id = a.rg_id 
+                  LEFT JOIN vigepi.imovel_tipo it ON it.id = rg.imovel_tipo_id
+                  LEFT JOIN vigepi.foco f ON f.id = p.foco_id
+                  LEFT JOIN vigepi.analise an ON an.id = f.analise_id
+                  LEFT JOIN vigepi.amostra am ON am.id = an.amostra_id 
+                  LEFT JOIN vigepi.deposito d ON d.id = am.deposito_id
+                  LEFT JOIN vigepi.deposito_tipo dt ON dt.id = d.deposito_tipo_id
+                  LEFT JOIN vigepi.quarteirao q ON q.id = rg.quarteirao_id 
+                      WHERE p.id = '{$programacao_id}'
+                   ORDER BY p.id = '{$programacao_id}'";
+    
+            // Segunda consulta SQL
+            $query2 = "SELECT p.id as programacao_id,
+                            a.id as atividade_id,
+                            SUM(CASE d.tratado WHEN 'N' THEN 0 WHEN 'S' THEN 1 END) as depositos_tratados,
+                            SUM(CASE i.tipo_inseticida WHEN 'L' THEN i.peso_em_gramas ELSE 0 END) as qtd_larvicida_gramas,
+                            SUM(CASE i.tipo_inseticida WHEN 'A' THEN i.peso_em_gramas ELSE 0 END) as qtd_adulticida_gramas,
+                            am.qtd_tubitos as qtd_tubitos,
+                            am.especime_qtd as qtd_amostras,
+                            dt.sigla as deposito_sigla,
+                            d.eliminado as depositos_eliminados,
+                            rg.id as numero_imoveis
+                       FROM vigepi.tratamento t
+                  LEFT JOIN vigepi.deposito d ON d.id = t.deposito_id
+                  LEFT JOIN vigepi.atividade a ON a.id = d.atividade_id
+                  LEFT JOIN vigepi.programacao p ON p.id = a.programacao_id
+                  LEFT JOIN vigepi.inseticida i ON p.id = t.inseticida_id
+                  LEFT JOIN vigepi.reconhecimento_geografico rg ON rg.id = a.rg_id
+                  LEFT JOIN vigepi.foco f ON f.id = p.foco_id
+                  LEFT JOIN vigepi.deposito_tipo dt ON dt.id = d.deposito_tipo_id 
+                  LEFT JOIN vigepi.quarteirao q ON q.id = f.quarteirao_id 
+                  LEFT JOIN vigepi.analise an ON an.id = f.analise_id 
+                  LEFT JOIN vigepi.amostra am ON am.id = an.amostra_id 
+                      WHERE p.id = '{$programacao_id}'
+                   GROUP BY t.id       
+                   ORDER BY t.id";
+    
+            // Executa as consultas
+            $rows1 = TDatabase::getData($source, $query1, null, null);
+            $rows2 = TDatabase::getData($source, $query2, null, null);
+    
             $data = date('d/m/Y   h:i:s');
-
+    
             $content = '<html>
             <head> 
                 <title>Ocorrencias</title>
@@ -128,42 +157,77 @@ class VigepiList extends TPage
                         </tr>
                     </table>
                 </div>';
+    
+            // Adiciona resultados da primeira consulta
+            foreach ($rows1 as $row) {
+                $content .= "
+                    <table class='borda_tabela' style='width: 100%'>
+                        <tr>
+                            <td class='borda_inferior_centralizador'><b>Id</b></td> 
+                            <td class='borda_inferior'><b>DescriçãoAgravo</b></td>
+                            <td class='borda_inferior_centralizador'><b>Sigla</b></td>
+                            <td class='borda_inferior_centralizador'><b>Descricao atividade</b></td>
+                            <td class='borda_inferior_centralizador'><b>Periodo</b></td>
+                        </tr>
+                        <tr>
+                            <td class='borda_inferior_e_direita_centralizador'>{$row['programacao_id']}</td>
+                            <td class='borda_inferior_e_direita_centralizador'>{$row['descricao_agravo']}</td>
+                            <td class='borda_inferior_e_direita_centralizador'>{$row['sigla_atividade_tipo']}</td>
+                            <td class='borda_inferior_e_direita_centralizador'>{$row['descricao_atividade']}</td>
+                            <td class='borda_inferior_e_direita_centralizador'>{$row['periodo']}</td>
+                        </tr>
+                        <tr>
+                            <td class='borda_inferior_centralizador'><b>Concluido</b></td> 
+                            <td class='borda_inferior_centralizador'><b>Imovel Sigla</b></td>
+                            <td class='borda_inferior_centralizador'><b>Recuperados, Fechados ou Recusados</b></td>
+                            <td class='borda_inferior_centralizador'><b>Número Imóveis</b></td>
+                            <td class='borda_inferior_centralizador'><b>Número Quarteirões</b></td>
+                        </tr>
+                        <tr>
+                            <td class='borda_direita'>{$row['concluida']}</td>
+                            <td class='centralizador'>{$row['imovel_tipo_sigla']}</td>
+                            <td class='borda_direita_esquerda'>{$row['recuperados_fechados_recusados']}</td>
+                            <td class='borda_direita_esquerda'>{$row['numero_imoveis']}</td>
+                            <td class='centralizar'>{$row['numero_quarteiroes']}</td>
+                        </tr>
+                    </table>
+                    <br>";
+            }
 
-                    foreach ($rows as $row) {
-                        $content .= "
-                                <table class='borda_tabela' style='width: 100%'>
-                            <tr>
-                                <td class='borda_inferior_centralizador'><b>Id</b></td> 
-                                <td class='borda_inferior'><b>DescriçãoAgravo</b></td>
-                                <td class='borda_inferior_centralizador'><b>Sigla</b></td>
-                                <td class='borda_inferior_centralizador'><b>Descricao atividade</b></td>
-                                <td class='borda_inferior_centralizador'><b>Periodo</b></td>
-                            </tr>
-                            <tr>
-                                <td class='borda_inferior_e_direita_centralizador'>{$row['programacao_id']}</td>
-                                <td class='borda_inferior_e_direita_centralizador'>{$row['descricao_agravo']}</td>
-                                <td class='borda_inferior_e_direita_centralizador'>{$row['sigla_atividade_tipo']}</td>
-                                <td class='borda_inferior_e_direita_centralizador'>{$row['descricao_atividade']}</td>
-                                <td class='borda_inferior_e_direita_centralizador'>{$row['periodo']}</td>
-                            </tr>
-                            <tr>
-                                <td class='borda_inferior_centralizador'><b>Concluido</b></td> 
-                                <td class='borda_inferior_centralizador'><b>Imovel Sigla</b></td>
-                                <td class='borda_inferior_centralizador'><b>Recuperados, Fechados ou Recusados</b></td>
-                                <td class='borda_inferior_centralizador'><b>Número Imóveis</b></td>
-                                <td class='borda_inferior_centralizador'><b>Número Quarteirões</b></td>
-                            </tr>
-                            <tr>
-                                <td class='borda_direita'>{$row['concluida']}</td>
-                                <td class='centralizador'>{$row['imovel_tipo_sigla']}</td>
-                                <td class='borda_direita_esquerda'>{$row['recuperados_fechados_recusados']}</td>
-                                <td class='borda_direita_esquerda'>{$row['numero_imoveis']}</td>
-                                <td class='centralizar'>{$row['numero_quarteiroes']}</td>
-                            </tr>
-                        </table>
-                        <br>";
-                    }
-
+            foreach ($rows2 as $row2) {
+                $content .= "
+                    <table class='borda_tabela' style='width: 100%'>
+                        <tr>
+                            <td class='borda_inferior_centralizador'><b>Id Programação</b></td> 
+                            <td class='borda_inferior_centralizador'><b>Id Atividade</b></td>
+                            <td class='borda_inferior_centralizador'><b>Depósitos Tratados</b></td>
+                            <td class='borda_inferior_centralizador'><b>Qtd Larvicida (g)</b></td>
+                            <td class='borda_inferior_centralizador'><b>Qtd Adulticida (g)</b></td>
+                        </tr>
+                        <tr>
+                            <td class='borda_inferior_e_direita_centralizador'>{$row2['programacao_id']}</td>
+                            <td class='borda_inferior_e_direita_centralizador'>{$row2['atividade_id']}</td>
+                            <td class='borda_inferior_e_direita_centralizador'>{$row2['depositos_tratados']}</td>
+                            <td class='borda_inferior_e_direita_centralizador'>{$row2['qtd_larvicida_gramas']}</td>
+                            <td class='borda_inferior_e_direita_centralizador'>{$row2['qtd_adulticida_gramas']}</td>
+                        </tr>
+                        <tr>
+                            <td class='borda_inferior_centralizador'><b>Qtd Tubitos</b></td> 
+                            <td class='borda_inferior_centralizador'><b>Qtd Amostras</b></td>
+                            <td class='borda_inferior_centralizador'><b>Depósito Sigla</b></td>
+                            <td class='borda_inferior_centralizador'><b>Depósitos Eliminados</b></td>
+                            <td class='borda_inferior_centralizador'><b>Número Imóveis</b></td>
+                        </tr>
+                        <tr>
+                            <td class='borda_direita'>{$row2['qtd_tubitos']}</td>
+                            <td class='centralizador'>{$row2['qtd_amostras']}</td>
+                            <td class='borda_direita_esquerda'>{$row2['deposito_sigla']}</td>
+                            <td class='borda_direita_esquerda'>{$row2['depositos_eliminados']}</td>
+                            <td class='centralizar'>{$row2['numero_imoveis']}</td>
+                        </tr>
+                    </table>
+                    <br>";
+            }
                 $content .= "</body></html>";
 
             // Debug the final HTML content
