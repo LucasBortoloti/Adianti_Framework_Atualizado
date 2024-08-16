@@ -98,33 +98,26 @@ class VigepiList extends TPage
                   LEFT JOIN vigepi.deposito_tipo dt ON dt.id = d.deposito_tipo_id
                   LEFT JOIN vigepi.quarteirao q ON q.id = rg.quarteirao_id 
                       WHERE p.id = '{$programacao_id}'
-                   ORDER BY p.id = '{$programacao_id}'";
+                   ORDER BY p.id";
     
             // Segunda consulta SQL
             $query2 = "SELECT p.id as programacao_id,
                             a.id as atividade_id,
-                            SUM(CASE d.tratado WHEN 'N' THEN 0 WHEN 'S' THEN 1 END) as depositos_tratados,
-                            SUM(CASE i.tipo_inseticida WHEN 'L' THEN i.peso_em_gramas ELSE 0 END) as qtd_larvicida_gramas,
-                            SUM(CASE i.tipo_inseticida WHEN 'A' THEN i.peso_em_gramas ELSE 0 END) as qtd_adulticida_gramas,
-                            am.qtd_tubitos as qtd_tubitos,
-                            am.especime_qtd as qtd_amostras,
+                            CASE d.tratado WHEN 'N' THEN 0 WHEN 'S' THEN 1 END as depositos_tratados,
                             dt.sigla as deposito_sigla,
                             d.eliminado as depositos_eliminados,
                             rg.id as numero_imoveis
-                       FROM vigepi.tratamento t
-                  LEFT JOIN vigepi.deposito d ON d.id = t.deposito_id
+                       FROM vigepi.deposito d
                   LEFT JOIN vigepi.atividade a ON a.id = d.atividade_id
                   LEFT JOIN vigepi.programacao p ON p.id = a.programacao_id
-                  LEFT JOIN vigepi.inseticida i ON p.id = t.inseticida_id
                   LEFT JOIN vigepi.reconhecimento_geografico rg ON rg.id = a.rg_id
                   LEFT JOIN vigepi.foco f ON f.id = p.foco_id
-                  LEFT JOIN vigepi.deposito_tipo dt ON dt.id = d.deposito_tipo_id 
                   LEFT JOIN vigepi.quarteirao q ON q.id = f.quarteirao_id 
                   LEFT JOIN vigepi.analise an ON an.id = f.analise_id 
                   LEFT JOIN vigepi.amostra am ON am.id = an.amostra_id 
+                  LEFT JOIN vigepi.deposito_tipo dt ON dt.id = d.deposito_tipo_id 
                       WHERE p.id = '{$programacao_id}'
-                   GROUP BY t.id       
-                   ORDER BY t.id";
+                   ORDER BY p.id";
     
             // Executa as consultas
             $rows1 = TDatabase::getData($source, $query1, null, null);
@@ -201,26 +194,18 @@ class VigepiList extends TPage
                             <td class='borda_inferior_centralizador'><b>Id Programação</b></td> 
                             <td class='borda_inferior_centralizador'><b>Id Atividade</b></td>
                             <td class='borda_inferior_centralizador'><b>Depósitos Tratados</b></td>
-                            <td class='borda_inferior_centralizador'><b>Qtd Larvicida (g)</b></td>
-                            <td class='borda_inferior_centralizador'><b>Qtd Adulticida (g)</b></td>
                         </tr>
                         <tr>
                             <td class='borda_inferior_e_direita_centralizador'>{$row2['programacao_id']}</td>
                             <td class='borda_inferior_e_direita_centralizador'>{$row2['atividade_id']}</td>
                             <td class='borda_inferior_e_direita_centralizador'>{$row2['depositos_tratados']}</td>
-                            <td class='borda_inferior_e_direita_centralizador'>{$row2['qtd_larvicida_gramas']}</td>
-                            <td class='borda_inferior_e_direita_centralizador'>{$row2['qtd_adulticida_gramas']}</td>
                         </tr>
                         <tr>
-                            <td class='borda_inferior_centralizador'><b>Qtd Tubitos</b></td> 
-                            <td class='borda_inferior_centralizador'><b>Qtd Amostras</b></td>
                             <td class='borda_inferior_centralizador'><b>Depósito Sigla</b></td>
                             <td class='borda_inferior_centralizador'><b>Depósitos Eliminados</b></td>
                             <td class='borda_inferior_centralizador'><b>Número Imóveis</b></td>
                         </tr>
                         <tr>
-                            <td class='borda_direita'>{$row2['qtd_tubitos']}</td>
-                            <td class='centralizador'>{$row2['qtd_amostras']}</td>
                             <td class='borda_direita_esquerda'>{$row2['deposito_sigla']}</td>
                             <td class='borda_direita_esquerda'>{$row2['depositos_eliminados']}</td>
                             <td class='centralizar'>{$row2['numero_imoveis']}</td>
