@@ -162,7 +162,7 @@ class VigepiList extends TPage
             $data = date('d/m/Y   h:i:s');
     
             $content = '<html>
-            <head> 
+            <head>
                 <title>Ocorrencias</title>
                 <link href="app/resources/sinistro.css" rel="stylesheet" type="text/css" media="screen"/>
             </head>
@@ -182,104 +182,139 @@ class VigepiList extends TPage
                         </tr>
                         <tr>
                             <td>(047) 2106-8000</td>
-                            <td class="cor_ocorrencia colspan=4">Programação Id: ' . $programacao_id . '</td>                     
+                            <td class="cor_ocorrencia colspan=4">Programação Id: ' . $programacao_id . '</td>
                         </tr>
                     </table>
                 </div>';
     
-            // Adiciona resultados da primeira consulta
+            // Processa dados da primeira consulta SQL
+            $dadosvigepi = [];
             foreach ($rows1 as $row) {
+                $programacao_id = $row['programacao_id'];
+                if (!isset($dadosvigepi[$programacao_id])) {
+                    $dadosvigepi[$programacao_id] = [
+                        'descricao_agravo' => $row['descricao_agravo'],
+                        'sigla_atividade_tipo' => $row['sigla_atividade_tipo'],
+                        'descricao_atividade' => $row['descricao_atividade'],
+                        'periodo' => $row['periodo'],
+                        'concluida' => $row['concluida'],
+                        'imovel_tipo_sigla' => [],
+                        'recuperados_fechados_recusados' => [],
+                        'numero_imoveis' => [],
+                        'numero_quarteiroes' => [],
+                    ];
+                }
+                $dadosvigepi[$programacao_id]['imovel_tipo_sigla'][] = $row['imovel_tipo_sigla'];
+                $dadosvigepi[$programacao_id]['recuperados_fechados_recusados'][] = $row['recuperados_fechados_recusados'];
+                $dadosvigepi[$programacao_id]['numero_imoveis'][] = $row['numero_imoveis'];
+                $dadosvigepi[$programacao_id]['numero_quarteiroes'][] = $row['numero_quarteiroes'];
+            }
+            
+    
+            // Processa dados da segunda consulta SQL
+            $depositoSigla = [];
+            $depositosTratados = [];
+            $depositosEliminados = [];
+            $numeroImoveis = [];
+            foreach ($rows2 as $row2) {
+                $programacao_id = $row2['programacao_id'];
+                $depositoSigla[] = $row2['deposito_sigla'];
+                $depositosTratados[] = $row2['depositos_tratados'];
+                $depositosEliminados[] = $row2['depositos_eliminados'];
+                $numeroImoveis[] = $row2['numero_imoveis'];
+            }
+    
+            // Processa dados da terceira consulta SQL
+            $qtdLarvicidaGramas = 0;
+            $qtdAdulticidaGramas = 0;
+            foreach ($rows3 as $row3) {
+                $qtdLarvicidaGramas += $row3['qtd_larvicida_gramas'];
+                $qtdAdulticidaGramas += $row3['qtd_adulticida_gramas'];
+            }
+    
+            // Processa dados da quarta consulta SQL
+            $qtdTubitos = 0;
+            $qtdAmostras = 0;
+            foreach ($rows4 as $row4) {
+                $qtdTubitos += $row4['qtd_tubitos'];
+                $qtdAmostras += $row4['qtd_amostras'];
+            }
+    
+            // Gera o conteúdo HTML
+            foreach ($dadosvigepi as $row) {
                 $content .= "
                     <table class='borda_tabela' style='width: 100%'>
                         <tr>
-                            <td class='borda_inferior_centralizador'><b>Id</b></td> 
+                            <td class='borda_inferior_centralizador'><b>Id</b></td>
                             <td class='borda_inferior'><b>Descrição Agravo</b></td>
                             <td class='borda_inferior_centralizador'><b>Sigla</b></td>
                             <td class='borda_inferior_centralizador'><b>Descricao atividade</b></td>
                             <td class='borda_inferior_centralizador'><b>Periodo</b></td>
                         </tr>
                         <tr>
-                            <td class='borda_inferior_e_direita_centralizador'>{$row['programacao_id']}</td>
+                            <td class='borda_inferior_e_direita_centralizador'>{$programacao_id}</td>
                             <td class='borda_inferior_e_direita_centralizador'>{$row['descricao_agravo']}</td>
                             <td class='borda_inferior_e_direita_centralizador'>{$row['sigla_atividade_tipo']}</td>
                             <td class='borda_inferior_e_direita_centralizador'>{$row['descricao_atividade']}</td>
                             <td class='borda_inferior_e_direita_centralizador'>{$row['periodo']}</td>
                         </tr>
                         <tr>
-                            <td class='borda_inferior_centralizador'><b>Concluido</b></td> 
-                            <td class='borda_inferior_centralizador'><b>Imovel Sigla</b></td>
-                            <td class='borda_inferior_centralizador'><b>Recuperados, Fechados ou Recusados</b></td>
+                            <td class='borda_inferior_centralizador'><b>Concluido</b></td>
+                            <td class='borda_inferior_centralizador'><b>Imovel Tipo Sigla</b></td>
+                            <td class='borda_inferior_centralizador'><b>Normal(N), Recuperados(R), Fechados(F) ou Recusados(E)</b></td>
                             <td class='borda_inferior_centralizador'><b>Número Imóveis</b></td>
                             <td class='borda_inferior_centralizador'><b>Número Quarteirões</b></td>
                         </tr>
                         <tr>
                             <td class='borda_direita'>{$row['concluida']}</td>
-                            <td class='centralizador'>{$row['imovel_tipo_sigla']}</td>
-                            <td class='borda_direita_esquerda'>{$row['recuperados_fechados_recusados']}</td>
-                            <td class='borda_direita_esquerda'>{$row['numero_imoveis']}</td>
-                            <td class='centralizar'>{$row['numero_quarteiroes']}</td>
+                            <td class='centralizador'>" . implode(', ', $row['imovel_tipo_sigla']) . "</td>
+                            <td class='borda_direita_esquerda'>" . implode(', ', $row['recuperados_fechados_recusados']) . "</td>
+                            <td class='borda_direita_esquerda'>" . implode(', ', $row['numero_imoveis']) . "</td>
+                            <td class='centralizar'>" . implode(', ', $row['numero_quarteiroes']) . "</td>
                         </tr>
                     </table>
                     <br>";
             }
-
-            foreach ($rows2 as $row2) {
-                $content .= "
-                    <table class='borda_tabela' style='width: 100%'>
-                        <tr>
-                            <td class='borda_inferior_centralizador'><b>Id Programação</b></td> 
-                            <td class='borda_inferior_centralizador'><b>Id Atividade</b></td>
-                            <td class='borda_inferior_centralizador'><b>Depósitos Tratados</b></td>
-                        </tr>
-                        <tr>
-                            <td class='borda_inferior_e_direita_centralizador'>{$row2['programacao_id']}</td>
-                            <td class='borda_inferior_e_direita_centralizador'>{$row2['atividade_id']}</td>
-                            <td class='borda_inferior_e_direita_centralizador'>{$row2['depositos_tratados']}</td>
-                        </tr>
-                        <tr>
-                            <td class='borda_inferior_centralizador'><b>Depósito Sigla</b></td>
-                            <td class='borda_inferior_centralizador'><b>Depósitos Eliminados</b></td>
-                            <td class='borda_inferior_centralizador'><b>Número Imóveis</b></td>
-                        </tr>
-                        <tr>
-                            <td class='borda_direita_esquerda'>{$row2['deposito_sigla']}</td>
-                            <td class='borda_direita_esquerda'>{$row2['depositos_eliminados']}</td>
-                            <td class='centralizar'>{$row2['numero_imoveis']}</td>
-                        </tr>
-                    </table>
-                    <br>";
-            }
-
-            foreach ($rows3 as $row3) {
-                $content .= "
-                    <table class='borda_tabela' style='width: 100%'>
-                        <tr>
-                            <td class='borda_inferior_centralizador'><b>Qtd Larvicidas(gramas)</b></td>
-                            <td class='borda_inferior_centralizador'><b>Qtd Adulticida(gramas)</b></td>
-                        </tr>
-                        <tr>
-                            <td class='borda_inferior_e_direita_centralizador'>{$row3['qtd_larvicida_gramas']}</td>
-                            <td class='borda_inferior_e_direita_centralizador'>{$row3['qtd_adulticida_gramas']}</td>
-                        </tr>
-                    </table>
-                    <br>";
-            }
-
-            foreach ($rows4 as $row4) {
-                $content .= "
-                    <table class='borda_tabela' style='width: 100%'>
-                        <tr>
-                            <td class='borda_inferior_centralizador'><b>Qtd Tubitos</b></td>
-                            <td class='borda_inferior_centralizador'><b>Qtd Amostras</b></td>
-                        </tr>
-                        <tr>
-                            <td class='borda_inferior_e_direita_centralizador'>{$row4['qtd_tubitos']}</td>
-                            <td class='borda_inferior_e_direita_centralizador'>{$row4['qtd_amostras']}</td>
-                        </tr>
-                    </table>
-                    <br>";
-            }
-                $content .= "</body></html>";
+            
+            $content .= "
+                <table class='borda_tabela' style='width: 100%'>
+                    <tr>
+                        <td class='borda_inferior_centralizador'><b>Depósito Sigla</b></td>
+                        <td class='borda_inferior_centralizador'><b>Depósitos Tratados</b></td>
+                        <td class='borda_inferior_centralizador'><b>Depósitos Eliminados</b></td>
+                        <td class='borda_inferior_centralizador'><b>Número Imóveis</b></td>
+                    </tr>
+                    <tr>
+                        <td class='borda_direita_esquerda'>" . implode(', ', $depositoSigla) . "</td>
+                        <td class='borda_direita_esquerda'>" . implode(', ', $depositosTratados) . "</td>
+                        <td class='borda_direita_esquerda'>" . implode(', ', $depositosEliminados) . "</td>
+                        <td class='centralizar'>" . implode(', ', $numeroImoveis) . "</td>
+                    </tr>
+                </table>
+                <br>
+                <table class='borda_tabela' style='width: 100%'>
+                    <tr>
+                        <td class='borda_inferior_centralizador'><b>Qtd Larvicidas (gramas)</b></td>
+                        <td class='borda_inferior_centralizador'><b>Qtd Adulticidas (gramas)</b></td>
+                    </tr>
+                    <tr>
+                            <td class='borda_inferior_e_direita_centralizador'>{$qtdLarvicidaGramas}</td>
+                    <td class='borda_inferior_e_direita_centralizador'>{$qtdAdulticidaGramas}</td>
+                </tr>
+            </table>
+            <br>
+            <table class='borda_tabela' style='width: 100%'>
+                <tr>
+                    <td class='borda_inferior_centralizador'><b>Qtd Tubitos</b></td>
+                    <td class='borda_inferior_centralizador'><b>Qtd Amostras</b></td>
+                </tr>
+                <tr>
+                    <td class='borda_inferior_e_direita_centralizador'>{$qtdTubitos}</td>
+                    <td class='borda_inferior_e_direita_centralizador'>{$qtdAmostras}</td>
+                </tr>
+            </table>
+        </body>
+            </html>";
 
             // Debug the final HTML content
             file_put_contents('app/output/debug.html', $content);
