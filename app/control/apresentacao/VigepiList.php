@@ -118,10 +118,46 @@ class VigepiList extends TPage
                   LEFT JOIN vigepi.deposito_tipo dt ON dt.id = d.deposito_tipo_id 
                       WHERE p.id = '{$programacao_id}'
                    ORDER BY p.id";
+
+            $query3 = "select p.id as programacao_id,
+		                sum(
+			                case i.tipo_inseticida
+				                when 'L' then i.peso_em_gramas
+				                else 0
+			                end
+		                ) as qtd_larvicida_gramas,
+		                sum(
+			                case i.tipo_inseticida
+				                when 'A' then i.peso_em_gramas
+				                else 0
+			                end
+		                ) as qtd_adulticida_gramas
+		                from vigepi.tratamento t
+	                left join vigepi.deposito d on d.id = t.deposito_id
+	                left join vigepi.atividade a on a.id = d.atividade_id
+	                left join vigepi.programacao p on p.id = a.programacao_id
+	                left join vigepi.inseticida i on i.id = t.inseticida_id
+	                left join vigepi.foco f on f.id = p.foco_id
+	                left join vigepi.analise an on an.id = f.analise_id
+	                left join vigepi.amostra am on am.id = an.amostra_id
+		                WHERE p.id = '{$programacao_id}'
+                    ORDER BY p.id";
+
+            $query4 = "select p.id as programacao_id,
+	  		                  a.qtd_tubitos as qtd_tubitos,
+	  		                  a.especime_qtd as qtd_amostras
+			            from vigepi.amostra a
+	                left join vigepi.deposito d on d.id = a.deposito_id 
+	                left join vigepi.atividade at on at.id = d.atividade_id 
+	                left join vigepi.programacao p on p.id = at.programacao_id
+		                where p.id = '{$programacao_id}'
+		            order by p.id";
     
             // Executa as consultas
             $rows1 = TDatabase::getData($source, $query1, null, null);
             $rows2 = TDatabase::getData($source, $query2, null, null);
+            $rows3 = TDatabase::getData($source, $query3, null, null);
+            $rows4 = TDatabase::getData($source, $query4, null, null);
     
             $data = date('d/m/Y   h:i:s');
     
@@ -157,7 +193,7 @@ class VigepiList extends TPage
                     <table class='borda_tabela' style='width: 100%'>
                         <tr>
                             <td class='borda_inferior_centralizador'><b>Id</b></td> 
-                            <td class='borda_inferior'><b>DescriçãoAgravo</b></td>
+                            <td class='borda_inferior'><b>Descrição Agravo</b></td>
                             <td class='borda_inferior_centralizador'><b>Sigla</b></td>
                             <td class='borda_inferior_centralizador'><b>Descricao atividade</b></td>
                             <td class='borda_inferior_centralizador'><b>Periodo</b></td>
@@ -209,6 +245,36 @@ class VigepiList extends TPage
                             <td class='borda_direita_esquerda'>{$row2['deposito_sigla']}</td>
                             <td class='borda_direita_esquerda'>{$row2['depositos_eliminados']}</td>
                             <td class='centralizar'>{$row2['numero_imoveis']}</td>
+                        </tr>
+                    </table>
+                    <br>";
+            }
+
+            foreach ($rows3 as $row3) {
+                $content .= "
+                    <table class='borda_tabela' style='width: 100%'>
+                        <tr>
+                            <td class='borda_inferior_centralizador'><b>Qtd Larvicidas(gramas)</b></td>
+                            <td class='borda_inferior_centralizador'><b>Qtd Adulticida(gramas)</b></td>
+                        </tr>
+                        <tr>
+                            <td class='borda_inferior_e_direita_centralizador'>{$row3['qtd_larvicida_gramas']}</td>
+                            <td class='borda_inferior_e_direita_centralizador'>{$row3['qtd_adulticida_gramas']}</td>
+                        </tr>
+                    </table>
+                    <br>";
+            }
+
+            foreach ($rows4 as $row4) {
+                $content .= "
+                    <table class='borda_tabela' style='width: 100%'>
+                        <tr>
+                            <td class='borda_inferior_centralizador'><b>Qtd Tubitos</b></td>
+                            <td class='borda_inferior_centralizador'><b>Qtd Amostras</b></td>
+                        </tr>
+                        <tr>
+                            <td class='borda_inferior_e_direita_centralizador'>{$row4['qtd_tubitos']}</td>
+                            <td class='borda_inferior_e_direita_centralizador'>{$row4['qtd_amostras']}</td>
                         </tr>
                     </table>
                     <br>";
