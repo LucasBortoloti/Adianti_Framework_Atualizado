@@ -105,8 +105,7 @@ class VigepiList extends TPage
                             a.id as atividade_id,
                             CASE d.tratado WHEN 'N' THEN 0 WHEN 'S' THEN 1 END as depositos_tratados,
                             dt.sigla as deposito_sigla,
-                            d.eliminado as depositos_eliminados,
-                            rg.id as numero_imoveis
+                            d.eliminado as depositos_eliminados
                        FROM vigepi.deposito d
                   LEFT JOIN vigepi.atividade a ON a.id = d.atividade_id
                   LEFT JOIN vigepi.programacao p ON p.id = a.programacao_id
@@ -164,7 +163,7 @@ class VigepiList extends TPage
             $content = '<html>
             <head>
                 <title>Ocorrencias</title>
-                <link href="app/resources/sinistro.css" rel="stylesheet" type="text/css" media="screen"/>
+                <link href="app/resources/vigepi.css" rel="stylesheet" type="text/css" media="screen"/>
             </head>
             <footer></footer>
             <body>
@@ -210,23 +209,23 @@ class VigepiList extends TPage
                 $dadosvigepi[$programacao_id]['numero_quarteiroes'][] = $row['numero_quarteiroes'];
             }
             
-    
             // Processa dados da segunda consulta SQL
             $depositoSigla = [];
-            $depositosTratados = [];
+            $depositosTratadosTotal = 0;
             $depositosEliminados = [];
             $numeroImoveis = [];
+
             foreach ($rows2 as $row2) {
-                $programacao_id = $row2['programacao_id'];
-                $depositoSigla[] = $row2['deposito_sigla'];
-                $depositosTratados[] = $row2['depositos_tratados'];
-                $depositosEliminados[] = $row2['depositos_eliminados'];
-                $numeroImoveis[] = $row2['numero_imoveis'];
+            $programacao_id = $row2['programacao_id'];
+            $depositoSigla[] = $row2['deposito_sigla'];
+            $depositosTratadosTotal += $row2['depositos_tratados'];  // Soma o valor tratado
+            $depositosEliminados[] = $row2['depositos_eliminados'];
             }
     
             // Processa dados da terceira consulta SQL
             $qtdLarvicidaGramas = 0;
             $qtdAdulticidaGramas = 0;
+
             foreach ($rows3 as $row3) {
                 $qtdLarvicidaGramas += $row3['qtd_larvicida_gramas'];
                 $qtdAdulticidaGramas += $row3['qtd_adulticida_gramas'];
@@ -235,6 +234,7 @@ class VigepiList extends TPage
             // Processa dados da quarta consulta SQL
             $qtdTubitos = 0;
             $qtdAmostras = 0;
+
             foreach ($rows4 as $row4) {
                 $qtdTubitos += $row4['qtd_tubitos'];
                 $qtdAmostras += $row4['qtd_amostras'];
@@ -246,7 +246,7 @@ class VigepiList extends TPage
                     <table class='borda_tabela' style='width: 100%'>
                         <tr>
                             <td class='borda_inferior_centralizador'><b>Id</b></td>
-                            <td class='borda_inferior'><b>Descrição Agravo</b></td>
+                            <td class='borda_inferior_centralizador'><b>Descrição Agravo</b></td>
                             <td class='borda_inferior_centralizador'><b>Sigla</b></td>
                             <td class='borda_inferior_centralizador'><b>Descricao atividade</b></td>
                             <td class='borda_inferior_centralizador'><b>Periodo</b></td>
@@ -282,13 +282,11 @@ class VigepiList extends TPage
                         <td class='borda_inferior_centralizador'><b>Depósito Sigla</b></td>
                         <td class='borda_inferior_centralizador'><b>Depósitos Tratados</b></td>
                         <td class='borda_inferior_centralizador'><b>Depósitos Eliminados</b></td>
-                        <td class='borda_inferior_centralizador'><b>Número Imóveis</b></td>
                     </tr>
                     <tr>
                         <td class='borda_direita_esquerda'>" . implode(', ', $depositoSigla) . "</td>
-                        <td class='borda_direita_esquerda'>" . implode(', ', $depositosTratados) . "</td>
+                        <td class='borda_direita_esquerda'>" . $depositosTratadosTotal . "</td>
                         <td class='borda_direita_esquerda'>" . implode(', ', $depositosEliminados) . "</td>
-                        <td class='centralizar'>" . implode(', ', $numeroImoveis) . "</td>
                     </tr>
                 </table>
                 <br>
@@ -298,22 +296,22 @@ class VigepiList extends TPage
                         <td class='borda_inferior_centralizador'><b>Qtd Adulticidas (gramas)</b></td>
                     </tr>
                     <tr>
-                            <td class='borda_inferior_e_direita_centralizador'>{$qtdLarvicidaGramas}</td>
-                    <td class='borda_inferior_e_direita_centralizador'>{$qtdAdulticidaGramas}</td>
-                </tr>
-            </table>
-            <br>
-            <table class='borda_tabela' style='width: 100%'>
-                <tr>
-                    <td class='borda_inferior_centralizador'><b>Qtd Tubitos</b></td>
-                    <td class='borda_inferior_centralizador'><b>Qtd Amostras</b></td>
-                </tr>
-                <tr>
-                    <td class='borda_inferior_e_direita_centralizador'>{$qtdTubitos}</td>
-                    <td class='borda_inferior_e_direita_centralizador'>{$qtdAmostras}</td>
-                </tr>
-            </table>
-        </body>
+                        <td class='borda_inferior_e_direita_centralizador'>{$qtdLarvicidaGramas}</td>
+                        <td class='borda_inferior_e_direita_centralizador'>{$qtdAdulticidaGramas}</td>
+                    </tr>
+                </table>
+                <br>
+                <table class='borda_tabela' style='width: 100%'>
+                    <tr>
+                        <td class='borda_inferior_centralizador'><b>Qtd Tubitos</b></td>
+                        <td class='borda_inferior_centralizador'><b>Qtd Amostras</b></td>
+                    </tr>
+                    <tr>
+                        <td class='borda_inferior_e_direita_centralizador'>{$qtdTubitos}</td>
+                        <td class='borda_inferior_e_direita_centralizador'>{$qtdAmostras}</td>
+                    </tr>
+                </table>
+            </body>
             </html>";
 
             // Debug the final HTML content
@@ -324,7 +322,7 @@ class VigepiList extends TPage
             $options->setChroot(getcwd());
             $dompdf = new \Dompdf\Dompdf($options);
             $dompdf->loadHtml($content);
-            $dompdf->setPaper('A4', 'portrait');
+            $dompdf->setPaper('A4', 'landscape');
             $dompdf->render();
 
             file_put_contents('app/output/document.pdf', $dompdf->output());
