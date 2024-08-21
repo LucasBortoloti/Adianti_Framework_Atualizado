@@ -105,7 +105,7 @@ class VigepiList extends TPage
                             a.id as atividade_id,
                             CASE d.tratado WHEN 'N' THEN 0 WHEN 'S' THEN 1 END as depositos_tratados,
                             dt.sigla as deposito_sigla,
-                            d.eliminado as depositos_eliminados
+                            CASE d.eliminado WHEN 'N' THEN 0 WHEN 'S' THEN 1 END as depositos_eliminados
                        FROM vigepi.deposito d
                   LEFT JOIN vigepi.atividade a ON a.id = d.atividade_id
                   LEFT JOIN vigepi.programacao p ON p.id = a.programacao_id
@@ -212,14 +212,14 @@ class VigepiList extends TPage
             // Processa dados da segunda consulta SQL
             $depositoSigla = [];
             $depositosTratadosTotal = 0;
-            $depositosEliminados = [];
+            $depositosEliminadosTotal = 0;
             $numeroImoveis = [];
 
             foreach ($rows2 as $row2) {
             $programacao_id = $row2['programacao_id'];
             $depositoSigla[] = $row2['deposito_sigla'];
             $depositosTratadosTotal += $row2['depositos_tratados'];  // Soma o valor tratado
-            $depositosEliminados[] = $row2['depositos_eliminados'];
+            $depositosEliminadosTotal += $row2['depositos_eliminados'];
             }
     
             // Processa dados da terceira consulta SQL
@@ -240,42 +240,77 @@ class VigepiList extends TPage
                 $qtdAmostras += $row4['qtd_amostras'];
             }
     
-            // Gera o conteúdo HTML
             foreach ($dadosvigepi as $row) {
-                $content .= "
-                    <table class='borda_tabela' style='width: 100%'>
-                        <tr>
-                            <td class='borda_inferior_centralizador'><b>Id</b></td>
-                            <td class='borda_inferior_centralizador'><b>Descrição Agravo</b></td>
-                            <td class='borda_inferior_centralizador'><b>Sigla</b></td>
-                            <td class='borda_inferior_centralizador'><b>Descricao atividade</b></td>
-                            <td class='borda_inferior_centralizador'><b>Periodo</b></td>
-                        </tr>
-                        <tr>
-                            <td class='borda_inferior_e_direita_centralizador'>{$programacao_id}</td>
-                            <td class='borda_inferior_e_direita_centralizador'>{$row['descricao_agravo']}</td>
-                            <td class='borda_inferior_e_direita_centralizador'>{$row['sigla_atividade_tipo']}</td>
-                            <td class='borda_inferior_e_direita_centralizador'>{$row['descricao_atividade']}</td>
-                            <td class='borda_inferior_e_direita_centralizador'>{$row['periodo']}</td>
-                        </tr>
-                        <tr>
-                            <td class='borda_inferior_centralizador'><b>Concluido</b></td>
-                            <td class='borda_inferior_centralizador'><b>Imovel Tipo Sigla</b></td>
-                            <td class='borda_inferior_centralizador'><b>Normal(N), Recuperados(R), Fechados(F) ou Recusados(E)</b></td>
-                            <td class='borda_inferior_centralizador'><b>Número Imóveis</b></td>
-                            <td class='borda_inferior_centralizador'><b>Número Quarteirões</b></td>
-                        </tr>
-                        <tr>
-                            <td class='borda_direita'>{$row['concluida']}</td>
-                            <td class='centralizador'>" . implode(', ', $row['imovel_tipo_sigla']) . "</td>
-                            <td class='borda_direita_esquerda'>" . implode(', ', $row['recuperados_fechados_recusados']) . "</td>
-                            <td class='borda_direita_esquerda'>" . implode(', ', $row['numero_imoveis']) . "</td>
-                            <td class='centralizar'>" . implode(', ', $row['numero_quarteiroes']) . "</td>
-                        </tr>
-                    </table>
-                    <br>";
-            }
+                // Identifica os diferentes tipos de imovel_tipo_sigla
+                $tipos_imovel = ['R', 'C', 'TB', 'PE', 'O'];
+                $imovel_count = array_fill_keys($tipos_imovel, 0);
+                $total_imoveis = 0;
             
+                // Contabiliza as ocorrências de cada tipo de imóvel
+                foreach ($row['imovel_tipo_sigla'] as $tipo) {
+                    if (isset($imovel_count[$tipo])) {
+                        $imovel_count[$tipo]++;
+                    } else {
+                        $imovel_count[$tipo] = 1; // Caso encontre um tipo não esperado
+                    }
+                    $total_imoveis++;
+                }
+            
+                $content .= "
+                <table class='borda_tabela' style='width: 100%'>
+                    <tr>
+                        <td class='borda_inferior_centralizador'><b>Id</b></td>
+                        <td class='borda_inferior_centralizador'><b>Descrição Agravo</b></td>
+                        <td class='borda_inferior_centralizador'><b>Sigla</b></td>
+                        <td class='borda_inferior_centralizador'><b>Descricao atividade</b></td>
+                        <td class='borda_inferior_centralizador'><b>Periodo</b></td>
+                        <td class='borda_inferior_centralizador'><b>Concluido</b></td>
+                    </tr>
+                    <tr>
+                        <td class='borda_inferior_e_direita_centralizador'>{$programacao_id}</td>
+                        <td class='borda_inferior_e_direita_centralizador'>{$row['descricao_agravo']}</td>
+                        <td class='borda_inferior_e_direita_centralizador'>{$row['sigla_atividade_tipo']}</td>
+                        <td class='borda_inferior_e_direita_centralizador'>{$row['descricao_atividade']}</td>
+                        <td class='borda_inferior_e_direita_centralizador'>{$row['periodo']}</td>
+                        <td class='borda_inferior_e_direita_centralizador'>{$row['concluida']}</td>
+                    </tr>
+            </table>
+            <br>";
+            
+            $content .= "
+                <table class='borda_tabela' style='width: 100%'>
+                    <tr>
+                        <td class='borda_inferior_centralizador' colspan=6><b>Tipos de Imóvel</b></td>
+                    </tr>
+                    <tr>
+                        <td class='centralizador'><b>R</b></td>
+                        <td class='centralizador'><b>C</b></td>
+                        <td class='centralizador'><b>TB</b></td>
+                        <td class='centralizador'><b>PE</b></td>
+                        <td class='centralizador'><b>O</b></td>
+                        <td class='centralizador'><b>Total</b></td>
+                    </tr>
+                    <tr>
+                        <td class='borda_inferior_centralizador'>{$imovel_count['R']}</td>
+                        <td class='borda_inferior_centralizador'>{$imovel_count['C']}</td>
+                        <td class='borda_inferior_centralizador'>{$imovel_count['TB']}</td>
+                        <td class='borda_inferior_centralizador'>{$imovel_count['PE']}</td>
+                        <td class='borda_inferior_centralizador'>{$imovel_count['O']}</td>
+                        <td class='borda_inferior_centralizador'>{$total_imoveis}</td>
+                    </tr>
+                    <tr>
+                        <td class='borda_inferior_centralizador' colspan='2'><b>Normal(N), Recuperados(R), Fechados(F) ou Recusados(E)</b></td>
+                        <td class='borda_inferior_centralizador' colspan='2'><b>Número Imóveis</b></td>
+                        <td class='borda_inferior_centralizador' colspan='2'><b>Número Quarteirões</b></td>
+                    </tr>
+                    <tr>
+                        <td class='borda_direita_esquerda' colspan='2'>" . implode(', ', $row['recuperados_fechados_recusados']) . "</td>
+                        <td class='borda_direita_esquerda' colspan='2'>" . implode(', ', $row['numero_imoveis']) . "</td>
+                        <td class='borda_direita_esquerda' colspan='2'>" . implode(', ', $row['numero_quarteiroes']) . "</td>
+                    </tr>
+            </table>
+            <br>";
+    
             $content .= "
                 <table class='borda_tabela' style='width: 100%'>
                     <tr>
@@ -286,7 +321,7 @@ class VigepiList extends TPage
                     <tr>
                         <td class='borda_direita_esquerda'>" . implode(', ', $depositoSigla) . "</td>
                         <td class='borda_direita_esquerda'>" . $depositosTratadosTotal . "</td>
-                        <td class='borda_direita_esquerda'>" . implode(', ', $depositosEliminados) . "</td>
+                        <td class='borda_direita_esquerda'>" . $depositosEliminadosTotal . "</td>
                     </tr>
                 </table>
                 <br>
@@ -313,6 +348,7 @@ class VigepiList extends TPage
                 </table>
             </body>
             </html>";
+            }
 
             // Debug the final HTML content
             file_put_contents('app/output/debug.html', $content);
