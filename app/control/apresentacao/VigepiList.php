@@ -255,6 +255,28 @@ class VigepiList extends TPage
                     }
                     $total_imoveis++;
                 }
+
+                $depositoSiglaCount = [
+                    'A1' => 0,
+                    'A2' => 0,
+                    'B' => 0,
+                    'C' => 0,
+                    'D1' => 0,
+                    'D2' => 0,
+                    'E' => 0,
+                    'MA' => 0,
+                    'Total' => 0
+                ];
+                
+                foreach ($rows2 as $row2) {
+                    $depositoSigla = $row2['deposito_sigla'];
+                    if (isset($depositoSiglaCount[$depositoSigla])) {
+                        $depositoSiglaCount[$depositoSigla]++;
+                    } else {
+                        // Conta para tipos não esperados
+                        $depositoSiglaCount['Total']++;
+                    }
+                }
             
                 $content .= "
                 <table class='borda_tabela' style='width: 100%'>
@@ -314,17 +336,40 @@ class VigepiList extends TPage
             $content .= "
                 <table class='borda_tabela' style='width: 100%'>
                     <tr>
-                        <td class='borda_inferior_centralizador'><b>Depósito Sigla</b></td>
-                        <td class='borda_inferior_centralizador'><b>Depósitos Tratados</b></td>
-                        <td class='borda_inferior_centralizador'><b>Depósitos Eliminados</b></td>
+                        <td class='borda_inferior_centralizador' colspan=9><b>Depósito Sigla</b></td>
                     </tr>
                     <tr>
-                        <td class='borda_direita_esquerda'>" . implode(', ', $depositoSigla) . "</td>
-                        <td class='borda_direita_esquerda'>" . $depositosTratadosTotal . "</td>
-                        <td class='borda_direita_esquerda'>" . $depositosEliminadosTotal . "</td>
+                        <td class='centralizador'><b>A1</b></td>
+                        <td class='centralizador'><b>A2</b></td>
+                        <td class='centralizador'><b>B</b></td>
+                        <td class='centralizador'><b>C</b></td>
+                        <td class='centralizador'><b>D1</b></td>
+                        <td class='centralizador'><b>D2</b></td>
+                        <td class='centralizador'><b>E</b></td>
+                        <td class='centralizador'><b>MA</b></td>
+                        <td class='centralizador'><b>Total</b></td>
                     </tr>
-                </table>
-                <br>
+                    <tr>
+                        <td class='borda_inferior_centralizador'>{$depositoSiglaCount['A1']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositoSiglaCount['A2']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositoSiglaCount['B']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositoSiglaCount['C']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositoSiglaCount['D1']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositoSiglaCount['D2']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositoSiglaCount['E']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositoSiglaCount['MA']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositoSiglaCount['Total']}</td>
+                    </tr>
+                    <tr>
+                        <td class='borda_inferior_centralizador' colspan='4'><b>Depósitos Tratados</b></td>
+                        <td class='borda_inferior_centralizador' colspan='5'><b>Depósitos Eliminados</b></td>
+                    </tr>
+                    <tr>
+                        <td class='borda_direita_esquerda' colspan='4'>" . $depositosTratadosTotal . "</td>
+                        <td class='borda_direita_esquerda' colspan='5'>" . $depositosEliminadosTotal . "</td>
+                    </tr>
+                        </table>
+                    <br>
                 <table class='borda_tabela' style='width: 100%'>
                     <tr>
                         <td class='borda_inferior_centralizador'><b>Qtd Larvicidas (gramas)</b></td>
