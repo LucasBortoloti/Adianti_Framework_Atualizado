@@ -256,7 +256,8 @@ class VigepiList extends TPage
                     $total_imoveis++;
                 }
 
-                $depositoSiglaCount = [
+                $totalSiglas = 0;
+                $depositoSiglas = [
                     'A1' => 0,
                     'A2' => 0,
                     'B' => 0,
@@ -265,16 +266,27 @@ class VigepiList extends TPage
                     'D2' => 0,
                     'E' => 0,
                     'MA' => 0,
-                    'Total' => 0
                 ];
-                
+
                 foreach ($rows2 as $row2) {
-                    $depositoSigla = $row2['deposito_sigla'];
-                    if (isset($depositoSiglaCount[$depositoSigla])) {
-                        $depositoSiglaCount[$depositoSigla]++;
-                    } else {
-                        // Conta para tipos não esperados
-                        $depositoSiglaCount['Total']++;
+                    $sigla = $row2['deposito_sigla'];
+                    if (isset($depositoSiglas[$sigla])) {
+                        $depositoSiglas[$sigla]++;
+                        $totalSiglas++;
+                    }
+                }
+
+                $tipo_visita = [
+                    'N' => 0,
+                    'R' => 0,
+                    'F' => 0,
+                    'E' => 0,
+                ];
+
+                foreach ($rows1 as $row1){
+                    $visita = $row1['recuperados_fechados_recusados'];
+                    if(isset($tipo_visita[$visita])){
+                        $tipo_visita[$visita]++;
                     }
                 }
             
@@ -302,7 +314,7 @@ class VigepiList extends TPage
             $content .= "
                 <table class='borda_tabela' style='width: 100%'>
                     <tr>
-                        <td class='borda_inferior_centralizador' colspan=6><b>Tipos de Imóvel</b></td>
+                        <td class='borda_inferior_centralizador' colspan='6'><b>Tipos de Imóvel</b></td>
                     </tr>
                     <tr>
                         <td class='centralizador'><b>R</b></td>
@@ -321,14 +333,20 @@ class VigepiList extends TPage
                         <td class='borda_inferior_centralizador'>{$total_imoveis}</td>
                     </tr>
                     <tr>
-                        <td class='borda_inferior_centralizador' colspan='2'><b>Normal(N), Recuperados(R), Fechados(F) ou Recusados(E)</b></td>
-                        <td class='borda_inferior_centralizador' colspan='2'><b>Número Imóveis</b></td>
-                        <td class='borda_inferior_centralizador' colspan='2'><b>Número Quarteirões</b></td>
+                        <td class='borda_inferior_centralizador'><b>Normal(N)</b></td>
+                        <td class='borda_inferior_centralizador'><b>Recuperados(R)</b></td>
+                        <td class='borda_inferior_centralizador'><b>Fechados(F)</b></td>
+                        <td class='borda_inferior_centralizador'><b>Recusados(E)</b></td>
+                        <td class='borda_inferior_centralizador'><b>Número Imóveis</b></td>
+                        <td class='borda_inferior_centralizador'><b>Número Quarteirões</b></td>
                     </tr>
                     <tr>
-                        <td class='borda_direita_esquerda' colspan='2'>" . implode(', ', $row['recuperados_fechados_recusados']) . "</td>
-                        <td class='borda_direita_esquerda' colspan='2'>" . implode(', ', $row['numero_imoveis']) . "</td>
-                        <td class='borda_direita_esquerda' colspan='2'>" . implode(', ', $row['numero_quarteiroes']) . "</td>
+                        <td class='borda_direita_esquerda'>{$tipo_visita['N']}</td>
+                        <td class='borda_direita_esquerda'>{$tipo_visita['R']}</td>
+                        <td class='borda_direita_esquerda'>{$tipo_visita['F']}</td>
+                        <td class='borda_direita_esquerda'>{$tipo_visita['E']}</td>
+                        <td class='borda_direita_esquerda'>" . implode(', ', $row['numero_imoveis']) . "</td>
+                        <td class='borda_direita_esquerda'>" . implode(', ', $row['numero_quarteiroes']) . "</td>
                     </tr>
             </table>
             <br>";
@@ -346,19 +364,17 @@ class VigepiList extends TPage
                         <td class='centralizador'><b>D1</b></td>
                         <td class='centralizador'><b>D2</b></td>
                         <td class='centralizador'><b>E</b></td>
-                        <td class='centralizador'><b>MA</b></td>
-                        <td class='centralizador'><b>Total</b></td>
+                        <td class='centralizador' colspan='2'><b>MA</b></td>
                     </tr>
                     <tr>
-                        <td class='borda_inferior_centralizador'>{$depositoSiglaCount['A1']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositoSiglaCount['A2']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositoSiglaCount['B']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositoSiglaCount['C']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositoSiglaCount['D1']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositoSiglaCount['D2']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositoSiglaCount['E']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositoSiglaCount['MA']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositoSiglaCount['Total']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositoSiglas['A1']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositoSiglas['A2']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositoSiglas['B']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositoSiglas['C']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositoSiglas['D1']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositoSiglas['D2']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositoSiglas['E']}</td>
+                        <td class='borda_inferior_centralizador' colspan='2'>{$depositoSiglas['MA']}</td>
                     </tr>
                     <tr>
                         <td class='borda_inferior_centralizador' colspan='4'><b>Depósitos Tratados</b></td>
