@@ -188,6 +188,8 @@ class VigepiList extends TPage
     
             // Processa dados da primeira consulta SQL
             $dadosvigepi = [];
+            $numeroImoveisTotal = 0;
+
             foreach ($rows1 as $row) {
                 $programacao_id = $row['programacao_id'];
                 if (!isset($dadosvigepi[$programacao_id])) {
@@ -199,14 +201,19 @@ class VigepiList extends TPage
                         'concluida' => $row['concluida'],
                         'imovel_tipo_sigla' => [],
                         'recuperados_fechados_recusados' => [],
-                        'numero_imoveis' => [],
+                        'numero_imoveis' => 0,
                         'numero_quarteiroes' => [],
                     ];
                 }
                 $dadosvigepi[$programacao_id]['imovel_tipo_sigla'][] = $row['imovel_tipo_sigla'];
                 $dadosvigepi[$programacao_id]['recuperados_fechados_recusados'][] = $row['recuperados_fechados_recusados'];
-                $dadosvigepi[$programacao_id]['numero_imoveis'][] = $row['numero_imoveis'];
-                $dadosvigepi[$programacao_id]['numero_quarteiroes'][] = $row['numero_quarteiroes'];
+                $dadosvigepi[$programacao_id]['numero_imoveis'] += 1;
+                
+                if (!in_array($row['numero_quarteiroes'], $dadosvigepi[$programacao_id]['numero_quarteiroes'])) {
+                    $dadosvigepi[$programacao_id]['numero_quarteiroes'][] = $row['numero_quarteiroes'];
+                }
+
+                $numeroImoveisTotal++;
             }
             
             // Processa dados da segunda consulta SQL
@@ -337,7 +344,7 @@ class VigepiList extends TPage
                         <td class='borda_inferior_centralizador'><b>Recuperados(R)</b></td>
                         <td class='borda_inferior_centralizador'><b>Fechados(F)</b></td>
                         <td class='borda_inferior_centralizador'><b>Recusados(E)</b></td>
-                        <td class='borda_inferior_centralizador'><b>Número Imóveis</b></td>
+                        <td class='borda_inferior_centralizador'><b>Número Imóveis Tratados</b></td>
                         <td class='borda_inferior_centralizador'><b>Número Quarteirões</b></td>
                     </tr>
                     <tr>
@@ -345,7 +352,7 @@ class VigepiList extends TPage
                         <td class='borda_direita_esquerda'>{$tipo_visita['R']}</td>
                         <td class='borda_direita_esquerda'>{$tipo_visita['F']}</td>
                         <td class='borda_direita_esquerda'>{$tipo_visita['E']}</td>
-                        <td class='borda_direita_esquerda'>" . implode(', ', $row['numero_imoveis']) . "</td>
+                        <td class='borda_direita_esquerda'>{$row['numero_imoveis']}</td>
                         <td class='borda_direita_esquerda'>" . implode(', ', $row['numero_quarteiroes']) . "</td>
                     </tr>
             </table>
