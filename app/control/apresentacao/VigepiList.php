@@ -78,7 +78,7 @@ class VigepiList extends TPage
             $query1 = "SELECT p.id as programacao_id,
                             ag.descricao as descricao_agravo,
                             ati.sigla as sigla_atividade_tipo,
-                            ati.descricao as descricao_atividade,
+                            p.descricao as descricao_programacao,
                             a.created_at as periodo,
                             p.concluida as concluida,
                             it.sigla as imovel_tipo_sigla,
@@ -196,7 +196,7 @@ class VigepiList extends TPage
                     $dadosvigepi[$programacao_id] = [
                         'descricao_agravo' => $row['descricao_agravo'],
                         'sigla_atividade_tipo' => $row['sigla_atividade_tipo'],
-                        'descricao_atividade' => $row['descricao_atividade'],
+                        'descricao_programacao' => $row['descricao_programacao'],
                         'periodo' => $row['periodo'],
                         'concluida' => $row['concluida'],
                         'imovel_tipo_sigla' => [],
@@ -212,6 +212,8 @@ class VigepiList extends TPage
                 if (!in_array($row['numero_quarteiroes'], $dadosvigepi[$programacao_id]['numero_quarteiroes'])) {
                     $dadosvigepi[$programacao_id]['numero_quarteiroes'][] = $row['numero_quarteiroes'];
                 }
+
+                sort($dadosvigepi[$programacao_id]['numero_quarteiroes']);
 
                 $numeroImoveisTotal++;
             }
@@ -273,6 +275,7 @@ class VigepiList extends TPage
                     'D2' => 0,
                     'E' => 0,
                     'MA' => 0,
+                    'ARM' => 0,
                 ];
 
                 foreach ($rows2 as $row2) {
@@ -311,7 +314,7 @@ class VigepiList extends TPage
                         <td class='borda_inferior_e_direita_centralizador'>{$programacao_id}</td>
                         <td class='borda_inferior_e_direita_centralizador'>{$row['descricao_agravo']}</td>
                         <td class='borda_inferior_e_direita_centralizador'>{$row['sigla_atividade_tipo']}</td>
-                        <td class='borda_inferior_e_direita_centralizador'>{$row['descricao_atividade']}</td>
+                        <td class='borda_inferior_e_direita_centralizador'>{$row['descricao_programacao']}</td>
                         <td class='borda_inferior_e_direita_centralizador'>{$row['periodo']}</td>
                         <td class='borda_inferior_e_direita_centralizador'>{$row['concluida']}</td>
                     </tr>
@@ -371,7 +374,8 @@ class VigepiList extends TPage
                         <td class='centralizador'><b>D1</b></td>
                         <td class='centralizador'><b>D2</b></td>
                         <td class='centralizador'><b>E</b></td>
-                        <td class='centralizador' colspan='2'><b>MA</b></td>
+                        <td class='centralizador'><b>MA</b></td>
+                        <td class='centralizador'><b>ARM</b></td>
                     </tr>
                     <tr>
                         <td class='borda_inferior_centralizador'>{$depositoSiglas['A1']}</td>
@@ -381,7 +385,8 @@ class VigepiList extends TPage
                         <td class='borda_inferior_centralizador'>{$depositoSiglas['D1']}</td>
                         <td class='borda_inferior_centralizador'>{$depositoSiglas['D2']}</td>
                         <td class='borda_inferior_centralizador'>{$depositoSiglas['E']}</td>
-                        <td class='borda_inferior_centralizador' colspan='2'>{$depositoSiglas['MA']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositoSiglas['MA']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositoSiglas['ARM']}</td>
                     </tr>
                     <tr>
                         <td class='borda_inferior_centralizador' colspan='4'><b>Depósitos Tratados</b></td>
