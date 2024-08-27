@@ -1,12 +1,20 @@
 <?php
 
+use Adianti\Control\TAction;
 use Adianti\Control\TPage;
+use Adianti\Control\TWindow;
 use Adianti\Database\TDatabase;
 use Adianti\Database\TTransaction;
+use Adianti\Widget\Base\TElement;
+use Adianti\Widget\Container\TTable;
+use Adianti\Widget\Dialog\TMessage;
 use Adianti\Widget\Form\TDate;
 use Adianti\Widget\Form\TEntry;
+use Adianti\Widget\Form\TLabel;
 use Adianti\Widget\Form\TRadioGroup;
 use Adianti\Widget\Template\THtmlRenderer;
+use Adianti\Widget\Wrapper\TDBCombo;
+use Adianti\Wrapper\BootstrapFormBuilder;
 
 class VigepiList extends TPage
 {
@@ -69,11 +77,11 @@ class VigepiList extends TPage
         try {
             $data = $this->form->getData();
             $programacao_id = $data->programacao_id;
-    
+
             $this->form->setData($data);
-    
+
             $source = TTransaction::open('vigepi');
-    
+
             // Primeira consulta SQL
             $query1 = "SELECT p.id as programacao_id,
                             ag.descricao as descricao_agravo,
@@ -99,7 +107,7 @@ class VigepiList extends TPage
                   LEFT JOIN vigepi.quarteirao q ON q.id = rg.quarteirao_id 
                       WHERE p.id = '{$programacao_id}'
                    ORDER BY p.id";
-    
+
             // Segunda consulta SQL
             $query2 = "SELECT p.id as programacao_id,
                             a.id as atividade_id,
@@ -151,15 +159,24 @@ class VigepiList extends TPage
 	                left join vigepi.programacao p on p.id = at.programacao_id
 		                where p.id = '{$programacao_id}'
 		            order by p.id";
-    
+
+            $query5 = "SELECT COUNT(DISTINCT rg.id) AS numero_imoveis_tratados
+		            FROM vigepi.deposito d
+	            LEFT JOIN vigepi.atividade a ON a.id = d.atividade_id
+	            LEFT JOIN vigepi.programacao p ON p.id = a.programacao_id
+	            LEFT JOIN vigepi.reconhecimento_geografico rg ON rg.id = a.rg_id
+		                WHERE p.id = '{$programacao_id}'
+  		            AND d.tratado = 'S'";
+
             // Executa as consultas
             $rows1 = TDatabase::getData($source, $query1, null, null);
             $rows2 = TDatabase::getData($source, $query2, null, null);
             $rows3 = TDatabase::getData($source, $query3, null, null);
             $rows4 = TDatabase::getData($source, $query4, null, null);
-    
+            $rows5 = TDatabase::getData($source, $query5, null, null);
+
             $data = date('d/m/Y   h:i:s');
-    
+
             $content = '<html>
             <head>
                 <title>Ocorrencias</title>
@@ -185,10 +202,9 @@ class VigepiList extends TPage
                         </tr>
                     </table>
                 </div>';
-    
+
             // Processa dados da primeira consulta SQL
             $dadosvigepi = [];
-            $numeroImoveisTotal = 0;
 
             foreach ($rows1 as $row) {
                 $programacao_id = $row['programacao_id'];
@@ -201,36 +217,31 @@ class VigepiList extends TPage
                         'concluida' => $row['concluida'],
                         'imovel_tipo_sigla' => [],
                         'recuperados_fechados_recusados' => [],
-                        'numero_imoveis' => 0,
                         'numero_quarteiroes' => [],
                     ];
                 }
                 $dadosvigepi[$programacao_id]['imovel_tipo_sigla'][] = $row['imovel_tipo_sigla'];
                 $dadosvigepi[$programacao_id]['recuperados_fechados_recusados'][] = $row['recuperados_fechados_recusados'];
-                $dadosvigepi[$programacao_id]['numero_imoveis'] += 1;
-                
+
                 if (!in_array($row['numero_quarteiroes'], $dadosvigepi[$programacao_id]['numero_quarteiroes'])) {
                     $dadosvigepi[$programacao_id]['numero_quarteiroes'][] = $row['numero_quarteiroes'];
                 }
 
                 sort($dadosvigepi[$programacao_id]['numero_quarteiroes']);
-
-                $numeroImoveisTotal++;
             }
-            
+
             // Processa dados da segunda consulta SQL
             $depositoSigla = [];
             $depositosTratadosTotal = 0;
             $depositosEliminadosTotal = 0;
-            $numeroImoveis = [];
 
             foreach ($rows2 as $row2) {
-            $programacao_id = $row2['programacao_id'];
-            $depositoSigla[] = $row2['deposito_sigla'];
-            $depositosTratadosTotal += $row2['depositos_tratados'];  // Soma o valor tratado
-            $depositosEliminadosTotal += $row2['depositos_eliminados'];
+                $programacao_id = $row2['programacao_id'];
+                $depositoSigla[] = $row2['deposito_sigla'];
+                $depositosTratadosTotal += $row2['depositos_tratados'];  // Soma o valor tratado
+                $depositosEliminadosTotal += $row2['depositos_eliminados'];
             }
-    
+
             // Processa dados da terceira consulta SQL
             $qtdLarvicidaGramas = 0;
             $qtdAdulticidaGramas = 0;
@@ -239,7 +250,7 @@ class VigepiList extends TPage
                 $qtdLarvicidaGramas += $row3['qtd_larvicida_gramas'];
                 $qtdAdulticidaGramas += $row3['qtd_adulticida_gramas'];
             }
-    
+
             // Processa dados da quarta consulta SQL
             $qtdTubitos = 0;
             $qtdAmostras = 0;
@@ -248,13 +259,19 @@ class VigepiList extends TPage
                 $qtdTubitos += $row4['qtd_tubitos'];
                 $qtdAmostras += $row4['qtd_amostras'];
             }
-    
+
+            $numeroImoveisTratados = 0;
+
+            foreach ($rows5 as $row5) {
+                $numeroImoveisTratados = $row5['numero_imoveis_tratados'];
+            }
+
             foreach ($dadosvigepi as $row) {
                 // Identifica os diferentes tipos de imovel_tipo_sigla
                 $tipos_imovel = ['R', 'C', 'TB', 'PE', 'O'];
                 $imovel_count = array_fill_keys($tipos_imovel, 0);
                 $total_imoveis = 0;
-            
+
                 // Contabiliza as ocorrências de cada tipo de imóvel
                 foreach ($row['imovel_tipo_sigla'] as $tipo) {
                     if (isset($imovel_count[$tipo])) {
@@ -293,13 +310,13 @@ class VigepiList extends TPage
                     'E' => 0,
                 ];
 
-                foreach ($rows1 as $row1){
+                foreach ($rows1 as $row1) {
                     $visita = $row1['recuperados_fechados_recusados'];
-                    if(isset($tipo_visita[$visita])){
+                    if (isset($tipo_visita[$visita])) {
                         $tipo_visita[$visita]++;
                     }
                 }
-            
+
                 $content .= "
                 <table class='borda_tabela' style='width: 100%'>
                     <tr>
@@ -320,8 +337,8 @@ class VigepiList extends TPage
                     </tr>
             </table>
             <br>";
-            
-            $content .= "
+
+                $content .= "
                 <table class='borda_tabela' style='width: 100%'>
                     <tr>
                         <td class='borda_inferior_centralizador' colspan='6'><b>Tipos de Imóvel</b></td>
@@ -355,13 +372,13 @@ class VigepiList extends TPage
                         <td class='borda_direita_esquerda'>{$tipo_visita['R']}</td>
                         <td class='borda_direita_esquerda'>{$tipo_visita['F']}</td>
                         <td class='borda_direita_esquerda'>{$tipo_visita['E']}</td>
-                        <td class='borda_direita_esquerda'>{$row['numero_imoveis']}</td>
+                        <td class='borda_direita_esquerda'>{$numeroImoveisTratados}</td>
                         <td class='borda_direita_esquerda'>" . implode(', ', $row['numero_quarteiroes']) . "</td>
                     </tr>
             </table>
             <br>";
-    
-            $content .= "
+
+                $content .= "
                 <table class='borda_tabela' style='width: 100%'>
                     <tr>
                         <td class='borda_inferior_centralizador' colspan=9><b>Depósito Sigla</b></td>
