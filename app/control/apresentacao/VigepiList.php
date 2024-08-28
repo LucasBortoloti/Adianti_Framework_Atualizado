@@ -82,7 +82,6 @@ class VigepiList extends TPage
 
             $source = TTransaction::open('vigepi');
 
-            // Primeira consulta SQL
             $query1 = "SELECT p.id as programacao_id,
                             ag.descricao as descricao_agravo,
                             ati.sigla as sigla_atividade_tipo,
@@ -108,7 +107,6 @@ class VigepiList extends TPage
                       WHERE p.id = '{$programacao_id}'
                    ORDER BY p.id";
 
-            // Segunda consulta SQL
             $query2 = "SELECT p.id as programacao_id,
                             a.id as atividade_id,
                             CASE d.tratado WHEN 'N' THEN 0 WHEN 'S' THEN 1 END as depositos_tratados,
@@ -126,39 +124,39 @@ class VigepiList extends TPage
                       WHERE p.id = '{$programacao_id}'
                    ORDER BY p.id";
 
-            $query3 = "select p.id as programacao_id,
-		                sum(
-			                case i.tipo_inseticida
-				                when 'L' then i.peso_em_gramas
-				                else 0
-			                end
-		                ) as qtd_larvicida_gramas,
-		                sum(
-			                case i.tipo_inseticida
-				                when 'A' then i.peso_em_gramas
-				                else 0
-			                end
-		                ) as qtd_adulticida_gramas
-		                from vigepi.tratamento t
-	                left join vigepi.deposito d on d.id = t.deposito_id
-	                left join vigepi.atividade a on a.id = d.atividade_id
-	                left join vigepi.programacao p on p.id = a.programacao_id
-	                left join vigepi.inseticida i on i.id = t.inseticida_id
-	                left join vigepi.foco f on f.id = p.foco_id
-	                left join vigepi.analise an on an.id = f.analise_id
-	                left join vigepi.amostra am on am.id = an.amostra_id
+            $query3 = "SELECT p.id as programacao_id,
+		                SUM(
+			                CASE i.tipo_inseticida
+				                WHEN 'L' THEN i.peso_em_gramas
+				                ELSE 0
+			                END
+		                ) AS qtd_larvicida_gramas,
+		                SUM(
+			                CASE i.tipo_inseticida
+				                WHEN 'A' THEN i.peso_em_gramas
+				                ELSE 0
+			                END
+		                ) AS qtd_adulticida_gramas
+		                FROM vigepi.tratamento t
+	                LEFT JOIN vigepi.deposito d ON d.id = t.deposito_id
+	                LEFT JOIN vigepi.atividade a ON a.id = d.atividade_id
+	                LEFT JOIN vigepi.programacao p ON p.id = a.programacao_id
+	                LEFT JOIN vigepi.inseticida i ON i.id = t.inseticida_id
+	                LEFT JOIN vigepi.foco f ON f.id = p.foco_id
+	                LEFT JOIN vigepi.analise an ON an.id = f.analise_id
+	                LEFT JOIN vigepi.amostra am ON am.id = an.amostra_id
 		                WHERE p.id = '{$programacao_id}'
                     ORDER BY p.id";
 
-            $query4 = "select p.id as programacao_id,
-	  		                  a.qtd_tubitos as qtd_tubitos,
-	  		                  a.especime_qtd as qtd_amostras
-			            from vigepi.amostra a
-	                left join vigepi.deposito d on d.id = a.deposito_id 
-	                left join vigepi.atividade at on at.id = d.atividade_id 
-	                left join vigepi.programacao p on p.id = at.programacao_id
-		                where p.id = '{$programacao_id}'
-		            order by p.id";
+            $query4 = "SELECT p.id AS programacao_id,
+	  		                  a.qtd_tubitos AS qtd_tubitos,
+	  		                  a.especime_qtd AS qtd_amostras
+			            FROM vigepi.amostra a
+	                LEFT JOIN vigepi.deposito d ON d.id = a.deposito_id 
+	                LEFT JOIN vigepi.atividade AT ON at.id = d.atividade_id 
+	                LEFT JOIN vigepi.programacao p ON p.id = at.programacao_id
+		                WHERE p.id = '{$programacao_id}'
+		            ORDER BY p.id";
 
             $query5 = "SELECT COUNT(DISTINCT rg.id) AS numero_imoveis_tratados
 		            FROM vigepi.deposito d
