@@ -434,6 +434,93 @@ class VigepiList extends TPage
                         <td class='borda_inferior_e_direita_centralizador'>{$qtdAmostras}</td>
                     </tr>
                 </table>
+                <br>
+                <table class='borda_tabela' style='width: 100%'>
+                    <tr>
+                        <td class='borda_inferior' colspan=9><b>Nº depósitos com espécime por tipo</b></td>
+                    </tr>
+                     <tr>
+                        <td class='borda_inferior_centralizador' colspan=9><b>Com Aedes Aegypti</b></td>
+                    </tr>
+                    <tr>
+                        <td class='centralizador'><b>A1</b></td>
+                        <td class='centralizador'><b>A2</b></td>
+                        <td class='centralizador'><b>B</b></td>
+                        <td class='centralizador'><b>C</b></td>
+                        <td class='centralizador'><b>D1</b></td>
+                        <td class='centralizador'><b>D2</b></td>
+                        <td class='centralizador'><b>E</b></td>
+                        <td class='centralizador'><b>MA</b></td>
+                        <td class='centralizador'><b>ARM</b></td>
+                    </tr>
+                    <tr>
+                        <td class='borda_inferior_centralizador'>{$depositoSiglas['A1']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositoSiglas['A2']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositoSiglas['B']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositoSiglas['C']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositoSiglas['D1']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositoSiglas['D2']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositoSiglas['E']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositoSiglas['MA']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositoSiglas['ARM']}</td>
+                    </tr>
+            </table>
+            <br>
+                <table class='borda_tabela' style='width: 100%'>
+                     <tr>
+                        <td class='borda_inferior_centralizador' colspan=9><b>Com Aedes Albopictus</b></td>
+                    </tr>
+                    <tr>
+                        <td class='centralizador'><b>A1</b></td>
+                        <td class='centralizador'><b>A2</b></td>
+                        <td class='centralizador'><b>B</b></td>
+                        <td class='centralizador'><b>C</b></td>
+                        <td class='centralizador'><b>D1</b></td>
+                        <td class='centralizador'><b>D2</b></td>
+                        <td class='centralizador'><b>E</b></td>
+                        <td class='centralizador'><b>MA</b></td>
+                        <td class='centralizador'><b>ARM</b></td>
+                    </tr>
+                    <tr>
+                        <td class='borda_inferior_centralizador'>{$depositoSiglas['A1']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositoSiglas['A2']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositoSiglas['B']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositoSiglas['C']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositoSiglas['D1']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositoSiglas['D2']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositoSiglas['E']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositoSiglas['MA']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositoSiglas['ARM']}</td>
+                    </tr>
+            </table>
+            <br>
+                <table class='borda_tabela' style='width: 100%'>
+                     <tr>
+                        <td class='borda_inferior_centralizador' colspan=9><b>Outros</b></td>
+                    </tr>
+                    <tr>
+                        <td class='centralizador'><b>A1</b></td>
+                        <td class='centralizador'><b>A2</b></td>
+                        <td class='centralizador'><b>B</b></td>
+                        <td class='centralizador'><b>C</b></td>
+                        <td class='centralizador'><b>D1</b></td>
+                        <td class='centralizador'><b>D2</b></td>
+                        <td class='centralizador'><b>E</b></td>
+                        <td class='centralizador'><b>MA</b></td>
+                        <td class='centralizador'><b>ARM</b></td>
+                    </tr>
+                    <tr>
+                        <td class='borda_inferior_centralizador'>{$depositoSiglas['A1']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositoSiglas['A2']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositoSiglas['B']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositoSiglas['C']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositoSiglas['D1']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositoSiglas['D2']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositoSiglas['E']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositoSiglas['MA']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositoSiglas['ARM']}</td>
+                    </tr>
+            </table>
             </body>
             </html>";
             }
