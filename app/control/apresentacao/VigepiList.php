@@ -159,12 +159,54 @@ class VigepiList extends TPage
 		            ORDER BY p.id";
 
             $query5 = "SELECT COUNT(DISTINCT rg.id) AS numero_imoveis_tratados
-		            FROM vigepi.deposito d
+		                FROM vigepi.deposito d
 	            LEFT JOIN vigepi.atividade a ON a.id = d.atividade_id
 	            LEFT JOIN vigepi.programacao p ON p.id = a.programacao_id
 	            LEFT JOIN vigepi.reconhecimento_geografico rg ON rg.id = a.rg_id
 		                WHERE p.id = '{$programacao_id}'
   		            AND d.tratado = 'S'";
+
+            $query6 = " SELECT  p.id AS programacao_id,
+                                an.id AS analise_id,
+                                dt.sigla AS deposito_sigla,
+                                an.larvas_aedes_aegypti AS larvas_aedes_aegypti
+		                FROM  vigepi.analise an
+	                LEFT JOIN vigepi.amostra am ON am.id = an.amostra_id
+	                LEFT JOIN vigepi.deposito d ON d.id = am.deposito_id 
+	                LEFT JOIN vigepi.deposito_tipo dt ON dt.id = d.deposito_tipo_id
+	                LEFT JOIN vigepi.atividade a ON a.id = d.atividade_id
+	                LEFT JOIN vigepi.programacao p ON p.id = a.programacao_id
+	                LEFT JOIN vigepi.foco f ON f.id = p.foco_id
+		                WHERE p.id = '{$programacao_id}'
+		            ORDER BY p.id";
+
+            $query7 = " SELECT  p.id AS programacao_id,
+                                an.id AS analise_id,
+                                dt.sigla AS deposito_sigla,
+                                an.larvas_aedes_albopictus AS larvas_aedes_albopictus
+		                FROM  vigepi.analise an
+	                LEFT JOIN vigepi.amostra am ON am.id = an.amostra_id
+	                LEFT JOIN vigepi.deposito d ON d.id = am.deposito_id 
+	                LEFT JOIN vigepi.deposito_tipo dt ON dt.id = d.deposito_tipo_id
+	                LEFT JOIN vigepi.atividade a ON a.id = d.atividade_id
+	                LEFT JOIN vigepi.programacao p ON p.id = a.programacao_id
+	                LEFT JOIN vigepi.foco f ON f.id = p.foco_id
+		                WHERE p.id = '{$programacao_id}'
+		            ORDER BY p.id";
+
+            $query8 = " SELECT  p.id as programacao_id,
+                                an.id as analise_id,
+                                dt.sigla as deposito_sigla,
+                                an.larvas_outros as larvas_outros
+		                from  vigepi.analise an
+	                left join vigepi.amostra am on am.id = an.amostra_id
+	                left join vigepi.deposito d on d.id = am.deposito_id 
+	                left join vigepi.deposito_tipo dt on dt.id = d.deposito_tipo_id
+	                left join vigepi.atividade a on a.id = d.atividade_id
+	                left join vigepi.programacao p on p.id = a.programacao_id
+	                left join vigepi.foco f on f.id = p.foco_id
+		                where p.id = '{$programacao_id}'
+		            order by p.id";
 
             // Executa as consultas
             $rows1 = TDatabase::getData($source, $query1, null, null);
@@ -172,6 +214,9 @@ class VigepiList extends TPage
             $rows3 = TDatabase::getData($source, $query3, null, null);
             $rows4 = TDatabase::getData($source, $query4, null, null);
             $rows5 = TDatabase::getData($source, $query5, null, null);
+            $rows6 = TDatabase::getData($source, $query6, null, null);
+            $rows7 = TDatabase::getData($source, $query7, null, null);
+            $rows8 = TDatabase::getData($source, $query8, null, null);
 
             $data = date('d/m/Y   h:i:s');
 
@@ -315,6 +360,75 @@ class VigepiList extends TPage
                     }
                 }
 
+                $depositosComLarvas = [
+                    'A1' => 0,
+                    'A2' => 0,
+                    'B' => 0,
+                    'C' => 0,
+                    'D1' => 0,
+                    'D2' => 0,
+                    'E' => 0,
+                    'MA' => 0,
+                    'ARM' => 0,
+                ];
+
+                $depositosComLarvas2 = [
+                    'A1' => 0,
+                    'A2' => 0,
+                    'B' => 0,
+                    'C' => 0,
+                    'D1' => 0,
+                    'D2' => 0,
+                    'E' => 0,
+                    'MA' => 0,
+                    'ARM' => 0,
+                ];
+
+                $depositosComLarvas3 = [
+                    'A1' => 0,
+                    'A2' => 0,
+                    'B' => 0,
+                    'C' => 0,
+                    'D1' => 0,
+                    'D2' => 0,
+                    'E' => 0,
+                    'MA' => 0,
+                    'ARM' => 0,
+                ];
+
+                foreach ($rows6 as $row6) {
+                    $sigla = $row6['deposito_sigla'];
+                    if (isset($depositosComLarvas[$sigla])) {
+                        $hasLarvas = $row6['larvas_aedes_aegypti'] > 0;
+
+                        if ($hasLarvas) {
+                            $depositosComLarvas[$sigla]++;
+                        }
+                    }
+                }
+
+                foreach ($rows7 as $row7) {
+                    $sigla = $row7['deposito_sigla'];
+                    if (isset($depositosComLarvas2[$sigla])) {
+                        $hasLarvas = $row7['larvas_aedes_albopictus'] > 0;
+
+                        if ($hasLarvas) {
+                            $depositosComLarvas2[$sigla]++;
+                        }
+                    }
+                }
+
+                foreach ($rows8 as $row8) {
+                    $sigla = $row8['deposito_sigla'];
+                    if (isset($depositosComLarvas3[$sigla])) {
+                        $hasLarvas = $row8['larvas_outros'] > 0;
+
+                        if ($hasLarvas) {
+                            $depositosComLarvas3[$sigla]++;
+                        }
+                    }
+                }
+
                 $content .= "
                 <table class='borda_tabela' style='width: 100%'>
                     <tr>
@@ -454,15 +568,15 @@ class VigepiList extends TPage
                         <td class='centralizador'><b>ARM</b></td>
                     </tr>
                     <tr>
-                        <td class='borda_inferior_centralizador'>{$depositoSiglas['A1']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositoSiglas['A2']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositoSiglas['B']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositoSiglas['C']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositoSiglas['D1']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositoSiglas['D2']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositoSiglas['E']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositoSiglas['MA']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositoSiglas['ARM']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositosComLarvas['A1']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositosComLarvas['A2']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositosComLarvas['B']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositosComLarvas['C']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositosComLarvas['D1']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositosComLarvas['D2']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositosComLarvas['E']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositosComLarvas['MA']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositosComLarvas['ARM']}</td>
                     </tr>
             </table>
             <br>
@@ -482,15 +596,15 @@ class VigepiList extends TPage
                         <td class='centralizador'><b>ARM</b></td>
                     </tr>
                     <tr>
-                        <td class='borda_inferior_centralizador'>{$depositoSiglas['A1']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositoSiglas['A2']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositoSiglas['B']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositoSiglas['C']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositoSiglas['D1']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositoSiglas['D2']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositoSiglas['E']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositoSiglas['MA']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositoSiglas['ARM']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositosComLarvas2['A1']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositosComLarvas2['A2']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositosComLarvas2['B']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositosComLarvas2['C']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositosComLarvas2['D1']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositosComLarvas2['D2']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositosComLarvas2['E']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositosComLarvas2['MA']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositosComLarvas2['ARM']}</td>
                     </tr>
             </table>
             <br>
@@ -510,15 +624,15 @@ class VigepiList extends TPage
                         <td class='centralizador'><b>ARM</b></td>
                     </tr>
                     <tr>
-                        <td class='borda_inferior_centralizador'>{$depositoSiglas['A1']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositoSiglas['A2']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositoSiglas['B']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositoSiglas['C']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositoSiglas['D1']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositoSiglas['D2']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositoSiglas['E']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositoSiglas['MA']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositoSiglas['ARM']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositosComLarvas3['A1']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositosComLarvas3['A2']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositosComLarvas3['B']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositosComLarvas3['C']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositosComLarvas3['D1']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositosComLarvas3['D2']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositosComLarvas3['E']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositosComLarvas3['MA']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositosComLarvas3['ARM']}</td>
                     </tr>
             </table>
             </body>
