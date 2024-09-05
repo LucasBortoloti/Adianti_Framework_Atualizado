@@ -194,19 +194,64 @@ class VigepiList extends TPage
 		                WHERE p.id = '{$programacao_id}'
 		            ORDER BY p.id";
 
-            $query8 = " SELECT  p.id as programacao_id,
-                                an.id as analise_id,
-                                dt.sigla as deposito_sigla,
-                                an.larvas_outros as larvas_outros
-		                from  vigepi.analise an
-	                left join vigepi.amostra am on am.id = an.amostra_id
-	                left join vigepi.deposito d on d.id = am.deposito_id 
-	                left join vigepi.deposito_tipo dt on dt.id = d.deposito_tipo_id
-	                left join vigepi.atividade a on a.id = d.atividade_id
-	                left join vigepi.programacao p on p.id = a.programacao_id
-	                left join vigepi.foco f on f.id = p.foco_id
-		                where p.id = '{$programacao_id}'
-		            order by p.id";
+            $query8 = " SELECT  p.id AS programacao_id,
+                                an.id AS analise_id,
+                                dt.sigla AS deposito_sigla,
+                                an.larvas_outros AS larvas_outros
+		                FROM  vigepi.analise an
+	                LEFT JOIN vigepi.amostra am ON am.id = an.amostra_id
+	                LEFT JOIN vigepi.deposito d ON d.id = am.deposito_id 
+	                LEFT JOIN vigepi.deposito_tipo dt ON dt.id = d.deposito_tipo_id
+	                LEFT JOIN vigepi.atividade a ON a.id = d.atividade_id
+	                LEFT JOIN vigepi.programacao p ON p.id = a.programacao_id
+	                LEFT JOIN vigepi.foco f ON f.id = p.foco_id
+		                WHERE p.id = '{$programacao_id}'
+		            ORDER BY p.id";
+
+            $query9 = "SELECT  p.id AS programacao_id,
+        	                   an.id AS analise_id,
+        	                   an.larvas_aedes_aegypti AS larvas_aedes_aegypti,
+        	                   it.sigla AS imovel_tipo_sigla
+		                FROM  vigepi.analise an
+	                LEFT JOIN vigepi.amostra am ON am.id = an.amostra_id 
+	                LEFT JOIN vigepi.deposito d ON d.id = am.deposito_id 
+	                LEFT JOIN vigepi.atividade ati ON ati.id = d.atividade_id 
+	                LEFT JOIN vigepi.programacao p ON p.id = ati.programacao_id 
+	                LEFT JOIN vigepi.foco f ON f.id = ati.foco_id
+	                LEFT JOIN vigepi.reconhecimento_geografico rg ON rg.id = ati.rg_id 
+	                LEFT JOIN vigepi.imovel_tipo it ON it.id = rg.imovel_tipo_id 
+		                WHERE p.id = '{$programacao_id}'
+		            ORDER BY p.id";
+
+            $query10 = "SELECT  p.id AS programacao_id,
+        	                    an.id AS analise_id,
+        	                    an.larvas_aedes_albopictus AS larvas_aedes_albopictus,
+        	                    it.sigla AS imovel_tipo_sigla
+		                FROM  vigepi.analise an
+	                LEFT JOIN vigepi.amostra am ON am.id = an.amostra_id 
+	                LEFT JOIN vigepi.deposito d ON d.id = am.deposito_id 
+	                LEFT JOIN vigepi.atividade ati ON ati.id = d.atividade_id 
+	                LEFT JOIN vigepi.programacao p ON p.id = ati.programacao_id 
+	                LEFT JOIN vigepi.foco f ON f.id = ati.foco_id
+	                LEFT JOIN vigepi.reconhecimento_geografico rg ON rg.id = ati.rg_id 
+	                LEFT JOIN vigepi.imovel_tipo it ON it.id = rg.imovel_tipo_id 
+		                WHERE p.id = '{$programacao_id}'
+		            ORDER BY p.id";
+
+            $query11 = "SELECT  p.id AS programacao_id,
+        	                    an.id AS analise_id,
+        	                    an.larvas_outros AS larvas_outros,
+        	                    it.sigla AS imovel_tipo_sigla
+		                FROM  vigepi.analise an
+	                LEFT JOIN vigepi.amostra am ON am.id = an.amostra_id 
+	                LEFT JOIN vigepi.deposito d ON d.id = am.deposito_id 
+	                LEFT JOIN vigepi.atividade ati ON ati.id = d.atividade_id 
+	                LEFT JOIN vigepi.programacao p ON p.id = ati.programacao_id 
+	                LEFT JOIN vigepi.foco f ON f.id = ati.foco_id
+	                LEFT JOIN vigepi.reconhecimento_geografico rg ON rg.id = ati.rg_id 
+	                LEFT JOIN vigepi.imovel_tipo it ON it.id = rg.imovel_tipo_id 
+		                WHERE p.id = '{$programacao_id}'
+		            ORDER BY p.id";
 
             // Executa as consultas
             $rows1 = TDatabase::getData($source, $query1, null, null);
@@ -217,6 +262,9 @@ class VigepiList extends TPage
             $rows6 = TDatabase::getData($source, $query6, null, null);
             $rows7 = TDatabase::getData($source, $query7, null, null);
             $rows8 = TDatabase::getData($source, $query8, null, null);
+            $rows9 = TDatabase::getData($source, $query9, null, null);
+            $rows10 = TDatabase::getData($source, $query10, null, null);
+            $rows11 = TDatabase::getData($source, $query11, null, null);
 
             $data = date('d/m/Y   h:i:s');
 
@@ -429,6 +477,63 @@ class VigepiList extends TPage
                     }
                 }
 
+                $imoveisComLarvas = [
+                    'R' => 0,
+                    'C' => 0,
+                    'TB' => 0,
+                    'PE' => 0,
+                    'O' => 0,
+                ];
+
+                $imoveisComLarvas2 = [
+                    'R' => 0,
+                    'C' => 0,
+                    'TB' => 0,
+                    'PE' => 0,
+                    'O' => 0,
+                ];
+
+                $imoveisComLarvas3 = [
+                    'R' => 0,
+                    'C' => 0,
+                    'TB' => 0,
+                    'PE' => 0,
+                    'O' => 0,
+                ];
+
+                foreach ($rows9 as $row9) {
+                    $sigla = $row9['imovel_tipo_sigla'];
+                    if (isset($imoveisComLarvas[$sigla])) {
+                        $hasLarvas = $row9['larvas_aedes_aegypti'] > 0;
+
+                        if ($hasLarvas) {
+                            $imoveisComLarvas[$sigla]++;
+                        }
+                    }
+                }
+
+                foreach ($rows10 as $row10) {
+                    $sigla = $row10['imovel_tipo_sigla'];
+                    if (isset($imoveisComLarvas2[$sigla])) {
+                        $hasLarvas = $row10['larvas_aedes_albopictus'] > 0;
+
+                        if ($hasLarvas) {
+                            $imoveisComLarvas2[$sigla]++;
+                        }
+                    }
+                }
+
+                foreach ($rows11 as $row11) {
+                    $sigla = $row11['imovel_tipo_sigla'];
+                    if (isset($imoveisComLarvas3[$sigla])) {
+                        $hasLarvas = $row11['larvas_outros'] > 0;
+
+                        if ($hasLarvas) {
+                            $imoveisComLarvas3[$sigla]++;
+                        }
+                    }
+                }
+
                 $content .= "
                 <table class='borda_tabela' style='width: 100%'>
                     <tr>
@@ -633,6 +738,69 @@ class VigepiList extends TPage
                         <td class='borda_inferior_centralizador'>{$depositosComLarvas3['E']}</td>
                         <td class='borda_inferior_centralizador'>{$depositosComLarvas3['MA']}</td>
                         <td class='borda_inferior_centralizador'>{$depositosComLarvas3['ARM']}</td>
+                    </tr>
+            </table>
+            <br>
+            <table class='borda_tabela' style='width: 100%'>
+                    <tr>
+                        <td class='borda_inferior' colspan=5><b>Nº Imóveis com espécime por tipo</b></td>
+                    </tr>
+                     <tr>
+                        <td class='borda_inferior_centralizador' colspan=5><b>Com Aedes Aegypti</b></td>
+                    </tr>
+                    <tr>
+                        <td class='centralizador'><b>R</b></td>
+                        <td class='centralizador'><b>C</b></td>
+                        <td class='centralizador'><b>TB</b></td>
+                        <td class='centralizador'><b>PE</b></td>
+                        <td class='centralizador'><b>O</b></td>
+                    </tr>
+                    <tr>
+                        <td class='borda_inferior_centralizador'>{$imoveisComLarvas['R']}</td>
+                        <td class='borda_inferior_centralizador'>{$imoveisComLarvas['C']}</td>
+                        <td class='borda_inferior_centralizador'>{$imoveisComLarvas['TB']}</td>
+                        <td class='borda_inferior_centralizador'>{$imoveisComLarvas['PE']}</td>
+                        <td class='borda_inferior_centralizador'>{$imoveisComLarvas['O']}</td>
+                    </tr>
+            </table>
+            <br>
+            <table class='borda_tabela' style='width: 100%'>
+                     <tr>
+                        <td class='borda_inferior_centralizador' colspan=5><b>Com Aedes Albopictus</b></td>
+                    </tr>
+                    <tr>
+                        <td class='centralizador'><b>R</b></td>
+                        <td class='centralizador'><b>C</b></td>
+                        <td class='centralizador'><b>TB</b></td>
+                        <td class='centralizador'><b>PE</b></td>
+                        <td class='centralizador'><b>O</b></td>
+                    </tr>
+                    <tr>
+                        <td class='borda_inferior_centralizador'>{$imoveisComLarvas2['R']}</td>
+                        <td class='borda_inferior_centralizador'>{$imoveisComLarvas2['C']}</td>
+                        <td class='borda_inferior_centralizador'>{$imoveisComLarvas2['TB']}</td>
+                        <td class='borda_inferior_centralizador'>{$imoveisComLarvas2['PE']}</td>
+                        <td class='borda_inferior_centralizador'>{$imoveisComLarvas2['O']}</td>
+                    </tr>
+            </table>
+            <br>
+            <table class='borda_tabela' style='width: 100%'>
+                     <tr>
+                        <td class='borda_inferior_centralizador' colspan=5><b>Outros</b></td>
+                    </tr>
+                    <tr>
+                        <td class='centralizador'><b>R</b></td>
+                        <td class='centralizador'><b>C</b></td>
+                        <td class='centralizador'><b>TB</b></td>
+                        <td class='centralizador'><b>PE</b></td>
+                        <td class='centralizador'><b>O</b></td>
+                    </tr>
+                    <tr>
+                        <td class='borda_inferior_centralizador'>{$imoveisComLarvas3['R']}</td>
+                        <td class='borda_inferior_centralizador'>{$imoveisComLarvas3['C']}</td>
+                        <td class='borda_inferior_centralizador'>{$imoveisComLarvas3['TB']}</td>
+                        <td class='borda_inferior_centralizador'>{$imoveisComLarvas3['PE']}</td>
+                        <td class='borda_inferior_centralizador'>{$imoveisComLarvas3['O']}</td>
                     </tr>
             </table>
             </body>
