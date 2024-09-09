@@ -656,10 +656,10 @@ class VigepiList extends TPage
                 <br>
                 <table class='borda_tabela' style='width: 100%'>
                     <tr>
-                        <td class='borda_inferior' colspan=9><b>Nº depósitos com espécime por tipo</b></td>
+                        <td class='borda_inferior_centralizador' colspan=9><b>Nº depósitos com espécime por tipo</b></td>
                     </tr>
                      <tr>
-                        <td class='borda_inferior_centralizador' colspan=9><b>Com Aedes Aegypti</b></td>
+                        <td class='borda_inferior' colspan=9><b>Aedes Aegypti</b></td>
                     </tr>
                     <tr>
                         <td class='centralizador'><b>A1</b></td>
@@ -683,22 +683,8 @@ class VigepiList extends TPage
                         <td class='borda_inferior_centralizador'>{$depositosComLarvas['MA']}</td>
                         <td class='borda_inferior_centralizador'>{$depositosComLarvas['ARM']}</td>
                     </tr>
-            </table>
-            <br>
-                <table class='borda_tabela' style='width: 100%'>
                      <tr>
-                        <td class='borda_inferior_centralizador' colspan=9><b>Com Aedes Albopictus</b></td>
-                    </tr>
-                    <tr>
-                        <td class='centralizador'><b>A1</b></td>
-                        <td class='centralizador'><b>A2</b></td>
-                        <td class='centralizador'><b>B</b></td>
-                        <td class='centralizador'><b>C</b></td>
-                        <td class='centralizador'><b>D1</b></td>
-                        <td class='centralizador'><b>D2</b></td>
-                        <td class='centralizador'><b>E</b></td>
-                        <td class='centralizador'><b>MA</b></td>
-                        <td class='centralizador'><b>ARM</b></td>
+                        <td class='borda_inferior' colspan=9><b>Aedes Albopictus</b></td>
                     </tr>
                     <tr>
                         <td class='borda_inferior_centralizador'>{$depositosComLarvas2['A1']}</td>
@@ -711,22 +697,8 @@ class VigepiList extends TPage
                         <td class='borda_inferior_centralizador'>{$depositosComLarvas2['MA']}</td>
                         <td class='borda_inferior_centralizador'>{$depositosComLarvas2['ARM']}</td>
                     </tr>
-            </table>
-            <br>
-                <table class='borda_tabela' style='width: 100%'>
                      <tr>
-                        <td class='borda_inferior_centralizador' colspan=9><b>Outros</b></td>
-                    </tr>
-                    <tr>
-                        <td class='centralizador'><b>A1</b></td>
-                        <td class='centralizador'><b>A2</b></td>
-                        <td class='centralizador'><b>B</b></td>
-                        <td class='centralizador'><b>C</b></td>
-                        <td class='centralizador'><b>D1</b></td>
-                        <td class='centralizador'><b>D2</b></td>
-                        <td class='centralizador'><b>E</b></td>
-                        <td class='centralizador'><b>MA</b></td>
-                        <td class='centralizador'><b>ARM</b></td>
+                        <td class='borda_inferior' colspan=9><b>Outros</b></td>
                     </tr>
                     <tr>
                         <td class='borda_inferior_centralizador'>{$depositosComLarvas3['A1']}</td>
@@ -743,10 +715,10 @@ class VigepiList extends TPage
             <br>
             <table class='borda_tabela' style='width: 100%'>
                     <tr>
-                        <td class='borda_inferior' colspan=5><b>Nº Imóveis com espécime por tipo</b></td>
+                        <td class='borda_inferior_centralizador' colspan=5><b>Nº Imóveis com espécime por tipo</b></td>
                     </tr>
                      <tr>
-                        <td class='borda_inferior_centralizador' colspan=5><b>Com Aedes Aegypti</b></td>
+                        <td class='borda_inferior' colspan=5><b>Aedes Aegypti</b></td>
                     </tr>
                     <tr>
                         <td class='centralizador'><b>R</b></td>
@@ -762,18 +734,8 @@ class VigepiList extends TPage
                         <td class='borda_inferior_centralizador'>{$imoveisComLarvas['PE']}</td>
                         <td class='borda_inferior_centralizador'>{$imoveisComLarvas['O']}</td>
                     </tr>
-            </table>
-            <br>
-            <table class='borda_tabela' style='width: 100%'>
                      <tr>
-                        <td class='borda_inferior_centralizador' colspan=5><b>Com Aedes Albopictus</b></td>
-                    </tr>
-                    <tr>
-                        <td class='centralizador'><b>R</b></td>
-                        <td class='centralizador'><b>C</b></td>
-                        <td class='centralizador'><b>TB</b></td>
-                        <td class='centralizador'><b>PE</b></td>
-                        <td class='centralizador'><b>O</b></td>
+                        <td class='borda_inferior' colspan=5><b>Aedes Albopictus</b></td>
                     </tr>
                     <tr>
                         <td class='borda_inferior_centralizador'>{$imoveisComLarvas2['R']}</td>
@@ -782,18 +744,8 @@ class VigepiList extends TPage
                         <td class='borda_inferior_centralizador'>{$imoveisComLarvas2['PE']}</td>
                         <td class='borda_inferior_centralizador'>{$imoveisComLarvas2['O']}</td>
                     </tr>
-            </table>
-            <br>
-            <table class='borda_tabela' style='width: 100%'>
                      <tr>
-                        <td class='borda_inferior_centralizador' colspan=5><b>Outros</b></td>
-                    </tr>
-                    <tr>
-                        <td class='centralizador'><b>R</b></td>
-                        <td class='centralizador'><b>C</b></td>
-                        <td class='centralizador'><b>TB</b></td>
-                        <td class='centralizador'><b>PE</b></td>
-                        <td class='centralizador'><b>O</b></td>
+                        <td class='borda_inferior' colspan=5><b>Outros</b></td>
                     </tr>
                     <tr>
                         <td class='borda_inferior_centralizador'>{$imoveisComLarvas3['R']}</td>
