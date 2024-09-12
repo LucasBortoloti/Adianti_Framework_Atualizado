@@ -82,19 +82,21 @@ class VigepiList extends TPage
 
             $source = TTransaction::open('vigepi');
 
-            $query1 = "SELECT p.id as programacao_id,
-                            ag.descricao as descricao_agravo,
-                            ati.sigla as sigla_atividade_tipo,
-                            p.descricao as descricao_programacao,
-                            a.created_at as periodo,
-                            p.concluida as concluida,
-                            it.sigla as imovel_tipo_sigla,
-                            a.tipo_visita as recuperados_fechados_recusados,
-                            rg.id as numero_imoveis,
-                            q.descricao as numero_quarteiroes
+            $query1 = "SELECT p.id AS programacao_id,
+                            ag.descricao AS descricao_agravo,
+                            ati.sigla AS sigla_atividade_tipo,
+                            p.descricao AS descricao_programacao,
+                            a.created_at AS periodo,
+                            p.concluida AS concluida,
+                            c.semana AS semana_epi,
+                            it.sigla AS imovel_tipo_sigla,
+                            a.tipo_visita AS recuperados_fechados_recusados,
+                            rg.id AS numero_imoveis,
+                            q.descricao AS numero_quarteiroes
                        FROM vigepi.atividade a
                   LEFT JOIN vigepi.programacao p ON p.id = a.programacao_id
-                  LEFT JOIN vigepi.atividade_tipo ati ON ati.id = p.atividade_tipo_id 
+                  LEFT JOIN vigepi.atividade_tipo ati ON ati.id = p.atividade_tipo_id
+                  LEFT JOIN vigepi.calendario c ON c.id = p.calendario_id
                   LEFT JOIN vigepi.agravo ag ON ag.id = p.agravo_id 
                   LEFT JOIN vigepi.reconhecimento_geografico rg ON rg.id = a.rg_id 
                   LEFT JOIN vigepi.imovel_tipo it ON it.id = rg.imovel_tipo_id
@@ -107,11 +109,11 @@ class VigepiList extends TPage
                       WHERE p.id = '{$programacao_id}'
                    ORDER BY p.id";
 
-            $query2 = "SELECT p.id as programacao_id,
-                            a.id as atividade_id,
-                            CASE d.tratado WHEN 'N' THEN 0 WHEN 'S' THEN 1 END as depositos_tratados,
-                            dt.sigla as deposito_sigla,
-                            CASE d.eliminado WHEN 'N' THEN 0 WHEN 'S' THEN 1 END as depositos_eliminados
+            $query2 = "SELECT p.id AS programacao_id,
+                            a.id AS atividade_id,
+                            CASE d.tratado WHEN 'N' THEN 0 WHEN 'S' THEN 1 END AS depositos_tratados,
+                            dt.sigla AS deposito_sigla,
+                            CASE d.eliminado WHEN 'N' THEN 0 WHEN 'S' THEN 1 END AS depositos_eliminados
                        FROM vigepi.deposito d
                   LEFT JOIN vigepi.atividade a ON a.id = d.atividade_id
                   LEFT JOIN vigepi.programacao p ON p.id = a.programacao_id
@@ -124,7 +126,7 @@ class VigepiList extends TPage
                       WHERE p.id = '{$programacao_id}'
                    ORDER BY p.id";
 
-            $query3 = "SELECT p.id as programacao_id,
+            $query3 = "SELECT p.id AS programacao_id,
 		                SUM(
 			                CASE i.tipo_inseticida
 				                WHEN 'L' THEN i.peso_em_gramas
@@ -306,6 +308,7 @@ class VigepiList extends TPage
                         'descricao_programacao' => $row['descricao_programacao'],
                         'periodo' => $row['periodo'],
                         'concluida' => $row['concluida'],
+                        'semana_epi' => $row['semana_epi'],
                         'imovel_tipo_sigla' => [],
                         'recuperados_fechados_recusados' => [],
                         'numero_quarteiroes' => [],
@@ -542,6 +545,7 @@ class VigepiList extends TPage
                         <td class='borda_inferior_centralizador'><b>Sigla</b></td>
                         <td class='borda_inferior_centralizador'><b>Descricao atividade</b></td>
                         <td class='borda_inferior_centralizador'><b>Periodo</b></td>
+                        <td class='borda_inferior_centralizador'><b>Semana Epi.</b></td>
                         <td class='borda_inferior_centralizador'><b>Concluido</b></td>
                     </tr>
                     <tr>
@@ -550,6 +554,7 @@ class VigepiList extends TPage
                         <td class='borda_inferior_e_direita_centralizador'>{$row['sigla_atividade_tipo']}</td>
                         <td class='borda_inferior_e_direita_centralizador'>{$row['descricao_programacao']}</td>
                         <td class='borda_inferior_e_direita_centralizador'>{$row['periodo']}</td>
+                        <td class='borda_inferior_e_direita_centralizador'>{$row['semana_epi']}</td>
                         <td class='borda_inferior_e_direita_centralizador'>{$row['concluida']}</td>
                     </tr>
             </table>
