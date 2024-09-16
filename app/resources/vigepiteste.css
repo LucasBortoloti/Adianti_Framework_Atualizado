@@ -1,0 +1,225 @@
+.customform {
+    font-family: 'Arial', sans-serif;
+    font-size: 12px;
+    background: #ffffff;
+    border-collapse: collapse;
+    padding: 1px;
+    /* page-break-after: always; */
+    /* esse border-collapse é o responsável pelas bordas ficarem completas e sem sobras entre uma e outra*/
+}
+
+.borda_tabela {
+    font-family: 'Arial', sans-serif;
+    font-size: 12px;
+    background: #ffffff;
+    border: 1px solid black;
+    border-spacing: 0;
+    border-radius: 1.5px;
+    margin: 0 auto;
+}
+
+.cabecalho {
+    padding: 14px;
+    border: 1px solid #000000;
+    font-size: 12px;
+    border-spacing: 0;
+    border-radius: 1.5px;
+}
+
+body {
+    margin-top: 3.3cm;
+    margin-bottom: 1cm;
+}
+
+.coluna_resultados {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+.total {
+    border-top: 1px solid black;
+    padding-top: 10px;
+    font-weight: bold;
+    border-spacing: 0;
+}
+
+.borda_inferior {
+    border-bottom: 1px solid black;
+    padding-left: 10px;
+    border-spacing: 0;
+}
+
+.direita {
+    padding-left: 10px;
+}
+
+.borda_superior {
+    border-top: 1px solid black;
+    border-spacing: 0;
+}
+
+.borda_superior_centralizador{
+    border-top: 1px solid black;
+    text-align: center;
+    border-spacing: 0;
+}
+
+.centralizador{
+    text-align: center;
+    padding-left: 5px;
+}
+
+.borda_inferior_centralizador {
+    text-align: center;
+    padding-left: 5px;
+    border-bottom: 1px solid black;
+    border-spacing: 0;
+}
+
+.borda_inferior_e_direita_centralizador{
+    text-align: center;
+    border-right: 1px solid black;
+    border-spacing: 0;
+}
+
+.borda_direita {
+    border-right: 1px solid black;
+    text-align: center;
+    border-spacing: 0;
+}
+
+.header {
+    position: fixed;
+    top: 0cm;
+    width: 100%;
+    height: 2.8cm;
+    background-color: #ffffff;
+}
+
+.bairro {
+    font-weight: bold;
+    border: 1px solid black;
+    border-spacing: 0;
+}
+
+.cor_azul {
+    border-bottom: 1px solid black;
+    font-weight: bold;
+    color: #032a61;
+    padding-top: 10px;
+    border-spacing: 0;
+}
+
+.espaco_para_direta {
+    padding-left: 230px;
+    border-top: 1px solid black;
+    border-spacing: 0;
+}
+
+.solicitante {
+    font-weight: bold;
+    color: #032a61;
+}
+
+.centralizador_com_borda {
+    border-top: 1px solid black;
+    text-align: center;
+    border-right: 1px solid black;
+    padding-left: 5px;
+    border-spacing: 0;
+}
+
+.centralizador_com_borda_esquerda {
+    border-left: 1px solid black;
+    text-align: center;
+    border-top: 1px solid black;
+    border-right: 1px solid black;
+    border-spacing: 0;
+}
+
+.nomebairro {
+    font-weight: bold;
+    color: #032a61;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.borda_horizontal {
+    border-bottom: 1px solid black;
+    padding-left: 3px;
+    padding-right: 3px;
+    border-spacing: 0;
+}
+
+.centralizar {
+    text-align: center;
+    padding-left: 5px;
+}
+
+.rua {
+    font-weight: bold;
+    border-bottom: 1px solid black;
+    border-spacing: 0;
+}
+
+.cor_ocorrencia {
+    color: red;
+    text-align: right;
+    font-weight: bold;
+}
+
+.status {
+    padding-left: 5px;
+    text-align: center;
+    border-bottom: 1px solid black;
+    border-spacing: 0;
+}
+
+.sinistro {
+    font-weight: bold;
+    border: 1px solid black;
+    border-spacing: 0;
+}
+
+.data_hora {
+    text-align: right;
+}
+
+.linha {
+    border-bottom: 1px solid black;
+    font-weight: bold;
+    border-spacing: 0;
+}
+
+.detalhe {
+    font-weight: bold;
+    border-top: 1px solid black;
+    border-spacing: 0;
+}
+
+footer::after {
+    content: "Página " counter(page);
+}
+
+footer {
+    position: fixed;
+    bottom: 0cm;
+    left: 0cm;
+    right: 0cm;
+    text-align: right;
+    width: 100%;
+    border-top: 1px solid #000000;
+    margin-bottom: -10px;
+    padding: 6px;
+    font-size: 12px;
+    border-spacing: 0;
+}
+
+@page {
+    font-family: Arial, Helvetica, sans-serif;
+    size: A4 landscape;
+    margin: 1cm 1cm 1cm;
+    counter-increment: page;
+}
