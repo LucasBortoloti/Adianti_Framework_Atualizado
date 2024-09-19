@@ -19,7 +19,7 @@
 }
 
 .cabecalho {
-    padding: 15px;
+    padding: 16px;
     border: 1px solid #000000;
     font-size: 12px;
     border-spacing: 0;
@@ -27,7 +27,7 @@
 }
 
 body {
-    margin-top: 3.3cm;
+    margin-top: 3.4cm;
     margin-bottom: 1cm;
 }
 
@@ -66,11 +66,12 @@ body {
 
 .centralizador{
     text-align: center;
+    padding: 5px;
 }
 
 .borda_inferior_centralizador {
     text-align: center;
-    padding: 1.8px;
+    padding: 3px;
     border-bottom: 1px solid black;
     border-spacing: 0;
 }
