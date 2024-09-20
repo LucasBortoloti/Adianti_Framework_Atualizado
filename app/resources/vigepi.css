@@ -12,18 +12,22 @@
     font-family: 'Arial', sans-serif;
     font-size: 12px;
     background: #ffffff;
-    border-collapse: collapse;
     border: 1px solid black;
+    border-spacing: 0;
+    border-radius: 1.5px;
+    margin: 0 auto;
 }
 
 .cabecalho {
-    padding: 14px;
+    padding: 16px;
     border: 1px solid #000000;
     font-size: 12px;
+    border-spacing: 0;
+    border-radius: 1.5px;
 }
 
 body {
-    margin-top: 3.3cm;
+    margin-top: 3.4cm;
     margin-bottom: 1cm;
 }
 
@@ -36,11 +40,13 @@ body {
     border-top: 1px solid black;
     padding-top: 10px;
     font-weight: bold;
+    border-spacing: 0;
 }
 
 .borda_inferior {
     border-bottom: 1px solid black;
     padding-left: 10px;
+    border-spacing: 0;
 }
 
 .direita {
@@ -49,39 +55,37 @@ body {
 
 .borda_superior {
     border-top: 1px solid black;
+    border-spacing: 0;
 }
 
 .borda_superior_centralizador{
     border-top: 1px solid black;
     text-align: center;
+    border-spacing: 0;
 }
 
 .centralizador{
     text-align: center;
-}
-
-.borda_direita_esquerda {
-    border-left: 1px solid black;
-    border-right: 1px solid black;
-    text-align: center;
-    padding-left: 5px;
+    padding: 5px;
 }
 
 .borda_inferior_centralizador {
     text-align: center;
-    padding-left: 5px;
+    padding: 3px;
     border-bottom: 1px solid black;
+    border-spacing: 0;
 }
 
 .borda_inferior_e_direita_centralizador{
     text-align: center;
-    border-bottom: 1px solid black;
     border-right: 1px solid black;
+    border-spacing: 0;
 }
 
 .borda_direita {
     border-right: 1px solid black;
     text-align: center;
+    border-spacing: 0;
 }
 
 .header {
@@ -95,6 +99,7 @@ body {
 .bairro {
     font-weight: bold;
     border: 1px solid black;
+    border-spacing: 0;
 }
 
 .cor_azul {
@@ -102,11 +107,13 @@ body {
     font-weight: bold;
     color: #032a61;
     padding-top: 10px;
+    border-spacing: 0;
 }
 
 .espaco_para_direta {
     padding-left: 230px;
     border-top: 1px solid black;
+    border-spacing: 0;
 }
 
 .solicitante {
@@ -119,6 +126,7 @@ body {
     text-align: center;
     border-right: 1px solid black;
     padding-left: 5px;
+    border-spacing: 0;
 }
 
 .centralizador_com_borda_esquerda {
@@ -126,6 +134,7 @@ body {
     text-align: center;
     border-top: 1px solid black;
     border-right: 1px solid black;
+    border-spacing: 0;
 }
 
 .nomebairro {
@@ -141,6 +150,7 @@ body {
     border-bottom: 1px solid black;
     padding-left: 3px;
     padding-right: 3px;
+    border-spacing: 0;
 }
 
 .centralizar {
@@ -151,6 +161,7 @@ body {
 .rua {
     font-weight: bold;
     border-bottom: 1px solid black;
+    border-spacing: 0;
 }
 
 .cor_ocorrencia {
@@ -163,11 +174,13 @@ body {
     padding-left: 5px;
     text-align: center;
     border-bottom: 1px solid black;
+    border-spacing: 0;
 }
 
 .sinistro {
     font-weight: bold;
     border: 1px solid black;
+    border-spacing: 0;
 }
 
 .data_hora {
@@ -177,11 +190,13 @@ body {
 .linha {
     border-bottom: 1px solid black;
     font-weight: bold;
+    border-spacing: 0;
 }
 
 .detalhe {
     font-weight: bold;
     border-top: 1px solid black;
+    border-spacing: 0;
 }
 
 footer::after {
@@ -199,6 +214,7 @@ footer {
     margin-bottom: -10px;
     padding: 6px;
     font-size: 12px;
+    border-spacing: 0;
 }
 
 @page {

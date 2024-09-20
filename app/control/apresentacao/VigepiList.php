@@ -273,7 +273,7 @@ class VigepiList extends TPage
             $content = '<html>
             <head>
                 <title>Ocorrencias</title>
-                <link href="app/resources/vigepiteste.css" rel="stylesheet" type="text/css" media="screen"/>
+                <link href="app/resources/vigepi.css" rel="stylesheet" type="text/css" media="screen"/>
             </head>
             <footer></footer>
             <body>
