@@ -86,6 +86,7 @@ class VigepiList extends TPage
                             ag.descricao AS descricao_agravo,
                             ati.sigla AS sigla_atividade_tipo,
                             p.descricao AS descricao_programacao,
+                            su.name as agente_nome,
                             a.created_at AS periodo,
                             p.concluida AS concluida,
                             c.semana AS semana_epi,
@@ -106,6 +107,7 @@ class VigepiList extends TPage
                   LEFT JOIN vigepi.deposito d ON d.id = am.deposito_id
                   LEFT JOIN vigepi.deposito_tipo dt ON dt.id = d.deposito_tipo_id
                   LEFT JOIN vigepi.quarteirao q ON q.id = rg.quarteirao_id 
+                  LEFT JOIN permission_new.system_user su ON su.id = p.system_user_id
                       WHERE p.id = '{$programacao_id}'
                    ORDER BY p.id";
 
@@ -312,6 +314,7 @@ class VigepiList extends TPage
                         'imovel_tipo_sigla' => [],
                         'recuperados_fechados_recusados' => [],
                         'numero_quarteiroes' => [],
+                        'agente_nome' => $row['agente_nome'],
                     ];
                 }
                 $dadosvigepi[$programacao_id]['imovel_tipo_sigla'][] = $row['imovel_tipo_sigla'];
@@ -546,6 +549,7 @@ class VigepiList extends TPage
                         <td class='borda_inferior_centralizador'><b>Descricao atividade</b></td>
                         <td class='borda_inferior_centralizador'><b>Periodo</b></td>
                         <td class='borda_inferior_centralizador'><b>Semana Epi.</b></td>
+                        <td class='borda_inferior_centralizador'><b>Agente</b></td>
                         <td class='borda_inferior_centralizador'><b>Concluido</b></td>
                     </tr>
                     <tr>
@@ -555,6 +559,7 @@ class VigepiList extends TPage
                         <td class='borda_inferior_e_direita_centralizador'>{$row['descricao_programacao']}</td>
                         <td class='borda_inferior_e_direita_centralizador'>{$row['periodo']}</td>
                         <td class='borda_inferior_e_direita_centralizador'>{$row['semana_epi']}</td>
+                        <td class='borda_inferior_e_direita_centralizador'>{$row['agente_nome']}</td>
                         <td class='centralizador'>{$row['concluida']}</td>
                     </tr>
                 </table>
