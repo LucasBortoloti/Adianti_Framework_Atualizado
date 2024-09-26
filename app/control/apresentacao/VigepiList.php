@@ -569,19 +569,19 @@ class VigepiList extends TPage
                         <td class='borda_inferior_centralizador' colspan='6'><b>Tipos de Imóvel</b></td>
                     </tr>
                     <tr>
-                        <td class='centralizador'><b>R</b></td>
-                        <td class='centralizador'><b>C</b></td>
-                        <td class='centralizador'><b>TB</b></td>
-                        <td class='centralizador'><b>PE</b></td>
-                        <td class='centralizador'><b>O</b></td>
-                        <td class='centralizador'><b>Total</b></td>
+                        <td class='borda_inferior_centralizador'><b>R</b></td>
+                        <td class='borda_inferior_centralizador'><b>C</b></td>
+                        <td class='borda_inferior_centralizador'><b>TB</b></td>
+                        <td class='borda_inferior_centralizador'><b>PE</b></td>
+                        <td class='borda_inferior_centralizador'><b>O</b></td>
+                        <td class='borda_inferior_centralizador'><b>Total</b></td>
                     </tr>
                     <tr>
-                        <td class='borda_inferior_centralizador'>{$imovel_count['R']}</td>
-                        <td class='borda_inferior_centralizador'>{$imovel_count['C']}</td>
-                        <td class='borda_inferior_centralizador'>{$imovel_count['TB']}</td>
-                        <td class='borda_inferior_centralizador'>{$imovel_count['PE']}</td>
-                        <td class='borda_inferior_centralizador'>{$imovel_count['O']}</td>
+                        <td class='borda_varios_valores'>{$imovel_count['R']}</td>
+                        <td class='borda_varios_valores'>{$imovel_count['C']}</td>
+                        <td class='borda_varios_valores'>{$imovel_count['TB']}</td>
+                        <td class='borda_varios_valores'>{$imovel_count['PE']}</td>
+                        <td class='borda_varios_valores'>{$imovel_count['O']}</td>
                         <td class='borda_inferior_centralizador'>{$total_imoveis}</td>
                     </tr>
                     <tr>
@@ -593,11 +593,11 @@ class VigepiList extends TPage
                         <td class='borda_inferior_centralizador'><b>Número Quarteirões</b></td>
                     </tr>
                     <tr>
-                        <td class='centralizador'>{$tipo_visita['N']}</td>
-                        <td class='centralizador'>{$tipo_visita['R']}</td>
-                        <td class='centralizador'>{$tipo_visita['F']}</td>
-                        <td class='centralizador'>{$tipo_visita['E']}</td>
-                        <td class='centralizador'>{$numeroImoveisTratados}</td>
+                        <td class='borda_direita'>{$tipo_visita['N']}</td>
+                        <td class='borda_direita'>{$tipo_visita['R']}</td>
+                        <td class='borda_direita'>{$tipo_visita['F']}</td>
+                        <td class='borda_direita'>{$tipo_visita['E']}</td>
+                        <td class='borda_direita'>{$numeroImoveisTratados}</td>
                         <td class='centralizador'>" . implode(', ', $row['numero_quarteiroes']) . "</td>
                     </tr>
                 </table>
@@ -609,25 +609,25 @@ class VigepiList extends TPage
                         <td class='borda_inferior_centralizador' colspan=9><b>Depósito Sigla</b></td>
                     </tr>
                     <tr>
-                        <td class='centralizador'><b>A1</b></td>
-                        <td class='centralizador'><b>A2</b></td>
-                        <td class='centralizador'><b>B</b></td>
-                        <td class='centralizador'><b>C</b></td>
-                        <td class='centralizador'><b>D1</b></td>
-                        <td class='centralizador'><b>D2</b></td>
-                        <td class='centralizador'><b>E</b></td>
-                        <td class='centralizador'><b>MA</b></td>
-                        <td class='centralizador'><b>ARM</b></td>
+                        <td class='borda_inferior_centralizador'><b>A1</b></td>
+                        <td class='borda_inferior_centralizador'><b>A2</b></td>
+                        <td class='borda_inferior_centralizador'><b>B</b></td>
+                        <td class='borda_inferior_centralizador'><b>C</b></td>
+                        <td class='borda_inferior_centralizador'><b>D1</b></td>
+                        <td class='borda_inferior_centralizador'><b>D2</b></td>
+                        <td class='borda_inferior_centralizador'><b>E</b></td>
+                        <td class='borda_inferior_centralizador'><b>MA</b></td>
+                        <td class='borda_inferior_centralizador'><b>ARM</b></td>
                     </tr>
                     <tr>
-                        <td class='borda_inferior_centralizador'>{$depositoSiglas['A1']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositoSiglas['A2']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositoSiglas['B']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositoSiglas['C']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositoSiglas['D1']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositoSiglas['D2']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositoSiglas['E']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositoSiglas['MA']}</td>
+                        <td class='borda_varios_valores'>{$depositoSiglas['A1']}</td>
+                        <td class='borda_varios_valores'>{$depositoSiglas['A2']}</td>
+                        <td class='borda_varios_valores'>{$depositoSiglas['B']}</td>
+                        <td class='borda_varios_valores'>{$depositoSiglas['C']}</td>
+                        <td class='borda_varios_valores'>{$depositoSiglas['D1']}</td>
+                        <td class='borda_varios_valores'>{$depositoSiglas['D2']}</td>
+                        <td class='borda_varios_valores'>{$depositoSiglas['E']}</td>
+                        <td class='borda_varios_valores'>{$depositoSiglas['MA']}</td>
                         <td class='borda_inferior_centralizador'>{$depositoSiglas['ARM']}</td>
                     </tr>
                     <tr>
@@ -635,7 +635,7 @@ class VigepiList extends TPage
                         <td class='borda_inferior_centralizador' colspan='5'><b>Depósitos Eliminados</b></td>
                     </tr>
                     <tr>
-                        <td class='centralizador' colspan='4'>" . $depositosTratadosTotal . "</td>
+                        <td class='borda_direita' colspan='4'>" . $depositosTratadosTotal . "</td>
                         <td class='centralizador' colspan='5'>" . $depositosEliminadosTotal . "</td>
                     </tr>
                         </table>
@@ -660,51 +660,51 @@ class VigepiList extends TPage
                         <td class='borda_inferior_centralizador' colspan='10'><b>Nº depósitos com espécime por tipo</b></td>
                     </tr>
                      <tr>
-                        <td class='centralizador'></td>
-                        <td class='centralizador'><b>A1</b></td>
-                        <td class='centralizador'><b>A2</b></td>
-                        <td class='centralizador'><b>B</b></td>
-                        <td class='centralizador'><b>C</b></td>
-                        <td class='centralizador'><b>D1</b></td>
-                        <td class='centralizador'><b>D2</b></td>
-                        <td class='centralizador'><b>E</b></td>
-                        <td class='centralizador'><b>MA</b></td>
-                        <td class='centralizador'><b>ARM</b></td>
+                        <td class='borda_varios_valores'></td>
+                        <td class='borda_varios_valores'><b>A1</b></td>
+                        <td class='borda_varios_valores'><b>A2</b></td>
+                        <td class='borda_varios_valores'><b>B</b></td>
+                        <td class='borda_varios_valores'><b>C</b></td>
+                        <td class='borda_varios_valores'><b>D1</b></td>
+                        <td class='borda_varios_valores'><b>D2</b></td>
+                        <td class='borda_varios_valores'><b>E</b></td>
+                        <td class='borda_varios_valores'><b>MA</b></td>
+                        <td class='borda_inferior_centralizador'><b>ARM</b></td>
                     </tr>
                     <tr>
-                        <td class='borda_inferior_centralizador'><b>Aedes Aegypti</b></td>
-                        <td class='borda_inferior_centralizador'>{$depositosComLarvas['A1']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositosComLarvas['A2']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositosComLarvas['B']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositosComLarvas['C']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositosComLarvas['D1']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositosComLarvas['D2']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositosComLarvas['E']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositosComLarvas['MA']}</td>
+                        <td class='borda_varios_valores'><b>Aedes Aegypti</b></td>
+                        <td class='borda_varios_valores'>{$depositosComLarvas['A1']}</td>
+                        <td class='borda_varios_valores'>{$depositosComLarvas['A2']}</td>
+                        <td class='borda_varios_valores'>{$depositosComLarvas['B']}</td>
+                        <td class='borda_varios_valores'>{$depositosComLarvas['C']}</td>
+                        <td class='borda_varios_valores'>{$depositosComLarvas['D1']}</td>
+                        <td class='borda_varios_valores'>{$depositosComLarvas['D2']}</td>
+                        <td class='borda_varios_valores'>{$depositosComLarvas['E']}</td>
+                        <td class='borda_varios_valores'>{$depositosComLarvas['MA']}</td>
                         <td class='borda_inferior_centralizador'>{$depositosComLarvas['ARM']}</td>
                     </tr>
                      <tr>
-                        <td class='borda_inferior_centralizador'><b>Aedes Albopictus</b></td>
-                        <td class='borda_inferior_centralizador'>{$depositosComLarvas2['A1']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositosComLarvas2['A2']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositosComLarvas2['B']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositosComLarvas2['C']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositosComLarvas2['D1']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositosComLarvas2['D2']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositosComLarvas2['E']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositosComLarvas2['MA']}</td>
+                        <td class='borda_varios_valores'><b>Aedes Albopictus</b></td>
+                        <td class='borda_varios_valores'>{$depositosComLarvas2['A1']}</td>
+                        <td class='borda_varios_valores'>{$depositosComLarvas2['A2']}</td>
+                        <td class='borda_varios_valores'>{$depositosComLarvas2['B']}</td>
+                        <td class='borda_varios_valores'>{$depositosComLarvas2['C']}</td>
+                        <td class='borda_varios_valores'>{$depositosComLarvas2['D1']}</td>
+                        <td class='borda_varios_valores'>{$depositosComLarvas2['D2']}</td>
+                        <td class='borda_varios_valores'>{$depositosComLarvas2['E']}</td>
+                        <td class='borda_varios_valores'>{$depositosComLarvas2['MA']}</td>
                         <td class='borda_inferior_centralizador'>{$depositosComLarvas2['ARM']}</td>
                     </tr>
                      <tr>
-                        <td class='centralizador'><b>Outros</b></td>
-                        <td class='centralizador'>{$depositosComLarvas3['A1']}</td>
-                        <td class='centralizador'>{$depositosComLarvas3['A2']}</td>
-                        <td class='centralizador'>{$depositosComLarvas3['B']}</td>
-                        <td class='centralizador'>{$depositosComLarvas3['C']}</td>
-                        <td class='centralizador'>{$depositosComLarvas3['D1']}</td>
-                        <td class='centralizador'>{$depositosComLarvas3['D2']}</td>
-                        <td class='centralizador'>{$depositosComLarvas3['E']}</td>
-                        <td class='centralizador'>{$depositosComLarvas3['MA']}</td>
+                        <td class='borda_direita'><b>Outros</b></td>
+                        <td class='borda_direita'>{$depositosComLarvas3['A1']}</td>
+                        <td class='borda_direita'>{$depositosComLarvas3['A2']}</td>
+                        <td class='borda_direita'>{$depositosComLarvas3['B']}</td>
+                        <td class='borda_direita'>{$depositosComLarvas3['C']}</td>
+                        <td class='borda_direita'>{$depositosComLarvas3['D1']}</td>
+                        <td class='borda_direita'>{$depositosComLarvas3['D2']}</td>
+                        <td class='borda_direita'>{$depositosComLarvas3['E']}</td>
+                        <td class='borda_direita'>{$depositosComLarvas3['MA']}</td>
                         <td class='centralizador'>{$depositosComLarvas3['ARM']}</td>
                     </tr>
                 </table>
@@ -714,35 +714,35 @@ class VigepiList extends TPage
                         <td class='borda_inferior_centralizador' colspan=6><b>Nº Imóveis com espécime por tipo</b></td>
                     </tr>
                     <tr>
-                        <td class='centralizador'></td>
-                        <td class='centralizador'><b>R</b></td>
-                        <td class='centralizador'><b>C</b></td>
-                        <td class='centralizador'><b>TB</b></td>
-                        <td class='centralizador'><b>PE</b></td>
-                        <td class='centralizador'><b>O</b></td>
+                        <td class='borda_varios_valores'></td>
+                        <td class='borda_varios_valores'><b>R</b></td>
+                        <td class='borda_varios_valores'><b>C</b></td>
+                        <td class='borda_varios_valores'><b>TB</b></td>
+                        <td class='borda_varios_valores'><b>PE</b></td>
+                        <td class='borda_inferior_centralizador'><b>O</b></td>
                     </tr>
                     <tr>
-                        <td class='borda_inferior_centralizador'><b>Aedes Aegypti</b></td>
-                        <td class='borda_inferior_centralizador'>{$imoveisComLarvas['R']}</td>
-                        <td class='borda_inferior_centralizador'>{$imoveisComLarvas['C']}</td>
-                        <td class='borda_inferior_centralizador'>{$imoveisComLarvas['TB']}</td>
-                        <td class='borda_inferior_centralizador'>{$imoveisComLarvas['PE']}</td>
+                        <td class='borda_varios_valores'><b>Aedes Aegypti</b></td>
+                        <td class='borda_varios_valores'>{$imoveisComLarvas['R']}</td>
+                        <td class='borda_varios_valores'>{$imoveisComLarvas['C']}</td>
+                        <td class='borda_varios_valores'>{$imoveisComLarvas['TB']}</td>
+                        <td class='borda_varios_valores'>{$imoveisComLarvas['PE']}</td>
                         <td class='borda_inferior_centralizador'>{$imoveisComLarvas['O']}</td>
                     </tr>
                      <tr>
-                        <td class='borda_inferior_centralizador'><b>Aedes Albopictus</b></td>
-                        <td class='borda_inferior_centralizador'>{$imoveisComLarvas2['R']}</td>
-                        <td class='borda_inferior_centralizador'>{$imoveisComLarvas2['C']}</td>
-                        <td class='borda_inferior_centralizador'>{$imoveisComLarvas2['TB']}</td>
-                        <td class='borda_inferior_centralizador'>{$imoveisComLarvas2['PE']}</td>
+                        <td class='borda_varios_valores'><b>Aedes Albopictus</b></td>
+                        <td class='borda_varios_valores'>{$imoveisComLarvas2['R']}</td>
+                        <td class='borda_varios_valores'>{$imoveisComLarvas2['C']}</td>
+                        <td class='borda_varios_valores'>{$imoveisComLarvas2['TB']}</td>
+                        <td class='borda_varios_valores'>{$imoveisComLarvas2['PE']}</td>
                         <td class='borda_inferior_centralizador'>{$imoveisComLarvas2['O']}</td>
                     </tr>
                      <tr>
-                        <td class='centralizador'><b>Outros</b></td>
-                        <td class='centralizador'>{$imoveisComLarvas3['R']}</td>
-                        <td class='centralizador'>{$imoveisComLarvas3['C']}</td>
-                        <td class='centralizador'>{$imoveisComLarvas3['TB']}</td>
-                        <td class='centralizador'>{$imoveisComLarvas3['PE']}</td>
+                        <td class='borda_direita'><b>Outros</b></td>
+                        <td class='borda_direita'>{$imoveisComLarvas3['R']}</td>
+                        <td class='borda_direita'>{$imoveisComLarvas3['C']}</td>
+                        <td class='borda_direita'>{$imoveisComLarvas3['TB']}</td>
+                        <td class='borda_direita'>{$imoveisComLarvas3['PE']}</td>
                         <td class='centralizador'>{$imoveisComLarvas3['O']}</td>
                     </tr>
                 </table>

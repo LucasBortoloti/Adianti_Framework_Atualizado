@@ -76,6 +76,14 @@ body {
     border-spacing: 0;
 }
 
+.borda_varios_valores{
+    text-align: center;
+    padding: 3px;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+    border-spacing: 0;
+}
+
 .borda_inferior_e_direita_centralizador{
     text-align: center;
     border-right: 1px solid black;
@@ -84,6 +92,7 @@ body {
 
 .borda_direita {
     border-right: 1px solid black;
+    padding: 3px;
     text-align: center;
     border-spacing: 0;
 }
