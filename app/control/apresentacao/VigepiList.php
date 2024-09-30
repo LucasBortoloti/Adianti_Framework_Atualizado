@@ -640,7 +640,7 @@ class VigepiList extends TPage
                     </tr>
                         </table>
                     <br>
-                <table class='borda_tabela' style='width: 75%'>
+                <table class='borda_tabela' style='width: 100%'>
                     <tr>
                     <td class='borda_inferior_centralizador'><b>Qtd Tubitos</b></td>
                         <td class='borda_inferior_centralizador'><b>Qtd Amostras</b></td>
