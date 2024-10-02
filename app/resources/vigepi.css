@@ -3,7 +3,7 @@
     font-size: 12px;
     background: #ffffff;
     border-collapse: collapse;
-    padding: 1px;
+    padding: 1.5px;
     /* page-break-after: always; */
     /* esse border-collapse é o responsável pelas bordas ficarem completas e sem sobras entre uma e outra*/
 }
@@ -19,7 +19,7 @@
 }
 
 .cabecalho {
-    padding: 16px;
+    padding: 11px;
     border: 1px solid #000000;
     font-size: 12px;
     border-spacing: 0;
@@ -27,7 +27,7 @@
 }
 
 body {
-    margin-top: 3.4cm;
+    margin-top: 3cm;
     margin-bottom: 1cm;
 }
 
@@ -66,19 +66,26 @@ body {
 
 .centralizador{
     text-align: center;
-    padding: 5px;
+    padding: 1.5px;
+}
+
+.borda_inferior_centralizador_titulos {
+    text-align: center;
+    padding: 2.47px;
+    border-bottom: 1px solid black;
+    border-spacing: 0;
 }
 
 .borda_inferior_centralizador {
     text-align: center;
-    padding: 3px;
+    padding: 1.5px;
     border-bottom: 1px solid black;
     border-spacing: 0;
 }
 
 .borda_varios_valores{
     text-align: center;
-    padding: 3px;
+    padding: 1.5px;
     border-bottom: 1px solid black;
     border-right: 1px solid black;
     border-spacing: 0;
@@ -92,7 +99,7 @@ body {
 
 .borda_direita {
     border-right: 1px solid black;
-    padding: 3px;
+    padding: 1.5px;
     text-align: center;
     border-spacing: 0;
 }
@@ -221,7 +228,7 @@ footer {
     width: 100%;
     border-top: 1px solid #000000;
     margin-bottom: -10px;
-    padding: 6px;
+    padding: 3.5px;
     font-size: 12px;
     border-spacing: 0;
 }
