@@ -657,11 +657,17 @@ class VigepiList extends TPage
                     </tr>
                 </table>
                 <br>
-                <table class='borda_tabela' style='width: 100%'>
+                <table class='tabela_sem_borda' style='width: 100%'>
+                    <tr>
+                        <td class='titulo_central_com_borda'colspan='2'><b>Laboratório</b></td>
+                    </tr>
+                    <tr>
+                        <td style='width: 50%;'>
+                <table class='organizar_tabela' style='width: 100%;'>
                     <tr>
                         <td class='borda_inferior_centralizador_titulos' colspan='10'><b>Nº depósitos com espécime por tipo</b></td>
                     </tr>
-                     <tr>
+                    <tr>
                         <td class='borda_varios_valores'></td>
                         <td class='borda_varios_valores'><b>A1</b></td>
                         <td class='borda_varios_valores'><b>A2</b></td>
@@ -685,7 +691,7 @@ class VigepiList extends TPage
                         <td class='borda_varios_valores'>{$depositosComLarvas['MA']}</td>
                         <td class='borda_inferior_centralizador'>{$depositosComLarvas['ARM']}</td>
                     </tr>
-                     <tr>
+                    <tr>
                         <td class='borda_varios_valores'><b>Aedes Albopictus</b></td>
                         <td class='borda_varios_valores'>{$depositosComLarvas2['A1']}</td>
                         <td class='borda_varios_valores'>{$depositosComLarvas2['A2']}</td>
@@ -697,7 +703,7 @@ class VigepiList extends TPage
                         <td class='borda_varios_valores'>{$depositosComLarvas2['MA']}</td>
                         <td class='borda_inferior_centralizador'>{$depositosComLarvas2['ARM']}</td>
                     </tr>
-                     <tr>
+                    <tr>
                         <td class='borda_direita'><b>Outros</b></td>
                         <td class='borda_direita'>{$depositosComLarvas3['A1']}</td>
                         <td class='borda_direita'>{$depositosComLarvas3['A2']}</td>
@@ -710,8 +716,9 @@ class VigepiList extends TPage
                         <td class='centralizador'>{$depositosComLarvas3['ARM']}</td>
                     </tr>
                 </table>
-                <br>
-                <table class='borda_tabela' style='width: 100%'>
+                        </td>
+                        <td style='width: 50%;'>
+                <table class='organizar_tabela' style='width: 100%;'>
                     <tr>
                         <td class='borda_inferior_centralizador_titulos' colspan=6><b>Nº Imóveis com espécime por tipo</b></td>
                     </tr>
@@ -731,7 +738,7 @@ class VigepiList extends TPage
                         <td class='borda_varios_valores'>{$imoveisComLarvas['PE']}</td>
                         <td class='borda_inferior_centralizador'>{$imoveisComLarvas['O']}</td>
                     </tr>
-                     <tr>
+                    <tr>
                         <td class='borda_varios_valores'><b>Aedes Albopictus</b></td>
                         <td class='borda_varios_valores'>{$imoveisComLarvas2['R']}</td>
                         <td class='borda_varios_valores'>{$imoveisComLarvas2['C']}</td>
@@ -739,7 +746,7 @@ class VigepiList extends TPage
                         <td class='borda_varios_valores'>{$imoveisComLarvas2['PE']}</td>
                         <td class='borda_inferior_centralizador'>{$imoveisComLarvas2['O']}</td>
                     </tr>
-                     <tr>
+                    <tr>
                         <td class='borda_direita'><b>Outros</b></td>
                         <td class='borda_direita'>{$imoveisComLarvas3['R']}</td>
                         <td class='borda_direita'>{$imoveisComLarvas3['C']}</td>
@@ -748,8 +755,11 @@ class VigepiList extends TPage
                         <td class='centralizador'>{$imoveisComLarvas3['O']}</td>
                     </tr>
                 </table>
-                </body>
-                </html>";
+                        </td>
+                    </tr>
+                </table>
+            </body>
+            </html>";
             }
 
             // Debug the final HTML content

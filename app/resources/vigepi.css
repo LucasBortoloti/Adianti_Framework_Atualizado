@@ -3,7 +3,7 @@
     font-size: 12px;
     background: #ffffff;
     border-collapse: collapse;
-    padding: 1.5px;
+    padding: 2.5px;
     /* page-break-after: always; */
     /* esse border-collapse é o responsável pelas bordas ficarem completas e sem sobras entre uma e outra*/
 }
@@ -18,8 +18,18 @@
     margin: 0 auto;
 }
 
+.tabela_sem_borda {
+    font-family: 'Arial', sans-serif;
+    font-size: 12px;
+    background: #ffffff;
+    border-spacing: 0;
+    border-radius: 1.5px;
+    margin: 0 auto;
+    border-spacing: 10px;
+}
+
 .cabecalho {
-    padding: 11px;
+    padding: 11.5px;
     border: 1px solid #000000;
     font-size: 12px;
     border-spacing: 0;
@@ -66,14 +76,36 @@ body {
 
 .centralizador{
     text-align: center;
-    padding: 1.5px;
+    padding: 2.5px;
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-top: 0;
+}
+
+.titulo_central_com_borda{
+    text-align: center;
+    padding: 2.5px;
+    border: 1px solid black;
+    border-spacing: 0;
 }
 
 .borda_inferior_centralizador_titulos {
     text-align: center;
-    padding: 2.47px;
+    padding: 2.5px;
     border-bottom: 1px solid black;
     border-spacing: 0;
+}
+
+.organizar_tabela {
+    text-align: center;
+    padding: 2.5px;
+    border: 1px solid black;
+    border-spacing: 0;
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-top: 0;
 }
 
 .borda_inferior_centralizador {
@@ -85,21 +117,21 @@ body {
 
 .borda_varios_valores{
     text-align: center;
-    padding: 1.5px;
+    padding: 2.5px;
     border-bottom: 1px solid black;
     border-right: 1px solid black;
-    border-spacing: 0;
 }
 
 .borda_inferior_e_direita_centralizador{
     text-align: center;
+    padding: 2px;
     border-right: 1px solid black;
     border-spacing: 0;
 }
 
 .borda_direita {
     border-right: 1px solid black;
-    padding: 1.5px;
+    padding: 2.5px;
     text-align: center;
     border-spacing: 0;
 }
