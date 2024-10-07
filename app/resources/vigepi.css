@@ -18,14 +18,15 @@
     margin: 0 auto;
 }
 
-.tabela_sem_borda {
+.tabela_mae {
     font-family: 'Arial', sans-serif;
     font-size: 12px;
     background: #ffffff;
     border-spacing: 0;
+    border: 1px solid black;
     border-radius: 1.5px;
     margin: 0 auto;
-    border-spacing: 10px;
+    border-spacing: 0px;
 }
 
 .cabecalho {
@@ -86,7 +87,15 @@ body {
 .titulo_central_com_borda{
     text-align: center;
     padding: 2.5px;
-    border: 1px solid black;
+    border-top: 1px solid black;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    border-spacing: 0;
+}
+
+.titulo_central_sem_borda{
+    text-align: center;
+    padding: 2.5px;
     border-spacing: 0;
 }
 
@@ -94,7 +103,7 @@ body {
     text-align: center;
     padding: 2.5px;
     border-bottom: 1px solid black;
-    border-spacing: 0;
+    border-spacing: 0px;
 }
 
 .organizar_tabela {
@@ -112,7 +121,7 @@ body {
     text-align: center;
     padding: 1.5px;
     border-bottom: 1px solid black;
-    border-spacing: 0;
+    border-spacing: 0px;
 }
 
 .borda_varios_valores{

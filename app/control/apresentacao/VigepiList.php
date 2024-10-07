@@ -657,9 +657,9 @@ class VigepiList extends TPage
                     </tr>
                 </table>
                 <br>
-                <table class='tabela_sem_borda' style='width: 100%'>
+                <table class='tabela_mae' style='width: 100%'>
                     <tr>
-                        <td class='titulo_central_com_borda'colspan='2'><b>Laboratório</b></td>
+                        <td class='titulo_central_sem_borda'colspan='2'><b>Laboratório</b></td>
                     </tr>
                     <tr>
                         <td style='width: 50%;'>
