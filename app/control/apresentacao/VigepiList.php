@@ -555,58 +555,49 @@ class VigepiList extends TPage
                         <td class='borda_inferior_centralizador_titulos'><b>Concluido</b></td>
                     </tr>
                     <tr>
-                        <td class='borda_inferior_e_direita_centralizador'>{$programacao_id}</td>
-                        <td class='borda_inferior_e_direita_centralizador'>{$row['descricao_agravo']}</td>
-                        <td class='borda_inferior_e_direita_centralizador'>{$row['sigla_atividade_tipo']}</td>
-                        <td class='borda_inferior_e_direita_centralizador'>{$row['descricao_programacao']}</td>
-                        <td class='borda_inferior_e_direita_centralizador'>{$row['data_inicio']} - {$row['data_fim']}</td>
-                        <td class='borda_inferior_e_direita_centralizador'>{$row['semana_epi']}</td>
-                        <td class='borda_inferior_e_direita_centralizador'>{$row['agente_nome']}</td>
+                        <td class='borda_direita'>{$programacao_id}</td>
+                        <td class='borda_direita'>{$row['descricao_agravo']}</td>
+                        <td class='borda_direita'>{$row['sigla_atividade_tipo']}</td>
+                        <td class='borda_direita'>{$row['descricao_programacao']}</td>
+                        <td class='borda_direita'>{$row['data_inicio']} - {$row['data_fim']}</td>
+                        <td class='borda_direita'>{$row['semana_epi']}</td>
+                        <td class='borda_direita'>{$row['agente_nome']}</td>
                         <td class='centralizador'>{$row['concluida']}</td>
                     </tr>
                 </table>
                 <br>
                 <table class='borda_tabela' style='width: 100%'>
                     <tr>
-                        <td class='borda_inferior_centralizador_titulos' colspan='6'><b>Tipos de Imóvel</b></td>
+                        <td class='borda_inferior_centralizador_titulos' colspan='9'><b>Tipos de Imóvel</b></td>
                     </tr>
                     <tr>
-                        <td class='borda_inferior_centralizador'><b>R</b></td>
+                        <td class='borda_inferior_centralizador' colspan='2'><b>R</b></td>
                         <td class='borda_inferior_centralizador'><b>C</b></td>
                         <td class='borda_inferior_centralizador'><b>TB</b></td>
                         <td class='borda_inferior_centralizador'><b>PE</b></td>
-                        <td class='borda_inferior_centralizador'><b>O</b></td>
+                        <td class='borda_inferior_centralizador' colspan='3'><b>O</b></td>
                         <td class='borda_inferior_centralizador'><b>Total</b></td>
                     </tr>
                     <tr>
-                        <td class='borda_varios_valores'>{$imovel_count['R']}</td>
+                        <td class='borda_varios_valores' colspan='2'>{$imovel_count['R']}</td>
                         <td class='borda_varios_valores'>{$imovel_count['C']}</td>
                         <td class='borda_varios_valores'>{$imovel_count['TB']}</td>
                         <td class='borda_varios_valores'>{$imovel_count['PE']}</td>
-                        <td class='borda_varios_valores'>{$imovel_count['O']}</td>
+                        <td class='borda_varios_valores' colspan='3'>{$imovel_count['O']}</td>
                         <td class='borda_inferior_centralizador'>{$total_imoveis}</td>
                     </tr>
                     <tr>
-                        <td class='borda_inferior_centralizador_titulos'><b>Normal(N)</b></td>
-                        <td class='borda_inferior_centralizador_titulos'><b>Recuperados(R)</b></td>
-                        <td class='borda_inferior_centralizador_titulos'><b>Fechados(F)</b></td>
-                        <td class='borda_inferior_centralizador_titulos'><b>Recusados(E)</b></td>
-                        <td class='borda_inferior_centralizador_titulos'><b>Número Imóveis Tratados</b></td>
-                        <td class='borda_inferior_centralizador_titulos'><b>Quarteirões trabalhados</b></td>
+                        <td class='borda_inferior_centralizador_titulos' colspan='2'><b>Normal(N)</b></td>
+                        <td class='borda_inferior_centralizador_titulos' colspan='2'><b>Recuperados(R)</b></td>
+                        <td class='borda_inferior_centralizador_titulos' colspan='2'><b>Fechados(F)</b></td>
+                        <td class='borda_inferior_centralizador' colspan='3'><b>Recusados(E)</b></td>
                     </tr>
                     <tr>
-                        <td class='borda_direita'>{$tipo_visita['N']}</td>
-                        <td class='borda_direita'>{$tipo_visita['R']}</td>
-                        <td class='borda_direita'>{$tipo_visita['F']}</td>
-                        <td class='borda_direita'>{$tipo_visita['E']}</td>
-                        <td class='borda_direita'>{$numeroImoveisTratados}</td>
-                        <td class='centralizador'>" . implode(', ', $row['numero_quarteiroes']) . "</td>
+                        <td class='borda_inferior_e_direita_centralizador' colspan='2'>{$tipo_visita['N']}</td>
+                        <td class='borda_inferior_e_direita_centralizador' colspan='2'>{$tipo_visita['R']}</td>
+                        <td class='borda_inferior_e_direita_centralizador' colspan='2'>{$tipo_visita['F']}</td>
+                        <td class='borda_inferior_centralizador' colspan='3'>{$tipo_visita['E']}</td>
                     </tr>
-                </table>
-                <br>";
-
-                $content .= "
-                <table class='borda_tabela' style='width: 100%'>
                     <tr>
                         <td class='borda_inferior_centralizador_titulos' colspan=9><b>Depósitos</b></td>
                     </tr>
@@ -622,38 +613,45 @@ class VigepiList extends TPage
                         <td class='borda_inferior_centralizador'><b>ARM</b></td>
                     </tr>
                     <tr>
-                        <td class='borda_varios_valores'>{$depositoSiglas['A1']}</td>
-                        <td class='borda_varios_valores'>{$depositoSiglas['A2']}</td>
-                        <td class='borda_varios_valores'>{$depositoSiglas['B']}</td>
-                        <td class='borda_varios_valores'>{$depositoSiglas['C']}</td>
-                        <td class='borda_varios_valores'>{$depositoSiglas['D1']}</td>
-                        <td class='borda_varios_valores'>{$depositoSiglas['D2']}</td>
-                        <td class='borda_varios_valores'>{$depositoSiglas['E']}</td>
-                        <td class='borda_varios_valores'>{$depositoSiglas['MA']}</td>
-                        <td class='borda_inferior_centralizador'>{$depositoSiglas['ARM']}</td>
+                        <td class='borda_direita'>{$depositoSiglas['A1']}</td>
+                        <td class='borda_direita'>{$depositoSiglas['A2']}</td>
+                        <td class='borda_direita'>{$depositoSiglas['B']}</td>
+                        <td class='borda_direita'>{$depositoSiglas['C']}</td>
+                        <td class='borda_direita'>{$depositoSiglas['D1']}</td>
+                        <td class='borda_direita'>{$depositoSiglas['D2']}</td>
+                        <td class='borda_direita'>{$depositoSiglas['E']}</td>
+                        <td class='borda_direita'>{$depositoSiglas['MA']}</td>
+                        <td class='centralizador'>{$depositoSiglas['ARM']}</td>
+                    </tr>
+                </table>
+                <br>";
+
+                $content .= "<table class='borda_tabela' style='width: 100%'>
+                    <tr>
+                        <td class='borda_inferior_centralizador_titulos' colspan='8'><b>Tratamento</b></td>
                     </tr>
                     <tr>
-                        <td class='borda_inferior_centralizador_titulos' colspan='4'><b>Depósitos Tratados</b></td>
-                        <td class='borda_inferior_centralizador_titulos' colspan='5'><b>Depósitos Eliminados</b></td>
+                       <td class='borda_inferior_centralizador_titulos' colspan='2'><b>Número Imóveis Tratados</b></td>
+                        <td class='borda_inferior_centralizador_titulos' colspan='2'><b>Quarteirões trabalhados</b></td>
+                        <td class='borda_inferior_centralizador_titulos' colspan='2'><b>Depósitos Tratados</b></td>
+                        <td class='borda_inferior_centralizador_titulos' colspan='2'><b>Depósitos Eliminados</b></td>
+                    <tr>
+                        <td class='borda_inferior_e_direita_centralizador' colspan='2'>{$numeroImoveisTratados}</td>
+                        <td class='borda_inferior_e_direita_centralizador' colspan='2'>" . implode(', ', $row['numero_quarteiroes']) . "</td>
+                        <td class='borda_inferior_e_direita_centralizador' colspan='2'>" . $depositosTratadosTotal . "</td>
+                        <td class='borda_inferior_centralizador' colspan='2'>" . $depositosEliminadosTotal . "</td>
                     </tr>
                     <tr>
-                        <td class='borda_direita' colspan='4'>" . $depositosTratadosTotal . "</td>
-                        <td class='centralizador' colspan='5'>" . $depositosEliminadosTotal . "</td>
-                    </tr>
-                        </table>
-                    <br>
-                <table class='borda_tabela' style='width: 100%'>
-                    <tr>
-                        <td class='borda_inferior_centralizador_titulos'><b>Qtd Tubitos</b></td>
-                        <td class='borda_inferior_centralizador_titulos'><b>Qtd Amostras</b></td>
-                        <td class='borda_inferior_centralizador_titulos'><b>Qtd Larvicidas (gramas)</b></td>
-                        <td class='borda_inferior_centralizador_titulos'><b>Qtd Adulticidas (gramas)</b></td>
+                        <td class='borda_inferior_centralizador_titulos' colspan='2'><b>Qtd Tubitos</b></td>
+                        <td class='borda_inferior_centralizador_titulos' colspan='2'><b>Qtd Amostras</b></td>
+                        <td class='borda_inferior_centralizador_titulos' colspan='2'><b>Qtd Larvicidas (gramas)</b></td>
+                        <td class='borda_inferior_centralizador_titulos' colspan='2'><b>Qtd Adulticidas (gramas)</b></td>
                     </tr>
                     <tr>
-                        <td class='borda_inferior_e_direita_centralizador'>{$qtdTubitos}</td>
-                        <td class='borda_inferior_e_direita_centralizador'>{$qtdAmostras}</td>
-                        <td class='borda_inferior_e_direita_centralizador'>{$qtdLarvicidaGramas}</td>
-                        <td class='centralizador'>{$qtdAdulticidaGramas}</td>
+                        <td class='borda_direita' colspan='2'>{$qtdTubitos}</td>
+                        <td class='borda_direita' colspan='2'>{$qtdAmostras}</td>
+                        <td class='borda_direita' colspan='2'>{$qtdLarvicidaGramas}</td>
+                        <td class='centralizador' colspan='2'>{$qtdAdulticidaGramas}</td>
                     </tr>
                 </table>
                 <br>
