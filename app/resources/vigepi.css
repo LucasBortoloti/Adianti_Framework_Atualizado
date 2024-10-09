@@ -18,6 +18,15 @@
     margin: 0 auto;
 }
 
+.tabela_sem_borda{
+    font-family: 'Arial', sans-serif;
+    font-size: 12px;
+    background: #ffffff;
+    border-spacing: 0;
+    border-radius: 1.5px;
+    margin: 0 auto;
+}
+
 .tabela_mae {
     font-family: 'Arial', sans-serif;
     font-size: 12px;
@@ -78,10 +87,6 @@ body {
 .centralizador{
     text-align: center;
     padding: 2.5px;
-    padding-left: 0;
-    padding-right: 0;
-    padding-bottom: 0;
-    padding-top: 0;
 }
 
 .titulo_central_com_borda{
@@ -110,7 +115,7 @@ body {
     text-align: center;
     padding: 2.5px;
     border: 1px solid black;
-    border-spacing: 0;
+    border-spacing: 0px;
     padding-left: 0;
     padding-right: 0;
     padding-bottom: 0;

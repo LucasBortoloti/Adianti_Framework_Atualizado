@@ -566,38 +566,41 @@ class VigepiList extends TPage
                     </tr>
                 </table>
                 <br>
-                <table class='borda_tabela' style='width: 100%'>
+                <table class='tabela_mae' style='width: 100%'>
+                    <tr>
+                        <td style='width: 50%;'>
+                <table class='organizar_tabela' style='width: 100%;'>
                     <tr>
                         <td class='borda_inferior_centralizador_titulos' colspan='9'><b>Tipos de Imóvel</b></td>
                     </tr>
                     <tr>
                         <td class='borda_inferior_centralizador' colspan='2'><b>R</b></td>
-                        <td class='borda_inferior_centralizador'><b>C</b></td>
+                        <td class='borda_inferior_centralizador' colspan='2'><b>C</b></td>
                         <td class='borda_inferior_centralizador'><b>TB</b></td>
                         <td class='borda_inferior_centralizador'><b>PE</b></td>
-                        <td class='borda_inferior_centralizador' colspan='3'><b>O</b></td>
+                        <td class='borda_inferior_centralizador' colspan='2'><b>O</b></td>
                         <td class='borda_inferior_centralizador'><b>Total</b></td>
                     </tr>
                     <tr>
                         <td class='borda_varios_valores' colspan='2'>{$imovel_count['R']}</td>
-                        <td class='borda_varios_valores'>{$imovel_count['C']}</td>
+                        <td class='borda_varios_valores' colspan='2'>{$imovel_count['C']}</td>
                         <td class='borda_varios_valores'>{$imovel_count['TB']}</td>
                         <td class='borda_varios_valores'>{$imovel_count['PE']}</td>
-                        <td class='borda_varios_valores' colspan='3'>{$imovel_count['O']}</td>
+                        <td class='borda_varios_valores' colspan='2'>{$imovel_count['O']}</td>
                         <td class='borda_inferior_centralizador'>{$total_imoveis}</td>
                     </tr>
                     <tr>
-                        <td class='borda_inferior_centralizador_titulos' colspan='2'><b>Normal(N)</b></td>
-                        <td class='borda_inferior_centralizador_titulos' colspan='2'><b>Recuperados(R)</b></td>
-                        <td class='borda_inferior_centralizador_titulos' colspan='2'><b>Fechados(F)</b></td>
-                        <td class='borda_inferior_centralizador' colspan='3'><b>Recusados(E)</b></td>
+                        <td class='borda_inferior_centralizador_titulos' colspan='5'><b>Normal(N)</b></td>
+                        <td class='borda_inferior_centralizador_titulos' colspan='4'><b>Recuperados(R)</b></td>
                     </tr>
                     <tr>
-                        <td class='borda_inferior_e_direita_centralizador' colspan='2'>{$tipo_visita['N']}</td>
-                        <td class='borda_inferior_e_direita_centralizador' colspan='2'>{$tipo_visita['R']}</td>
-                        <td class='borda_inferior_e_direita_centralizador' colspan='2'>{$tipo_visita['F']}</td>
-                        <td class='borda_inferior_centralizador' colspan='3'>{$tipo_visita['E']}</td>
+                        <td class='centralizador' colspan='5'>{$tipo_visita['N']}</td>
+                        <td class='centralizador' colspan='4'>{$tipo_visita['R']}</td>
                     </tr>
+                </table>
+                        </td>
+                        <td style='width: 50%;'>
+                <table class='organizar_tabela' style='width: 100%;'>
                     <tr>
                         <td class='borda_inferior_centralizador_titulos' colspan=9><b>Depósitos</b></td>
                     </tr>
@@ -613,15 +616,26 @@ class VigepiList extends TPage
                         <td class='borda_inferior_centralizador'><b>ARM</b></td>
                     </tr>
                     <tr>
-                        <td class='borda_direita'>{$depositoSiglas['A1']}</td>
-                        <td class='borda_direita'>{$depositoSiglas['A2']}</td>
-                        <td class='borda_direita'>{$depositoSiglas['B']}</td>
-                        <td class='borda_direita'>{$depositoSiglas['C']}</td>
-                        <td class='borda_direita'>{$depositoSiglas['D1']}</td>
-                        <td class='borda_direita'>{$depositoSiglas['D2']}</td>
-                        <td class='borda_direita'>{$depositoSiglas['E']}</td>
-                        <td class='borda_direita'>{$depositoSiglas['MA']}</td>
-                        <td class='centralizador'>{$depositoSiglas['ARM']}</td>
+                        <td class='borda_varios_valores'>{$depositoSiglas['A1']}</td>
+                        <td class='borda_varios_valores'>{$depositoSiglas['A2']}</td>
+                        <td class='borda_varios_valores'>{$depositoSiglas['B']}</td>
+                        <td class='borda_varios_valores'>{$depositoSiglas['C']}</td>
+                        <td class='borda_varios_valores'>{$depositoSiglas['D1']}</td>
+                        <td class='borda_varios_valores'>{$depositoSiglas['D2']}</td>
+                        <td class='borda_varios_valores'>{$depositoSiglas['E']}</td>
+                        <td class='borda_varios_valores'>{$depositoSiglas['MA']}</td>
+                        <td class='borda_inferior_centralizador'>{$depositoSiglas['ARM']}</td>
+                    </tr>
+                    <tr>
+                        <td class='borda_inferior_centralizador_titulos' colspan='5'><b>Fechados(F)</b></td>
+                        <td class='borda_inferior_centralizador_titulos' colspan='5'><b>Recusados(E)</b></td>
+                    </tr>
+                    <tr>
+                        <td class='centralizador' colspan='5'>{$tipo_visita['F']}</td>
+                        <td class='centralizador' colspan='5'>{$tipo_visita['E']}</td>
+                    </tr>
+                </table>
+                        </td>
                     </tr>
                 </table>
                 <br>";
