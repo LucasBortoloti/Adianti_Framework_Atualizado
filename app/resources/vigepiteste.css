@@ -1,56 +1,44 @@
-.customform {
-    font-family: 'Arial', sans-serif;
-    font-size: 12px;
-    background: #ffffff;
-    border-collapse: collapse;
-    padding: 1px;
-    /* page-break-after: always; */
-    /* esse border-collapse é o responsável pelas bordas ficarem completas e sem sobras entre uma e outra*/
-}
-
 .borda_tabela {
     font-family: 'Arial', sans-serif;
     font-size: 12px;
     background: #ffffff;
-    border: 1px solid black;
+    border: 1px solid white;
     border-spacing: 0;
     border-radius: 1.5px;
     margin: 0 auto;
 }
 
+.tabela_sem_borda{
+    font-family: 'Arial', sans-serif;
+    font-size: 12px;
+    background: #ffffff;
+    border-spacing: 0;
+    border-radius: 1.5px;
+    margin: 0 auto;
+}
+
+.tabela_mae {
+    font-family: 'Arial', sans-serif;
+    font-size: 12px;
+    background: #ffffff;
+    border-spacing: 0;
+    border: 1px solid black;
+    border-radius: 1.5px;
+    margin: 0 auto;
+    border-spacing: 0px;
+}
+
 .cabecalho {
-    padding: 16px;
-    border: 1px solid #000000;
+    padding: 12px;
+    border: 1px solid black;
     font-size: 12px;
     border-spacing: 0;
     border-radius: 1.5px;
 }
 
 body {
-    margin-top: 3.4cm;
+    margin-top: 3cm;
     margin-bottom: 1cm;
-}
-
-.coluna_resultados {
-    padding-left: 5px;
-    padding-right: 5px;
-}
-
-.total {
-    border-top: 1px solid black;
-    padding-top: 10px;
-    font-weight: bold;
-    border-spacing: 0;
-}
-
-.borda_inferior {
-    border-bottom: 1px solid black;
-    padding-left: 10px;
-    border-spacing: 0;
-}
-
-.direita {
-    padding-left: 10px;
 }
 
 .borda_superior {
@@ -66,24 +54,103 @@ body {
 
 .centralizador{
     text-align: center;
-    padding: 5px;
+    padding: 2.5px;
+}
+
+.titulo_central_com_borda{
+    text-align: center;
+    padding: 2.5px;
+    border-top: 1px solid black;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    border-spacing: 0;
+}
+
+.titulo_central_sem_borda{
+    text-align: center;
+    padding: 2.5px;
+    border-spacing: 0;
+}
+
+.borda_inferior_centralizador_titulos {
+    text-align: center;
+    padding: 2.5px;
+    border-bottom: 1px solid black;
+    border-spacing: 0px;
+}
+
+.organizar_tabela {
+    text-align: center;
+    padding: 2.5px;
+    border: 1px solid rgb(0, 0, 0);
+    border-spacing: 0px;
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-top: 0;
 }
 
 .borda_inferior_centralizador {
     text-align: center;
-    padding: 3px;
+    padding: 1.5px;
     border-bottom: 1px solid black;
-    border-spacing: 0;
+    border-spacing: 0px;
+}
+
+.borda_inferior_centralizador_esquerda {
+    text-align: center;
+    padding: 1.5px;
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
+    border-spacing: 0px;
+}
+.borda_inferior_centralizador_direita {
+    text-align: center;
+    padding: 1.5px;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+    border-spacing: 0px;
+}
+
+.borda_varios_valores{
+    text-align: center;
+    padding: 2.5px;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+}
+
+.borda_esquerda_direita{
+    text-align: center;
+    padding: 2.5px;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+}
+
+.borda_varios_valores_2{
+    text-align: center;
+    padding: 2.5px;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+    border-left: 1px solid black;
+}
+
+.borda_esquerda{
+    text-align: center;
+    padding: 2.5px;
+    border-left: 1px solid black;
 }
 
 .borda_inferior_e_direita_centralizador{
     text-align: center;
+    padding: 2px;
     border-right: 1px solid black;
+    border-bottom: 1px solid black;
     border-spacing: 0;
 }
 
 .borda_direita {
     border-right: 1px solid black;
+    padding: 2.5px;
     text-align: center;
     border-spacing: 0;
 }
@@ -96,31 +163,6 @@ body {
     background-color: #ffffff;
 }
 
-.bairro {
-    font-weight: bold;
-    border: 1px solid black;
-    border-spacing: 0;
-}
-
-.cor_azul {
-    border-bottom: 1px solid black;
-    font-weight: bold;
-    color: #032a61;
-    padding-top: 10px;
-    border-spacing: 0;
-}
-
-.espaco_para_direta {
-    padding-left: 230px;
-    border-top: 1px solid black;
-    border-spacing: 0;
-}
-
-.solicitante {
-    font-weight: bold;
-    color: #032a61;
-}
-
 .centralizador_com_borda {
     border-top: 1px solid black;
     text-align: center;
@@ -129,42 +171,12 @@ body {
     border-spacing: 0;
 }
 
-.centralizador_com_borda_esquerda {
-    border-left: 1px solid black;
-    text-align: center;
-    border-top: 1px solid black;
-    border-right: 1px solid black;
-    border-spacing: 0;
-}
-
-.nomebairro {
-    font-weight: bold;
-    color: #032a61;
-}
-
-.bold {
-    font-weight: bold;
-}
-
-.borda_horizontal {
-    border-bottom: 1px solid black;
-    padding-left: 3px;
-    padding-right: 3px;
-    border-spacing: 0;
-}
-
 .centralizar {
     text-align: center;
     padding-left: 5px;
 }
 
-.rua {
-    font-weight: bold;
-    border-bottom: 1px solid black;
-    border-spacing: 0;
-}
-
-.cor_ocorrencia {
+.cor_programacao {
     color: red;
     text-align: right;
     font-weight: bold;
@@ -177,26 +189,8 @@ body {
     border-spacing: 0;
 }
 
-.sinistro {
-    font-weight: bold;
-    border: 1px solid black;
-    border-spacing: 0;
-}
-
 .data_hora {
     text-align: right;
-}
-
-.linha {
-    border-bottom: 1px solid black;
-    font-weight: bold;
-    border-spacing: 0;
-}
-
-.detalhe {
-    font-weight: bold;
-    border-top: 1px solid black;
-    border-spacing: 0;
 }
 
 footer::after {
@@ -210,9 +204,9 @@ footer {
     right: 0cm;
     text-align: right;
     width: 100%;
-    border-top: 1px solid #000000;
+    border-top: 1.5px solid #000000;
     margin-bottom: -10px;
-    padding: 6px;
+    padding: 3.5px;
     font-size: 12px;
     border-spacing: 0;
 }
