@@ -28,9 +28,20 @@
     border-spacing: 0px;
 }
 
+.tabela_mae_borda_2px {
+    font-family: 'Arial', sans-serif;
+    font-size: 12px;
+    background: #ffffff;
+    border-spacing: 0;
+    border: 2px solid black;
+    border-radius: 1.5px;
+    margin: 0 auto;
+    border-spacing: 0px;
+}
+
 .cabecalho {
     padding: 12px;
-    border: 1px solid black;
+    border: 2px solid black;
     font-size: 12px;
     border-spacing: 0;
     border-radius: 1.5px;
@@ -82,7 +93,7 @@ body {
 .organizar_tabela {
     text-align: center;
     padding: 2.5px;
-    border: 1px solid white;
+    border: 1px solid black;
     border-spacing: 0px;
     padding-left: 0;
     padding-right: 0;
@@ -124,14 +135,6 @@ body {
     padding: 2.5px;
     border-left: 1px solid black;
     border-right: 1px solid black;
-}
-
-.borda_varios_valores_2{
-    text-align: center;
-    padding: 2.5px;
-    border-bottom: 1px solid black;
-    border-right: 1px solid black;
-    border-left: 1px solid black;
 }
 
 .borda_esquerda{
@@ -204,8 +207,9 @@ footer {
     right: 0cm;
     text-align: right;
     width: 100%;
-    border-top: 1.5px solid #000000;
+    border-top: 2px solid #000000;
     margin-bottom: -10px;
+    font-weight: bolder;
     padding: 3.5px;
     font-size: 12px;
     border-spacing: 0;
