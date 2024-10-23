@@ -543,7 +543,7 @@ class VigepiList extends TPage
                 }
 
                 $content .= "
-                <table class='tabela_mae_borda_2px' style='width: 100%'>
+                <table class='tabela_mae' style='width: 100%'>
                     <tr>
                         <td style='width: 50%;' padding: 0;>
                 <table class='borda_tabela' style='width: 100%'>
@@ -572,7 +572,7 @@ class VigepiList extends TPage
                     </tr>
                 </table>
                 <br>
-                <table class='tabela_mae' style='width: 100%'>
+                <table class='tabela_mae_sem_borda' style='width: 100%'>
                     <tr>
                         <td style='width: 50%; padding: 0;'>
                 <table class='organizar_tabela' style='width: 100%;'>
@@ -646,17 +646,25 @@ class VigepiList extends TPage
                 </table>
                 <br>";
 
-                $content .= "<table class='tabela_mae_borda_2px' style='width: 100%'>
+                $content .= "<table class='tabela_mae_sem_borda' style='width: 100%'>
                     <tr>
-                        <td class='borda_inferior_centralizador_titulos' colspan='8'><b>Tratamento</b></td>
+                       <td colspan='2' style='padding: 0px;'>
+                            <table class='organizar_tabela' style='width: 100%; margin-bottom: -1px'>
+                                <tr>
+                                    <td>
+                                        <b>Tratamento</b>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
                     </tr>
                     <tr>
                         <td style='width: 50%; padding: 0;'>
                 <table class='organizar_tabela' style='width: 100%;'>
                     <tr>
-                       <td class='borda_inferior_centralizador_titulos' colspan='2'><b>Número Imóveis Tratados</b></td>
+                        <td class='borda_inferior_centralizador_titulos' colspan='2'><b>Número Imóveis Tratados</b></td>
                         <td class='borda_inferior_centralizador_titulos' colspan='2'><b>Quarteirões trabalhados</b></td>
-                         <td class='borda_inferior_centralizador_titulos' colspan='2'><b>Qtd Larvicidas (gramas)</b></td>
+                        <td class='borda_inferior_centralizador_titulos' colspan='2'><b>Qtd Larvicidas (gramas)</b></td>
                         <td class='borda_inferior_centralizador' colspan='2'><b>Qtd Adulticidas (gramas)</b></td>
                     <tr>
                         <td class='borda_direita' colspan='2'>{$numeroImoveisTratados}</td>
@@ -684,15 +692,25 @@ class VigepiList extends TPage
                     </tr>
                 </table>
                 <br>
-                <table class='tabela_mae_borda_2px' style='width: 100%;'>
+                <table class='tabela_mae_sem_borda' style='width: 100%;'>
                     <tr>
-                        <td class='borda_inferior_centralizador_titulos'colspan='2'><b>Laboratório</b></td>
+                        <td colspan='2' style='padding: 0px;'>
+                            <table class='organizar_tabela' style='width: 100%; margin-bottom: -1px'>
+                                <tr>
+                                    <td>
+                                        <b>Laboratório</b>
+                                    </td>
+                                </tr>
+                            </table>
+                        </td>
                     </tr>
                     <tr>
                         <td style='width: 50%; padding: 0;'>
                 <table class='organizar_tabela' style='width: 100%;'>
                     <tr>
-                        <td class='borda_inferior_centralizador_titulos' colspan='10'><b>Nº depósitos com espécime por tipo</b></td>
+                        <td class='borda_inferior_centralizador_titulos' colspan='10'>
+                            <b>Nº depósitos com espécime por tipo</b>
+                        </td>
                     </tr>
                     <tr>
                         <td class='borda_varios_valores'></td>
@@ -747,7 +765,9 @@ class VigepiList extends TPage
                         <td style='width: 50%; padding: 0;'>
                 <table class='organizar_tabela' style='width: 100%;'>
                     <tr>
-                        <td class='borda_inferior_centralizador_titulos' colspan=6><b>Nº Imóveis com espécime por tipo</b></td>
+                        <td class='borda_inferior_centralizador_titulos' colspan=6>
+                            <b>Nº Imóveis com espécime por tipo</b>
+                        </td>
                     </tr>
                     <tr>
                         <td class='borda_varios_valores'></td>
