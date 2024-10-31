@@ -606,7 +606,7 @@ class VigepiList extends TPage
                 </table>
                         </td>
                         <td style='width: 50%; padding: 0;'>
-                <table class='organizar_tabela' style='width: 100%;'>
+                <table class='tabela_dupla' style='width: 100%;'>
                     <tr>
                         <td class='borda_inferior_centralizador_titulos' colspan=9><b>Depósitos</b></td>
                     </tr>
@@ -674,7 +674,7 @@ class VigepiList extends TPage
                     </tr>
                     </table>
                         <td style='width: 50%; padding: 0;'>
-                <table class='organizar_tabela' style='width: 100%;'>
+                <table class='tabela_dupla' style='width: 100%;'>
                     <tr>
                     <tr>
                         <td class='borda_inferior_centralizador_titulos' colspan='2'><b>Qtd Tubitos</b></td>
@@ -763,7 +763,7 @@ class VigepiList extends TPage
                 </table>
                         </td>
                         <td style='width: 50%; padding: 0;'>
-                <table class='organizar_tabela' style='width: 100%;'>
+                <table class='tabela_dupla' style='width: 100%;'>
                     <tr>
                         <td class='borda_inferior_centralizador_titulos' colspan=6>
                             <b>Nº Imóveis com espécime por tipo</b>

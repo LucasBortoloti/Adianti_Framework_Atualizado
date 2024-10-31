@@ -101,6 +101,19 @@ body {
     padding-top: 0;
 }
 
+.tabela_dupla{
+    text-align: center;
+    padding: 2.5px;
+    border-top: 1px solid black;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+    border-spacing: 0px;
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-top: 0;
+}
+
 .borda_inferior_centralizador {
     text-align: center;
     padding: 1.5px;
