@@ -543,9 +543,6 @@ class VigepiList extends TPage
                 }
 
                 $content .= "
-                <table class='tabela_mae' style='width: 100%'>
-                    <tr>
-                        <td style='width: 50%;' padding: 0;>
                 <table class='borda_tabela' style='width: 100%'>
                     <tr>
                         <td class='borda_inferior_centralizador_titulos'><b>Id</b></td>
@@ -566,9 +563,6 @@ class VigepiList extends TPage
                         <td class='borda_direita'>{$row['semana_epi']}</td>
                         <td class='borda_direita'>{$row['agente_nome']}</td>
                         <td class='centralizador'>{$row['concluida']}</td>
-                    </tr>
-                </table>
-                        </td>
                     </tr>
                 </table>
                 <br>
