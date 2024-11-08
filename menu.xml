@@ -150,6 +150,10 @@
                 <icon>fas:database fa-fw</icon>
                 <action>VigepiList</action>
               </menuitem>
+              <menuitem label='VigepiAgenteList'>
+                <icon>fas:database fa-fw</icon>
+                <action>VigepiAgenteList</action>
+              </menuitem>
               <menuitem label='Gráficos Sinistro'>
                 <icon>fas:table fa-fw</icon>
                 <action>GraficoSinistro</action>
