@@ -7,12 +7,14 @@ use Adianti\Database\TDatabase;
 use Adianti\Database\TTransaction;
 use Adianti\Widget\Base\TElement;
 use Adianti\Widget\Container\TTable;
+use Adianti\Widget\Container\TVBox;
 use Adianti\Widget\Dialog\TMessage;
 use Adianti\Widget\Form\TDate;
 use Adianti\Widget\Form\TEntry;
 use Adianti\Widget\Form\TLabel;
 use Adianti\Widget\Form\TRadioGroup;
 use Adianti\Widget\Template\THtmlRenderer;
+use Adianti\Widget\Util\TXMLBreadCrumb;
 use Adianti\Widget\Wrapper\TDBCombo;
 use Adianti\Wrapper\BootstrapFormBuilder;
 
@@ -84,5 +86,185 @@ class VigepiAgenteList extends TPage
 
         parent::add($table);
     }
-    public function onGenerate() {}
+
+    public function onGenerate()
+    {
+        try {
+            $data = $this->form->getData();
+            $data_inicial = $data->data_inicial;
+            $data_final = $data->data_final;
+
+            $this->form->setData($data);
+
+            $source = TTransaction::open('vigepi');
+
+            TDatabase::execute($source, "SET lc_time_names = 'pt_BR';");
+
+            $query = "SELECT   c.semana 		   AS semana_epi,
+							DATE(a.datahora_saida) AS data,
+							DATE_FORMAT(a.datahora_saida, '%W') AS dia_da_semana,
+							su.name 			AS agente_nome,
+							b.nome 				AS bairro_nome,
+							q.descricao 		AS numero_quarteiroes,
+							ati.sigla 			AS sigla_atividade_tipo,
+							sum(
+                    			CASE a.tipo_visita 
+                    				WHEN 'N' THEN 1
+                    				ELSE 0
+                    			END
+                       		) AS normal,
+							sum(
+                    			CASE a.tipo_visita 
+                    				WHEN 'F' THEN 1
+                    				ELSE 0
+                    			END
+                       		) AS fechado,                            
+							sum(
+                    			CASE a.tipo_visita 
+                    				WHEN 'R' THEN 1
+                    				ELSE 0
+                    			END
+                       		) AS recuperado,
+							sum(
+                    			CASE a.tipo_visita 
+                    				WHEN 'E' THEN 1
+                    				ELSE 0
+                    			END
+                       		) AS recusado                         
+                       FROM vigepi.atividade a
+                  LEFT JOIN vigepi.programacao 					p 	ON p.id 	= a.programacao_id
+                  LEFT JOIN vigepi.atividade_tipo 				ati ON ati.id 	= p.atividade_tipo_id
+                  LEFT JOIN vigepi.calendario 					c 	ON c.id 	= p.calendario_id
+                  LEFT JOIN vigepi.reconhecimento_geografico 	rg 	ON rg.id 	= a.rg_id
+                  LEFT JOIN vigepi.bairro 						b 	ON b.id 	= rg.bairro_id 
+                  LEFT JOIN vigepi.quarteirao 					q 	ON q.id 	= rg.quarteirao_id 
+                  LEFT JOIN permission_new.system_user 			su 	ON su.id 	= a.system_user_id
+                      	WHERE a.datahora_saida >='$data_inicial 00:00' and a.datahora_saida <='$data_final 23:59'
+                  GROUP BY 	a.id
+                  			,c.semana
+                  			,su.name
+                  			,b.nome
+                  			,q.descricao
+                  			,ati.sigla
+                  			,a.datahora_saida
+                  ORDER BY a.datahora_entrada";
+
+            $rows1 = TDatabase::getData($source, $query, null, null);
+
+            if (empty($rows1)) {
+                throw new Exception('Nenhum dado encontrado para o período especificado.');
+            }
+
+            $data = date('d/m/y h:i:s');
+
+            $content = '<html>
+            <head>
+                <title>Agentes</title>
+                <link href="app/resources/vigepi.css" rel="stylesheet" type="text/css" media="screen"/>
+            </head>
+            <footer></footer>
+            <body>
+                <div class="header">
+                    <table class="cabecalho" style="width:100%">
+                        <tr>
+                            <td><b><i>PREFEITURA MUNICIPAL DE JARAGUÁ DO SUL</i></b></td>
+                        </tr>
+                        <tr>
+                            <td> prefeitura@jaraguadosul.com.br</td>
+                        </tr>
+                        <tr>
+                            <td>83.102.459/0001-23</td>
+                        </tr>
+                        <tr>
+                            <td>(047) 2106-8000</td>
+                            <td class="data_hora"><b>' . $data . '</b></td>
+                        </tr>
+                    </table>
+                </div>';
+
+            $dadosvigepi = [];
+
+            foreach ($rows1 as $row) {
+                $data_inicial = $row['data'];
+                $dadosvigepi[] = [
+                    'semana_epi' => $row['semana_epi'],
+                    'data' => $row['data'],
+                    'dia_da_semana' => $row['dia_da_semana'],
+                    'agente_nome' => $row['agente_nome'],
+                    'bairro_nome' => $row['bairro_nome'],
+                    'numero_quarteiroes' => $row['numero_quarteiroes'],
+                    'sigla_atividade_tipo' => $row['sigla_atividade_tipo'],
+                    'normal' => $row['normal'],
+                    'fechado' => $row['fechado'],
+                    'recuperado' => $row['recuperado'],
+                    'recusado' => $row['recusado'],
+                ];
+            }
+
+            $content .= "
+            <table class='borda_tabela' style='width: 100%'>
+                <tr>
+                    <td class='borda_inferior_centralizador_titulos'><b>Semana Epi.</b></td>
+                    <td class='borda_inferior_centralizador_titulos'><b>Data</b></td>
+                    <td class='borda_inferior_centralizador_titulos'><b>Dia Semana</b></td>
+                    <td class='borda_inferior_centralizador_titulos'><b>Servidor</b></td>
+                    <td class='borda_inferior_centralizador_titulos'><b>Bairro</b></td>
+                    <td class='borda_inferior_centralizador_titulos'><b>Quarteirão</b></td>
+                    <td class='borda_inferior_centralizador_titulos'><b>Atividade</b></td>
+                    <td class='borda_inferior_centralizador_titulos'><b>Normal</b></td>
+                    <td class='borda_inferior_centralizador_titulos'><b>Recuperado</b></td>
+                    <td class='borda_inferior_centralizador_titulos'><b>Fechado</b></td>
+                    <td class='borda_inferior_centralizador_titulos'><b>Recusado</b></td>
+                </tr>";
+
+            foreach ($dadosvigepi as $dados) {
+                $content .= "
+                <tr>
+                    <td class='borda_direita'>{$dados['semana_epi']}</td>
+                    <td class='borda_direita'>{$dados['data']}</td>
+                    <td class='borda_direita'>{$dados['dia_da_semana']}</td>
+                    <td class='borda_direita'>{$dados['agente_nome']}</td>
+                    <td class='borda_direita'>{$dados['bairro_nome']}</td>
+                    <td class='borda_direita'>{$dados['numero_quarteiroes']}</td>
+                    <td class='borda_direita'>{$dados['sigla_atividade_tipo']}</td>
+                    <td class='borda_direita'>{$dados['normal']}</td>
+                    <td class='borda_direita'>{$dados['recuperado']}</td>
+                    <td class='borda_direita'>{$dados['fechado']}</td>
+                    <td class='centralizador'>{$dados['recusado']}</td>
+                </tr>";
+            }
+
+            $content .= "
+            </table>
+            </body>
+            </html>";
+
+            // Debug the final HTML content
+            file_put_contents('app/output/debug.html', $content);
+
+            // Dompdf setup
+            $options = new \Dompdf\Options();
+            $options->setChroot(getcwd());
+            $dompdf = new \Dompdf\Dompdf($options);
+            $dompdf->loadHtml($content);
+            $dompdf->setPaper('A4', 'landscape');
+            $dompdf->render();
+
+            file_put_contents('app/output/document.pdf', $dompdf->output());
+
+            $window = TWindow::create(('Document HTML->PDF'), 0.8, 0.8);
+            $object = new TElement('object');
+            $object->data = 'app/output/document.pdf';
+            $object->type = 'application/pdf';
+            $object->style = "width: 100%; height:calc(100% - 10px)";
+            $object->add('O navegador não suporta a exibição deste conteúdo, <a style="color:#007bff;" target=_newwindow href="' . $object->data . '"> clique aqui para baixar</a>...');
+
+            $window->add($object);
+            $window->show();
+
+            TTransaction::close();
+        } catch (Exception $e) {
+            new TMessage('error', $e->getMessage());
+        }
+    }
 }
