@@ -113,6 +113,12 @@ class VigepiAgenteList extends TPage
                     				ELSE 0
                     			END
                        		) AS normal,
+                       		sum(
+                    			CASE a.tipo_visita 
+                    				WHEN 'R' THEN 1
+                    				ELSE 0
+                    			END
+                       		) AS recuperado,
 							sum(
                     			CASE a.tipo_visita 
                     				WHEN 'F' THEN 1
@@ -121,23 +127,29 @@ class VigepiAgenteList extends TPage
                        		) AS fechado,                            
 							sum(
                     			CASE a.tipo_visita 
-                    				WHEN 'R' THEN 1
-                    				ELSE 0
-                    			END
-                       		) AS recuperado,
-							sum(
-                    			CASE a.tipo_visita 
                     				WHEN 'E' THEN 1
                     				ELSE 0
                     			END
-                       		) AS recusado                         
+                       		) AS recusado,
+                       		an.larvas_outros 	AS outras_larvas,
+                       		f.analise_id 		AS focos_aedes,
+                       		sum(
+                       			case d.tratado 
+                       				when 'S' then 1
+                       				else 0
+                       			end
+                       		) as depositos_tratados              
                        FROM vigepi.atividade a
                   LEFT JOIN vigepi.programacao 					p 	ON p.id 	= a.programacao_id
                   LEFT JOIN vigepi.atividade_tipo 				ati ON ati.id 	= p.atividade_tipo_id
                   LEFT JOIN vigepi.calendario 					c 	ON c.id 	= p.calendario_id
                   LEFT JOIN vigepi.reconhecimento_geografico 	rg 	ON rg.id 	= a.rg_id
                   LEFT JOIN vigepi.bairro 						b 	ON b.id 	= rg.bairro_id 
-                  LEFT JOIN vigepi.quarteirao 					q 	ON q.id 	= rg.quarteirao_id 
+                  LEFT JOIN vigepi.quarteirao 					q 	ON q.id 	= rg.quarteirao_id
+                  LEFT JOIN vigepi.deposito						d   on d.atividade_id 	= a.id
+                  LEFT JOIN vigepi.amostra 						am 	on am.deposito_id = d.id
+                  LEFT JOIN vigepi.analise 						an 	on an.id = am.analise_id
+                  LEFT JOIN vigepi.foco 						f	on f.id  = a.foco_id
                   LEFT JOIN permission_new.system_user 			su 	ON su.id 	= a.system_user_id
                       	WHERE a.datahora_saida >='$data_inicial 00:00' and a.datahora_saida <='$data_final 23:59'
                   GROUP BY 	a.id
@@ -186,9 +198,10 @@ class VigepiAgenteList extends TPage
 
             foreach ($rows1 as $row) {
                 $data_inicial = $row['data'];
+                $dataFormatada = date('d/m/Y', strtotime($data_inicial));
                 $dadosvigepi[] = [
                     'semana_epi' => $row['semana_epi'],
-                    'data' => $row['data'],
+                    'data' => $dataFormatada,
                     'dia_da_semana' => $row['dia_da_semana'],
                     'agente_nome' => $row['agente_nome'],
                     'bairro_nome' => $row['bairro_nome'],
@@ -198,6 +211,9 @@ class VigepiAgenteList extends TPage
                     'fechado' => $row['fechado'],
                     'recuperado' => $row['recuperado'],
                     'recusado' => $row['recusado'],
+                    'outras_larvas' => $row['outras_larvas'] ?? 0,
+                    'focos_aedes' => $row['focos_aedes'] ?? 0,
+                    'depositos_tratados' => $row['depositos_tratados']
                 ];
             }
 
@@ -215,6 +231,9 @@ class VigepiAgenteList extends TPage
                     <td class='borda_inferior_centralizador_titulos'><b>Recuperado</b></td>
                     <td class='borda_inferior_centralizador_titulos'><b>Fechado</b></td>
                     <td class='borda_inferior_centralizador_titulos'><b>Recusado</b></td>
+                    <td class='borda_inferior_centralizador_titulos'><b>Outras Larvas</b></td>
+                    <td class='borda_inferior_centralizador_titulos'><b>Focos Aedes</b></td>
+                    <td class='borda_inferior_centralizador_titulos'><b>Depósito Tratados</b></td>
                 </tr>";
 
             foreach ($dadosvigepi as $dados) {
@@ -230,7 +249,10 @@ class VigepiAgenteList extends TPage
                     <td class='borda_direita'>{$dados['normal']}</td>
                     <td class='borda_direita'>{$dados['recuperado']}</td>
                     <td class='borda_direita'>{$dados['fechado']}</td>
-                    <td class='centralizador'>{$dados['recusado']}</td>
+                    <td class='borda_direita'>{$dados['recusado']}</td>
+                    <td class='borda_direita'>{$dados['outras_larvas']}</td>
+                    <td class='borda_direita'>{$dados['focos_aedes']}</td>
+                    <td class='centralizador'>{$dados['depositos_tratados']}</td>
                 </tr>";
             }
 
