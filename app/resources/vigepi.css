@@ -171,6 +171,12 @@ body {
     border-spacing: 0;
 }
 
+.borda_superior_direita_centralizador{
+    text-align: center;
+    border-top: 1px solid black;
+    border-right: 1px solid black
+}
+
 .header {
     position: fixed;
     top: 0cm;
@@ -207,6 +213,11 @@ body {
 
 .data_hora {
     text-align: right;
+}
+
+.data_hora_com_cor{
+    text-align: right;
+    color: red;
 }
 
 footer::after {

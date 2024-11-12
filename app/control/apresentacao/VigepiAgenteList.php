@@ -159,7 +159,7 @@ class VigepiAgenteList extends TPage
                   			,q.descricao
                   			,ati.sigla
                   			,a.datahora_saida
-                  ORDER BY a.datahora_entrada";
+                  ORDER BY a.datahora_saida";
 
             $rows1 = TDatabase::getData($source, $query, null, null);
 
@@ -189,7 +189,7 @@ class VigepiAgenteList extends TPage
                         </tr>
                         <tr>
                             <td>(047) 2106-8000</td>
-                            <td class="data_hora"><b>' . $data . '</b></td>
+                            <td class="data_hora_com_cor"><b>' . $data . '</b></td>
                         </tr>
                     </table>
                 </div>';
@@ -200,20 +200,20 @@ class VigepiAgenteList extends TPage
                 $data_inicial = $row['data'];
                 $dataFormatada = date('d/m/Y', strtotime($data_inicial));
                 $dadosvigepi[] = [
-                    'semana_epi' => $row['semana_epi'],
+                    'semana_epi' => $row['semana_epi'] ?? 0,
                     'data' => $dataFormatada,
                     'dia_da_semana' => $row['dia_da_semana'],
                     'agente_nome' => $row['agente_nome'],
                     'bairro_nome' => $row['bairro_nome'],
                     'numero_quarteiroes' => $row['numero_quarteiroes'],
                     'sigla_atividade_tipo' => $row['sigla_atividade_tipo'],
-                    'normal' => $row['normal'],
-                    'fechado' => $row['fechado'],
-                    'recuperado' => $row['recuperado'],
-                    'recusado' => $row['recusado'],
+                    'normal' => $row['normal'] ?? 0,
+                    'fechado' => $row['fechado'] ?? 0,
+                    'recuperado' => $row['recuperado'] ?? 0,
+                    'recusado' => $row['recusado'] ?? 0,
                     'outras_larvas' => $row['outras_larvas'] ?? 0,
                     'focos_aedes' => $row['focos_aedes'] ?? 0,
-                    'depositos_tratados' => $row['depositos_tratados']
+                    'depositos_tratados' => $row['depositos_tratados'] ?? 0
                 ];
             }
 
@@ -236,6 +236,9 @@ class VigepiAgenteList extends TPage
                     <td class='borda_inferior_centralizador_titulos'><b>Depósito Tratados</b></td>
                 </tr>";
 
+            $totalOutrasLarvas = 0;
+            $totalFocosAedes = 0;
+            $DepositosTratados = 0;
             foreach ($dadosvigepi as $dados) {
                 $content .= "
                 <tr>
@@ -254,9 +257,19 @@ class VigepiAgenteList extends TPage
                     <td class='borda_direita'>{$dados['focos_aedes']}</td>
                     <td class='centralizador'>{$dados['depositos_tratados']}</td>
                 </tr>";
+
+                $totalOutrasLarvas += $dados['outras_larvas'];
+                $totalFocosAedes += $dados['focos_aedes'];
+                $DepositosTratados += $dados['depositos_tratados'];
             }
 
             $content .= "
+            <tr>
+                    <td class='borda_superior_direita_centralizador' colspan='11'><b>Total:</b></td>
+                    <td class='borda_superior_direita_centralizador'>$totalOutrasLarvas</td>
+                    <td class='borda_superior_direita_centralizador'>$totalFocosAedes</td>
+                    <td class='borda_superior_centralizador'>$DepositosTratados</td>
+            </tr>
             </table>
             </body>
             </html>";
