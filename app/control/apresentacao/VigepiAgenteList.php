@@ -16,6 +16,7 @@ use Adianti\Widget\Form\TRadioGroup;
 use Adianti\Widget\Template\THtmlRenderer;
 use Adianti\Widget\Util\TXMLBreadCrumb;
 use Adianti\Widget\Wrapper\TDBCombo;
+use Adianti\Widget\Wrapper\TDBUniqueSearch;
 use Adianti\Wrapper\BootstrapFormBuilder;
 
 class VigepiAgenteList extends TPage
@@ -54,12 +55,14 @@ class VigepiAgenteList extends TPage
         $data_final = new TDate('data_final');
 
         $atividade_id = new TDBCombo('atividade_id', 'vigepi', 'Atividade', 'id', 'id');
+        $servidor_id = new TDBUniqueSearch('servidor_id', 'permission_new', 'Servidor', 'id', 'name');
         $pesquisa = new TRadioGroup('pesquisa');
         $output_type  = new TRadioGroup('output_type');
 
         // $this->form->addFields([new TLabel('De')], [$data_inicial]);
         $this->form->addFields([new TLabel('De')], [$data_inicial]);
         $this->form->addFields([new TLabel('Até')], [$data_final]);
+        $this->form->addFields([new TLabel('Servidor')], [$servidor_id]);
         $this->form->addFields([new TLabel('Output')],   [$output_type]);
         //$this->form->addFields([new TLabel('Id')], [$id]);
 
@@ -93,6 +96,7 @@ class VigepiAgenteList extends TPage
             $data = $this->form->getData();
             $data_inicial = $data->data_inicial;
             $data_final = $data->data_final;
+            $servidor_id = $data->servidor_id;
 
             $this->form->setData($data);
 
@@ -151,14 +155,15 @@ class VigepiAgenteList extends TPage
                   LEFT JOIN vigepi.analise 						an 	on an.id = am.analise_id
                   LEFT JOIN vigepi.foco 						f	on f.id  = a.foco_id
                   LEFT JOIN permission_new.system_user 			su 	ON su.id 	= a.system_user_id
-                      	WHERE a.datahora_saida >='$data_inicial 00:00' and a.datahora_saida <='$data_final 23:59'
-                  GROUP BY 	a.id
-                  			,c.semana
-                  			,su.name
-                  			,b.nome
-                  			,q.descricao
-                  			,ati.sigla
-                  			,a.datahora_saida
+                      	WHERE a.datahora_saida >='$data_inicial 00:00' and a.datahora_saida <='$data_final 23:59'";
+
+            //caso não seja filtrado o servidor_id ele puxa só pela data
+            if (isset($data->servidor_id) and $data->servidor_id) {
+
+                $query .= "and su.id = '$servidor_id'";
+            }
+
+            $query .= "GROUP BY su.id
                   ORDER BY a.datahora_saida";
 
             $rows1 = TDatabase::getData($source, $query, null, null);
@@ -238,7 +243,11 @@ class VigepiAgenteList extends TPage
 
             $totalOutrasLarvas = 0;
             $totalFocosAedes = 0;
-            $DepositosTratados = 0;
+            $totalDepositosTratados = 0;
+            $totalNormal = 0;
+            $totalRecuperado = 0;
+            $totalFechado = 0;
+            $totalRecusados = 0;
             foreach ($dadosvigepi as $dados) {
                 $content .= "
                 <tr>
@@ -258,20 +267,28 @@ class VigepiAgenteList extends TPage
                     <td class='centralizador'>{$dados['depositos_tratados']}</td>
                 </tr>";
 
+                $totalNormal += $dados['normal'];
+                $totalRecuperado += $dados['recuperado'];
+                $totalFechado += $dados['fechado'];
+                $totalRecusados += $dados['recusado'];
                 $totalOutrasLarvas += $dados['outras_larvas'];
                 $totalFocosAedes += $dados['focos_aedes'];
-                $DepositosTratados += $dados['depositos_tratados'];
+                $totalDepositosTratados += $dados['depositos_tratados'];
             }
 
             $content .= "
             <tr>
-                    <td class='borda_superior_direita_centralizador' colspan='11'><b>Total:</b></td>
-                    <td class='borda_superior_direita_centralizador'>$totalOutrasLarvas</td>
-                    <td class='borda_superior_direita_centralizador'>$totalFocosAedes</td>
-                    <td class='borda_superior_centralizador'>$DepositosTratados</td>
+                    <td class='borda_superior_direita_centralizador' colspan='7'><b>Total:</b></td>
+                    <td class='borda_superior_direita_centralizador'><b>$totalNormal</b></td>
+                    <td class='borda_superior_direita_centralizador'><b>$totalRecuperado</b></td>
+                    <td class='borda_superior_direita_centralizador'><b>$totalFechado</b></td>
+                    <td class='borda_superior_direita_centralizador'><b>$totalRecusados</b></td>
+                    <td class='borda_superior_direita_centralizador'><b>$totalOutrasLarvas</b></td>
+                    <td class='borda_superior_direita_centralizador'><b>$totalFocosAedes</b></td>
+                    <td class='borda_superior_centralizador'><b>$totalDepositosTratados</b></td>
             </tr>
             </table>
-            </body>
+                </body>
             </html>";
 
             // Debug the final HTML content
