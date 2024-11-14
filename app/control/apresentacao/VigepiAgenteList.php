@@ -199,12 +199,14 @@ class VigepiAgenteList extends TPage
                     </table>
                 </div>';
 
-            $dadosvigepi = [];
+            // $dadosvigepi = [];
+
+            $dados = [];
 
             foreach ($rows1 as $row) {
                 $data_inicial = $row['data'];
                 $dataFormatada = date('d/m/Y', strtotime($data_inicial));
-                $dadosvigepi[] = [
+                $dados[$data_inicial][] = [
                     'semana_epi' => $row['semana_epi'] ?? 0,
                     'data' => $dataFormatada,
                     'dia_da_semana' => $row['dia_da_semana'],
@@ -222,7 +224,8 @@ class VigepiAgenteList extends TPage
                 ];
             }
 
-            $content .= "
+            foreach ($dados as $data_inicial => $rows) {
+                $content .= "
             <table class='borda_tabela' style='width: 100%'>
                 <tr>
                     <td class='borda_inferior_centralizador_titulos'><b>Semana Epi.</b></td>
@@ -241,55 +244,69 @@ class VigepiAgenteList extends TPage
                     <td class='borda_inferior_centralizador_titulos'><b>Depósito Tratados</b></td>
                 </tr>";
 
-            $totalOutrasLarvas = 0;
-            $totalFocosAedes = 0;
-            $totalDepositosTratados = 0;
-            $totalNormal = 0;
-            $totalRecuperado = 0;
-            $totalFechado = 0;
-            $totalRecusados = 0;
-            foreach ($dadosvigepi as $dados) {
-                $content .= "
+                $totalOutrasLarvas = 0;
+                $totalFocosAedes = 0;
+                $totalDepositosTratados = 0;
+                $totalNormal = 0;
+                $totalRecuperado = 0;
+                $totalFechado = 0;
+                $totalRecusados = 0;
+                $total1 = 0;
+                $total2 = 0;
+
+                foreach ($rows as $dado) {
+                    $content .= "
                 <tr>
-                    <td class='borda_direita'>{$dados['semana_epi']}</td>
-                    <td class='borda_direita'>{$dados['data']}</td>
-                    <td class='borda_direita'>{$dados['dia_da_semana']}</td>
-                    <td class='borda_direita'>{$dados['agente_nome']}</td>
-                    <td class='borda_direita'>{$dados['bairro_nome']}</td>
-                    <td class='borda_direita'>{$dados['numero_quarteiroes']}</td>
-                    <td class='borda_direita'>{$dados['sigla_atividade_tipo']}</td>
-                    <td class='borda_direita'>{$dados['normal']}</td>
-                    <td class='borda_direita'>{$dados['recuperado']}</td>
-                    <td class='borda_direita'>{$dados['fechado']}</td>
-                    <td class='borda_direita'>{$dados['recusado']}</td>
-                    <td class='borda_direita'>{$dados['outras_larvas']}</td>
-                    <td class='borda_direita'>{$dados['focos_aedes']}</td>
-                    <td class='centralizador'>{$dados['depositos_tratados']}</td>
+                    <td class='borda_inferior_centralizador_direita'>{$dado['semana_epi']}</td>
+                    <td class='borda_inferior_centralizador_direita'>{$dado['data']}</td>
+                    <td class='borda_inferior_centralizador_direita'>{$dado['dia_da_semana']}</td>
+                    <td class='borda_inferior_centralizador_direita'>{$dado['agente_nome']}</td>
+                    <td class='borda_inferior_centralizador_direita'>{$dado['bairro_nome']}</td>
+                    <td class='borda_inferior_centralizador_direita'>{$dado['numero_quarteiroes']}</td>
+                    <td class='borda_inferior_centralizador_direita'>{$dado['sigla_atividade_tipo']}</td>
+                    <td class='borda_inferior_centralizador_direita'>{$dado['normal']}</td>
+                    <td class='borda_inferior_centralizador_direita'>{$dado['recuperado']}</td>
+                    <td class='borda_inferior_centralizador_direita'>{$dado['fechado']}</td>
+                    <td class='borda_inferior_centralizador_direita'>{$dado['recusado']}</td>
+                    <td class='borda_inferior_centralizador_direita'>{$dado['outras_larvas']}</td>
+                    <td class='borda_inferior_centralizador_direita'>{$dado['focos_aedes']}</td>
+                    <td class='borda_inferior_centralizador'>{$dado['depositos_tratados']}</td>
                 </tr>";
 
-                $totalNormal += $dados['normal'];
-                $totalRecuperado += $dados['recuperado'];
-                $totalFechado += $dados['fechado'];
-                $totalRecusados += $dados['recusado'];
-                $totalOutrasLarvas += $dados['outras_larvas'];
-                $totalFocosAedes += $dados['focos_aedes'];
-                $totalDepositosTratados += $dados['depositos_tratados'];
+                    $totalNormal += $dado['normal'];
+                    $totalRecuperado += $dado['recuperado'];
+                    $totalFechado += $dado['fechado'];
+                    $totalRecusados += $dado['recusado'];
+                    $totalOutrasLarvas += $dado['outras_larvas'];
+                    $totalFocosAedes += $dado['focos_aedes'];
+                    $totalDepositosTratados += $dado['depositos_tratados'];
+
+                    $total1 = $dado['normal'] += $dado['recuperado'];
+                    $total2 = $dado['fechado'] += $dado['recusado'];
+                }
+
+                $content .= "
+                <tr>
+                        <td class='borda_inferior_centralizador_direita' colspan='7'><b>Subtotal:</b></td>
+                        <td class='borda_inferior_centralizador_direita'><b>$totalNormal</b></td>
+                        <td class='borda_inferior_centralizador_direita'><b>$totalRecuperado</b></td>
+                        <td class='borda_inferior_centralizador_direita'><b>$totalFechado</b></td>
+                        <td class='borda_inferior_centralizador_direita'><b>$totalRecusados</b></td>
+                        <td class='borda_inferior_centralizador_direita'><b>$totalOutrasLarvas</b></td>
+                        <td class='borda_inferior_centralizador_direita'><b>$totalFocosAedes</b></td>
+                        <td class='borda_inferior_centralizador'><b>$totalDepositosTratados</b></td>
+                </tr>
+                <tr>
+                        <td class='borda_direita' colspan='7'><b>Total:</b></td>
+                        <td class='borda_direita' colspan='2'><b>$total1</b></td>
+                        <td class='borda_direita' colspan='2'><b>$total2</b></td>
+                </tr>
+                </table>
+                <br>";
             }
 
-            $content .= "
-            <tr>
-                    <td class='borda_superior_direita_centralizador' colspan='7'><b>Total:</b></td>
-                    <td class='borda_superior_direita_centralizador'><b>$totalNormal</b></td>
-                    <td class='borda_superior_direita_centralizador'><b>$totalRecuperado</b></td>
-                    <td class='borda_superior_direita_centralizador'><b>$totalFechado</b></td>
-                    <td class='borda_superior_direita_centralizador'><b>$totalRecusados</b></td>
-                    <td class='borda_superior_direita_centralizador'><b>$totalOutrasLarvas</b></td>
-                    <td class='borda_superior_direita_centralizador'><b>$totalFocosAedes</b></td>
-                    <td class='borda_superior_centralizador'><b>$totalDepositosTratados</b></td>
-            </tr>
-            </table>
-                </body>
-            </html>";
+            $content .= "</body>
+                </html>";
 
             // Debug the final HTML content
             file_put_contents('app/output/debug.html', $content);
