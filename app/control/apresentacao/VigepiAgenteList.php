@@ -177,7 +177,7 @@ class VigepiAgenteList extends TPage
             $content = '<html>
             <head>
                 <title>Agentes</title>
-                <link href="app/resources/vigepi.css" rel="stylesheet" type="text/css" media="screen"/>
+                <link href="app/resources/vigepiagentes.css" rel="stylesheet" type="text/css" media="screen"/>
             </head>
             <footer></footer>
             <body>
@@ -194,6 +194,9 @@ class VigepiAgenteList extends TPage
                         </tr>
                         <tr>
                             <td>(047) 2106-8000</td>
+                        </tr>
+                        <tr>
+                            <td><b>Relatório de produção de agentes</b></td>
                             <td class="data_hora_com_cor"><b>' . $data . '</b></td>
                         </tr>
                     </table>
@@ -281,25 +284,28 @@ class VigepiAgenteList extends TPage
                     $totalFocosAedes += $dado['focos_aedes'];
                     $totalDepositosTratados += $dado['depositos_tratados'];
 
-                    $total1 = $dado['normal'] += $dado['recuperado'];
-                    $total2 = $dado['fechado'] += $dado['recusado'];
+                    $total1 = $totalNormal + $totalRecuperado;
+                    $total2 = $totalFechado + $totalRecusados;
                 }
 
                 $content .= "
                 <tr>
                         <td class='borda_inferior_centralizador_direita' colspan='7'><b>Subtotal:</b></td>
-                        <td class='borda_inferior_centralizador_direita'><b>$totalNormal</b></td>
-                        <td class='borda_inferior_centralizador_direita'><b>$totalRecuperado</b></td>
-                        <td class='borda_inferior_centralizador_direita'><b>$totalFechado</b></td>
-                        <td class='borda_inferior_centralizador_direita'><b>$totalRecusados</b></td>
-                        <td class='borda_inferior_centralizador_direita'><b>$totalOutrasLarvas</b></td>
-                        <td class='borda_inferior_centralizador_direita'><b>$totalFocosAedes</b></td>
-                        <td class='borda_inferior_centralizador'><b>$totalDepositosTratados</b></td>
+                        <td class='borda_inferior_centralizador_direita'>$totalNormal</td>
+                        <td class='borda_inferior_centralizador_direita'>$totalRecuperado</b></td>
+                        <td class='borda_inferior_centralizador_direita'>$totalFechado</td>
+                        <td class='borda_inferior_centralizador_direita'>$totalRecusados</td>
+                        <td class='borda_inferior_centralizador_direita'>$totalOutrasLarvas</td>
+                        <td class='borda_inferior_centralizador_direita'>$totalFocosAedes</td>
+                        <td class='borda_inferior_centralizador'>$totalDepositosTratados</td>
                 </tr>
                 <tr>
                         <td class='borda_direita' colspan='7'><b>Total:</b></td>
                         <td class='borda_direita' colspan='2'><b>$total1</b></td>
                         <td class='borda_direita' colspan='2'><b>$total2</b></td>
+                        <td class='borda_direita'><b>{$dado['outras_larvas']}</b></td>
+                        <td class='borda_direita'><b>{$dado['focos_aedes']}</b></td>
+                        <td class='centralizador'><b>{$dado['depositos_tratados']}</b></td>
                 </tr>
                 </table>
                 <br>";

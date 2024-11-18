@@ -1,0 +1,246 @@
+.borda_tabela {
+    font-family: 'Arial', sans-serif;
+    font-size: 12px;
+    background: #ffffff;
+    border: 1px solid black;
+    border-spacing: 0;
+    border-radius: 1.5px;
+    margin: 0 auto;
+}
+
+.tabela_sem_borda{
+    font-family: 'Arial', sans-serif;
+    font-size: 12px;
+    background: #ffffff;
+    border-spacing: 0;
+    border-radius: 1.5px;
+    margin: 0 auto;
+}
+
+.tabela_mae {
+    font-family: 'Arial', sans-serif;
+    font-size: 12px;
+    background: #ffffff;
+    border-spacing: 0;
+    border: 1px solid black;
+    border-radius: 1.5px;
+    margin: 0 auto;
+    border-spacing: 0px;
+}
+
+.tabela_mae_sem_borda {
+    font-family: 'Arial', sans-serif;
+    font-size: 12px;
+    background: #ffffff;
+    border-spacing: 0;
+    border: none;
+    border-radius: 1.5px;
+    margin: 0 auto;
+    border-spacing: 0px;
+}
+
+.cabecalho {
+    padding: 12px;
+    border: 1px solid black;
+    font-size: 12px;
+    border-spacing: 0;
+    border-radius: 1.5px;
+}
+
+body {
+    margin-top: 3.4cm;
+    margin-bottom: 1cm;
+}
+
+.borda_superior {
+    border-top: 1px solid black;
+    border-spacing: 0;
+}
+
+.borda_superior_centralizador{
+    border-top: 1px solid black;
+    text-align: center;
+    border-spacing: 0;
+}
+
+.centralizador{
+    text-align: center;
+    padding: 2.5px;
+}
+
+.titulo_central_com_borda{
+    text-align: center;
+    padding: 2.5px;
+    border-top: 1px solid black;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+    border-spacing: 0;
+}
+
+.titulo_central_sem_borda{
+    text-align: center;
+    padding: 2.5px;
+    border-spacing: 0;
+}
+
+.borda_inferior_centralizador_titulos {
+    text-align: center;
+    padding: 2.5px;
+    border-bottom: 1px solid black;
+    border-spacing: 0px;
+}
+
+.organizar_tabela {
+    text-align: center;
+    padding: 2.5px;
+    border: 1px solid black;
+    border-spacing: 0px;
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-top: 0;
+}
+
+.tabela_dupla{
+    text-align: center;
+    padding: 2.5px;
+    border-top: 1px solid black;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+    border-spacing: 0px;
+    padding-left: 0;
+    padding-right: 0;
+    padding-bottom: 0;
+    padding-top: 0;
+}
+
+.borda_inferior_centralizador {
+    text-align: center;
+    padding: 1.5px;
+    border-bottom: 1px solid black;
+    border-spacing: 0px;
+}
+
+.borda_inferior_centralizador_esquerda {
+    text-align: center;
+    padding: 1.5px;
+    border-bottom: 1px solid black;
+    border-left: 1px solid black;
+    border-spacing: 0px;
+}
+.borda_inferior_centralizador_direita {
+    text-align: center;
+    padding: 1.5px;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+    border-spacing: 0px;
+}
+
+.borda_varios_valores{
+    text-align: center;
+    padding: 2.5px;
+    border-bottom: 1px solid black;
+    border-right: 1px solid black;
+}
+
+.borda_esquerda_direita{
+    text-align: center;
+    padding: 2.5px;
+    border-left: 1px solid black;
+    border-right: 1px solid black;
+}
+
+.borda_esquerda{
+    text-align: center;
+    padding: 2.5px;
+    border-left: 1px solid black;
+}
+
+.borda_inferior_e_direita_centralizador{
+    text-align: center;
+    padding: 2px;
+    border-right: 1px solid black;
+    border-bottom: 1px solid black;
+    border-spacing: 0;
+}
+
+.borda_direita {
+    border-right: 1px solid black;
+    padding: 2.5px;
+    text-align: center;
+    border-spacing: 0;
+}
+
+.borda_superior_direita_centralizador{
+    text-align: center;
+    border-top: 1px solid black;
+    border-right: 1px solid black
+}
+
+.header {
+    position: fixed;
+    top: 0cm;
+    width: 100%;
+    height: 2.8cm;
+    background-color: #ffffff;
+}
+
+.centralizador_com_borda {
+    border-top: 1px solid black;
+    text-align: center;
+    border-right: 1px solid black;
+    padding-left: 5px;
+    border-spacing: 0;
+}
+
+.centralizar {
+    text-align: center;
+    padding-left: 5px;
+}
+
+.cor_programacao {
+    color: red;
+    text-align: right;
+    font-weight: bold;
+}
+
+.status {
+    padding-left: 5px;
+    text-align: center;
+    border-bottom: 1px solid black;
+    border-spacing: 0;
+}
+
+.data_hora {
+    text-align: right;
+}
+
+.data_hora_com_cor{
+    text-align: right;
+    color: red;
+}
+
+footer::after {
+    content: "Página " counter(page);
+}
+
+footer {
+    position: fixed;
+    bottom: 0cm;
+    left: 0cm;
+    right: 0cm;
+    text-align: right;
+    width: 100%;
+    border-top: 1px solid #000000;
+    margin-bottom: -10px;
+    padding: 3.5px;
+    font-size: 12px;
+    border-spacing: 0;
+}
+
+@page {
+    font-family: Arial, Helvetica, sans-serif;
+    size: A4 landscape;
+    margin: 1cm 1cm 1cm;
+    counter-increment: page;
+}
