@@ -163,7 +163,7 @@ class VigepiAgenteList extends TPage
                 $query .= "and su.id = '$servidor_id'";
             }
 
-            $query .= "GROUP BY su.id
+            $query .= "GROUP BY DATE(a.datahora_saida),su.id
                   ORDER BY a.datahora_saida";
 
             $rows1 = TDatabase::getData($source, $query, null, null);
