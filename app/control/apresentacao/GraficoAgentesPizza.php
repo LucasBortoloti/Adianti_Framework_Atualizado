@@ -15,7 +15,7 @@ use Adianti\Widget\Wrapper\TDBCombo;
 use Adianti\Widget\Wrapper\TDBUniqueSearch;
 use Adianti\Wrapper\BootstrapFormBuilder;
 
-class GraficoMetasAgentes extends TPage
+class GraficoAgentesPizza extends TPage
 {
     protected $form;     // registration form
     protected $datagrid; // listing
@@ -44,7 +44,7 @@ class GraficoMetasAgentes extends TPage
         });
 
         $this->form = new BootstrapFormBuilder('form_search_Atividade');
-        $this->form->setFormTitle(('Gráfico Agentes'));
+        $this->form->setFormTitle(('Gráfico de Pizza Agentes'));
 
         // $id = new TEntry('id');
         $data_inicial = new TDate('data_inicial');
@@ -52,6 +52,7 @@ class GraficoMetasAgentes extends TPage
 
         $atividade_id = new TDBCombo('atividade_id', 'vigepi', 'MetaAgentesView', 'id', 'id');
         $servidor_id = new TDBUniqueSearch('servidor_id', 'vigepi', 'MetaAgentesView', 'agente_id', 'agente_nome');
+        $agravo_id = new TDBCombo('agravo_id', 'vigepi', 'Agravo', 'id', 'descricao');
         $pesquisa = new TRadioGroup('pesquisa');
         $output_type  = new TRadioGroup('output_type');
 
@@ -59,6 +60,7 @@ class GraficoMetasAgentes extends TPage
         $this->form->addFields([new TLabel('De')], [$data_inicial]);
         $this->form->addFields([new TLabel('Até')], [$data_final]);
         $this->form->addFields([new TLabel('Servidor')], [$servidor_id]);
+        $this->form->addFields([new TLabel('Agravo')], [$agravo_id]);
         //$this->form->addFields([new TLabel('Id')], [$id]);
 
         $pesquisa->setUseButton();
@@ -81,12 +83,13 @@ class GraficoMetasAgentes extends TPage
 
     function onGenerate()
     {
-        $html = new THtmlRenderer('app/resources/google_column_chart.html');
+        $html = new THtmlRenderer('app/resources/google_pie_chart.html');
 
         $data = $this->form->getData();
         $data_inicial = $data->data_inicial;
         $data_final = $data->data_final;
         $servidor_id = $data->servidor_id;
+        $agravo_id = $data->agravo_id;
 
         // echo "<pre>";
         // print_r($data);
@@ -109,16 +112,34 @@ class GraficoMetasAgentes extends TPage
         }
 
         $metas = MetaAgentesView::getObjects($criteria);
+        // $descAgravo = Agravo::
+        // continuar
 
-        $dados = [['Nome', 'Normal/Recuperado', 'Meta']];
+
+        // echo "<pre>";
+        // var_dump($metas);
+        // echo "</pre>";
+
+        $atingidas = 0;
+        $nao_atingidas = 0;
 
         foreach ($metas as $meta) {
-            $dados[] = [
-                $meta->agente_nome . ' (' . TDate::convertToMask($meta->dia, 'yyyy-mm-dd', 'dd/mm/yyyy') . ')',
-                (float)$meta->normal_ou_recuperado,
-                (float)$meta->meta_diaria
-            ];
+            if ($meta->atingiu_meta_diaria === 'S') {
+                $atingidas++;
+            } else if ($meta->atingiu_meta_diaria === 'N') {
+                $nao_atingidas++;
+            }
         }
+
+        $dados = [
+            ['Status', 'Quantidade'],
+            ['Atingidas', $atingidas],
+            ['Não Atingidas', $nao_atingidas]
+        ];
+
+        // echo "<pre>";
+        // print_r($dados);
+        // echo "<pre>";
 
         $div = new TElement('div');
         $div->id = 'container';
@@ -129,8 +150,8 @@ class GraficoMetasAgentes extends TPage
             'data' => json_encode($dados),
             'width' => '100%',
             'height' => '1000px',
-            'xtitle' => 'Agente',
-            'ytitle' => 'Normal/Recuperado',
+            'xtitle' => 'Meta',
+            'ytitle' => 'Atingido/Não Atingido',
             'title' => 'Metas dos Agentes'
         ]);
 

@@ -158,6 +158,10 @@
                 <icon>fas:database fa-fw</icon>
                 <action>GraficoMetasAgentes</action>
               </menuitem>
+              <menuitem label='Gráfico de Pizza Agentes'>
+                <icon>fas:database fa-fw</icon>
+                <action>GraficoAgentesPizza</action>
+              </menuitem>
               <menuitem label='Gráficos Sinistro'>
                 <icon>fas:table fa-fw</icon>
                 <action>GraficoSinistro</action>
