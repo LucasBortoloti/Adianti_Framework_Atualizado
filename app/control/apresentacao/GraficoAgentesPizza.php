@@ -110,11 +110,12 @@ class GraficoAgentesPizza extends TPage
         if ($servidor_id) {
             $criteria->add(new TFilter('agente_id', '=', $servidor_id));
         }
+        // if ($servidor_id) {
+        //     $criteria->add(new TFilter('agravo_id', '=', $agravo_id));
+        // }
 
         $metas = MetaAgentesView::getObjects($criteria);
-        // $descAgravo = Agravo::
-        // continuar
-
+        // $Agravo = Agravo::getObjects($criteria);
 
         // echo "<pre>";
         // var_dump($metas);

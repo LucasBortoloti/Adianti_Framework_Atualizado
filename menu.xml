@@ -146,13 +146,17 @@
                 <icon>fas:database fa-fw</icon>
                 <action>SinistroList</action>
               </menuitem>
-              <menuitem label='VigepiList'>
+              <menuitem label='Vigepi PDF'>
                 <icon>fas:database fa-fw</icon>
                 <action>VigepiList</action>
               </menuitem>
-              <menuitem label='VigepiAgenteList'>
+              <menuitem label='VigepiAgente PDF'>
                 <icon>fas:database fa-fw</icon>
                 <action>VigepiAgenteList</action>
+              </menuitem>
+              <menuitem label='MetaAgentesViewListComplete'>
+                <icon>fas:database fa-fw</icon>
+                <action>MetaAgentesViewListComplete</action>
               </menuitem>
               <menuitem label='Gráfico Meta Agentes'>
                 <icon>fas:database fa-fw</icon>
