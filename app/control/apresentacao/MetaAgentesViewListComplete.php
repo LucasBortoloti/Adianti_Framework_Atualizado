@@ -8,6 +8,7 @@ use Adianti\Database\TFilter;
 use Adianti\Database\TRepository;
 use Adianti\Database\TTransaction;
 use Adianti\Registry\TSession;
+use Adianti\Widget\Base\TElement;
 use Adianti\Widget\Container\TPanelGroup;
 use Adianti\Widget\Container\TVBox;
 use Adianti\Widget\Datagrid\TDataGrid;
@@ -19,6 +20,8 @@ use Adianti\Widget\Dialog\TQuestion;
 use Adianti\Widget\Form\TDate;
 use Adianti\Widget\Form\TEntry;
 use Adianti\Widget\Form\TLabel;
+use Adianti\Widget\Form\TRadioGroup;
+use Adianti\Widget\Template\THtmlRenderer;
 use Adianti\Widget\Wrapper\TDBCombo;
 use Adianti\Widget\Wrapper\TDBUniqueSearch;
 use Adianti\Wrapper\BootstrapDatagridWrapper;
@@ -50,13 +53,11 @@ class MetaAgentesViewListComplete extends TPage
         $this->form = new BootstrapFormBuilder('form_search_MetaAgentesView');
         $this->form->setFormTitle('MetaAgentesView');
 
-
         $data_inicial = new TDate('data_inicial');
         $data_final = new TDate('data_final');
         $agente_id = new TDBUniqueSearch('agente_id', 'vigepi', 'MetaAgentesView', 'agente_id', 'agente_nome');
         $agravo_id = new TDBCombo('agravo_id', 'vigepi', 'Agravo', 'id', 'descricao');
-        $atingiu_meta_diaria = new TEntry('atingiu_meta_diaria');
-
+        $atingiu_meta_diaria = new TRadioGroup('atingiu_meta_diaria');
 
         // add the fields 
         $this->form->addFields([new TLabel('De')], [$data_inicial]);
@@ -64,6 +65,11 @@ class MetaAgentesViewListComplete extends TPage
         $this->form->addFields([new TLabel('Agente')], [$agente_id]);
         $this->form->addFields([new TLabel('Agravo')], [$agravo_id]);
         $this->form->addFields([new TLabel('Atingiu Meta')], [$atingiu_meta_diaria]);
+
+        $atingiu_meta_diaria->setUseButton();
+        $options = ['S' => 'Sim', 'N' => 'Não', '' => 'Sim/Não'];
+        $atingiu_meta_diaria->addItems($options);
+        $atingiu_meta_diaria->setLayout('horizontal');
 
         // keep the form filled during navigation with session data
         $this->form->setData(TSession::getValue(__CLASS__ . '_filter_data'));
@@ -79,7 +85,6 @@ class MetaAgentesViewListComplete extends TPage
         $this->datagrid->datatable = 'true';
         // $this->datagrid->enablePopover('Popover', 'Hi <b> {name} </b>');
 
-
         // creates the datagrid columns 
         $column_id = new TDataGridColumn('id', 'Id', 'left');
         $column_agravo_id = new TDataGridColumn('agravo_id', 'Agravo Id', 'center');
@@ -92,7 +97,6 @@ class MetaAgentesViewListComplete extends TPage
         $column_normal_ou_recuperado = new TDataGridColumn('normal_ou_recuperado', 'Normal ou Recuperado', 'center');
         $column_meta_diaria = new TDataGridColumn('meta_diaria', 'Meta Diária', 'center');
         $column_atingiu_meta_diaria = new TDataGridColumn('atingiu_meta_diaria', 'Atingiu Meta Diária', 'center');
-
 
         // add the columns to the DataGrid 
         $this->datagrid->addColumn($column_id);
@@ -107,11 +111,11 @@ class MetaAgentesViewListComplete extends TPage
         $this->datagrid->addColumn($column_meta_diaria);
         $this->datagrid->addColumn($column_atingiu_meta_diaria);
 
-        $action1 = new TDataGridAction(['MetaAgentesViewForm', 'onEdit'], ['id' => '{$id}']);
-        $action2 = new TDataGridAction([$this, 'onDelete'], ['id' => '{$id}']);
+        $action1 = new TDataGridAction(['MetaAgentesViewForm', 'onEdit'], ['id' => '{id}']);
+        $action2 = new TDataGridAction([$this, 'onDelete'], ['id' => '{id}']);
 
-        $this->datagrid->addAction($action1, _t('Edit'),   'far:edit blue');
-        $this->datagrid->addAction($action2, _t('Delete'), 'far:trash-alt red');
+        // $this->datagrid->addAction($action1, _t('Edit'),   'far:edit blue');
+        // $this->datagrid->addAction($action2, _t('Delete'), 'far:trash-alt red');
 
         // create the datagrid model
         $this->datagrid->createModel();
@@ -127,7 +131,6 @@ class MetaAgentesViewListComplete extends TPage
         // $container->add(new TXMLBreadCrumb('menu.xml', __CLASS__));
         $container->add($this->form);
         $container->add(TPanelGroup::pack('', $this->datagrid, $this->pageNavigation));
-
 
         parent::add($container);
     }
@@ -200,12 +203,12 @@ class MetaAgentesViewListComplete extends TPage
         }
 
         if (isset($data->data_inicial) and ($data->data_inicial)) {
-            $filter = new TFilter('dia', '<=', "{$data->data_inicial}");
+            $filter = new TFilter('dia', '>=', "{$data->data_inicial}");
             TSession::setValue('MetaAgentesViewList_filter_data_inicial', $filter);
         }
 
         if (isset($data->data_final) and ($data->data_final)) {
-            $filter = new TFilter('dia', '>=', "{$data->data_final}");
+            $filter = new TFilter('dia', '<=', "{$data->data_final}");
             TSession::setValue('MetaAgentesViewList_filter_data_final', $filter);
         }
 
@@ -244,8 +247,6 @@ class MetaAgentesViewListComplete extends TPage
             TSession::setValue('MetaAgentesViewList_filter_atingiu_meta_diaria', $filter);
         }
 
-
-
         // fill the form with data again
         $this->form->setData($data);
 
@@ -269,18 +270,17 @@ class MetaAgentesViewListComplete extends TPage
 
             // creates a repository for MetaAgentesView
             $repository = new TRepository('MetaAgentesView');
-            $limit = 10;
+            $limit = 20;
             // creates a criteria
             $criteria = new TCriteria;
 
             // default order
             if (empty($param['order'])) {
-                $param['order'] = '';
+                $param['order'] = 'id';
                 $param['direction'] = 'asc';
             }
             $criteria->setProperties($param); // order, offset
             $criteria->setProperty('limit', $limit);
-
 
             // add the session filters 
             if (TSession::getValue('MetaAgentesViewList_filter_id')) {
@@ -331,10 +331,52 @@ class MetaAgentesViewListComplete extends TPage
                 $criteria->add(TSession::getValue('MetaAgentesViewList_filter_atingiu_meta_diaria'));
             }
 
+            $html = new THtmlRenderer('app/resources/google_pie_chart.html');
 
-
-            // load the objects according to criteria
+            //daqui ele pega os dados para imprimir no gráfico
             $objects = $repository->load($criteria, FALSE);
+
+            // Variáveis para contagem
+            $atingidas = 0;
+            $nao_atingidas = 0;
+
+            foreach ($objects as $meta) {
+                if ($meta->atingiu_meta_diaria === 'S') {
+                    $atingidas++;
+                } elseif ($meta->atingiu_meta_diaria === 'N') {
+                    $nao_atingidas++;
+                }
+            }
+
+            // Dados do gráfico
+            $dados = [
+                ['Status', 'Quantidade'],
+                ['Atingidas', $atingidas],
+                ['Não Atingidas', $nao_atingidas]
+            ];
+
+            // Carregar o renderer HTML
+            $div = new TElement('div');
+            $div->id = 'container';
+            $div->style = 'width:1500px;height:1150px';
+            $div->add($html);
+
+            $html->enableSection('main', [
+                'data' => json_encode($dados),
+                'width' => '100%',
+                'height' => '1000px',
+                'xtitle' => 'Meta',
+                'ytitle' => 'Atingido/Não Atingido',
+                'title' => 'Metas dos Agentes'
+            ]);
+
+            // Adicionando o gráfico ao container
+            $container = new TVBox;
+            $container->style = 'width: 100%';
+            $container->add($div);
+
+            parent::add($container); // Adicionando o gráfico
+
 
             if (is_callable($this->transformCallback)) {
                 call_user_func($this->transformCallback, $objects, $param);

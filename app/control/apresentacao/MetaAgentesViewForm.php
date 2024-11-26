@@ -1,6 +1,10 @@
 <?php
 
+use Adianti\Control\TAction;
 use Adianti\Control\TPage;
+use Adianti\Widget\Container\TVBox;
+use Adianti\Widget\Form\TEntry;
+use Adianti\Widget\Form\TLabel;
 use Adianti\Wrapper\BootstrapFormBuilder;
 
 /**
@@ -22,14 +26,12 @@ class MetaAgentesViewForm extends TPage
 
         parent::__construct();
 
-
         $this->setDatabase('vigepi');              // defines the database
         $this->setActiveRecord('MetaAgentesView');     // defines the active record
 
         // creates the form
         $this->form = new BootstrapFormBuilder('form_MetaAgentesView');
         $this->form->setFormTitle('MetaAgentesView');
-
 
         // create the form fields 
         $id = new TEntry('id');
@@ -44,31 +46,26 @@ class MetaAgentesViewForm extends TPage
         $meta_diaria = new TEntry('meta_diaria');
         $atingiu_meta_diaria = new TEntry('atingiu_meta_diaria');
 
-
         // add the fields 
-        $this->form->addFields([new TLabel('id')], [$id]);
-        $this->form->addFields([new TLabel('agravo_id')], [$agravo_id]);
-        $this->form->addFields([new TLabel('atividade_tipo_id')], [$atividade_tipo_id]);
-        $this->form->addFields([new TLabel('dia')], [$dia]);
-        $this->form->addFields([new TLabel('agente_id')], [$agente_id]);
-        $this->form->addFields([new TLabel('agente_login')], [$agente_login]);
-        $this->form->addFields([new TLabel('agente_nome')], [$agente_nome]);
-        $this->form->addFields([new TLabel('atividade')], [$atividade]);
-        $this->form->addFields([new TLabel('normal_ou_recuperado')], [$normal_ou_recuperado]);
-        $this->form->addFields([new TLabel('meta_diaria')], [$meta_diaria]);
-        $this->form->addFields([new TLabel('atingiu_meta_diaria')], [$atingiu_meta_diaria]);
-
-
+        $this->form->addFields([new TLabel('Id')], [$id]);
+        $this->form->addFields([new TLabel('Agravo Id')], [$agravo_id]);
+        $this->form->addFields([new TLabel('Atividade Tipo')], [$atividade_tipo_id]);
+        $this->form->addFields([new TLabel('Data')], [$dia]);
+        $this->form->addFields([new TLabel('Agente Id')], [$agente_id]);
+        $this->form->addFields([new TLabel('Agente Login')], [$agente_login]);
+        $this->form->addFields([new TLabel('Agente Nome')], [$agente_nome]);
+        $this->form->addFields([new TLabel('Atividade')], [$atividade]);
+        $this->form->addFields([new TLabel('Normal ou Recuperado')], [$normal_ou_recuperado]);
+        $this->form->addFields([new TLabel('Meta Diária')], [$meta_diaria]);
+        $this->form->addFields([new TLabel('Atingiu Meta Diária')], [$atingiu_meta_diaria]);
 
         // if (!empty($))
         // {
         //     $->setEditable(FALSE);
         // }
 
-
         // $fieldX->addValidation( 'Field X', new TRequiredValidator ); // add validation
         // $fieldX->setSize( '100%' ); // set size
-
 
         // create the form actions
         $btn = $this->form->addAction(_t('Save'), new TAction([$this, 'onSave']), 'fa:save');
@@ -80,7 +77,6 @@ class MetaAgentesViewForm extends TPage
         $container->style = 'width: 100%';
         // $container->add(new TXMLBreadCrumb('menu.xml', __CLASS__));
         $container->add($this->form);
-
 
         parent::add($container);
     }
