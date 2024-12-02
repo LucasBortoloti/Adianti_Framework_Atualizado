@@ -358,7 +358,7 @@ class MetaAgentesViewListComplete extends TPage
             // Carregar o renderer HTML
             $div = new TElement('div');
             $div->id = 'container';
-            $div->style = 'width:1500px;height:1150px';
+            $div->style = 'width:1552px;height:1250px;';
             $div->add($html);
 
             $html->enableSection('main', [
@@ -370,13 +370,46 @@ class MetaAgentesViewListComplete extends TPage
                 'title' => 'Metas dos Agentes'
             ]);
 
+            $html2 = new THtmlRenderer('app/resources/google_column_chart.html');
+
+            $metas = $repository->load($criteria, FALSE);
+
+            $dados = [['Nome', 'Normal/Recuperado', 'Meta']];
+
+            foreach ($metas as $meta) {
+                $dados[] = [
+                    $meta->agente_nome . ' (' . TDate::convertToMask($meta->dia, 'yyyy-mm-dd', 'dd/mm/yyyy') . ')',
+                    (float)$meta->normal_ou_recuperado,
+                    (float)$meta->meta_diaria
+                ];
+            }
+
+            $div2 = new TElement('div');
+            $div2->id = 'container';
+            $div2->style = 'width:1552px;height:1250px';
+            $div2->add($html2);
+
+            $html2->enableSection('main', [
+                'data' => json_encode($dados),
+                'width' => '100%',
+                'height' => '1000px',
+                'xtitle' => 'Agente',
+                'ytitle' => 'Normal/Recuperado',
+                'title' => 'Metas dos Agentes'
+            ]);
+
             // Adicionando o gráfico ao container
             $container = new TVBox;
             $container->style = 'width: 100%';
             $container->add($div);
 
-            parent::add($container); // Adicionando o gráfico
+            $container2 = new TVBox;
+            $container2->style = 'width: 100%';
+            $container2->add($div2);
 
+            parent::add($container); // Adiciona o gráfico
+
+            parent::add($container2); // Adiciona o segundo gráfico
 
             if (is_callable($this->transformCallback)) {
                 call_user_func($this->transformCallback, $objects, $param);
