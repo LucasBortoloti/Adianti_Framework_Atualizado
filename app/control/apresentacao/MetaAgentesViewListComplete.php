@@ -336,7 +336,6 @@ class MetaAgentesViewListComplete extends TPage
             //daqui ele pega os dados para imprimir no gráfico
             $objects = $repository->load($criteria, FALSE);
 
-            // Variáveis para contagem
             $atingidas = 0;
             $nao_atingidas = 0;
 
@@ -355,10 +354,9 @@ class MetaAgentesViewListComplete extends TPage
                 ['Não Atingidas', $nao_atingidas]
             ];
 
-            // Carregar o renderer HTML
             $div = new TElement('div');
             $div->id = 'container';
-            $div->style = 'width:1552px;height:1250px;';
+            $div->style = 'width:1553px;height:1030px;';
             $div->add($html);
 
             $html->enableSection('main', [
@@ -369,6 +367,13 @@ class MetaAgentesViewListComplete extends TPage
                 'ytitle' => 'Atingido/Não Atingido',
                 'title' => 'Metas dos Agentes'
             ]);
+
+            // Adicionando o gráfico ao container
+            $container = new TVBox;
+            $container->style = 'width: 100%';
+            $container->add($div);
+
+            parent::add($container); // Adiciona o gráfico
 
             $html2 = new THtmlRenderer('app/resources/google_column_chart.html');
 
@@ -386,7 +391,7 @@ class MetaAgentesViewListComplete extends TPage
 
             $div2 = new TElement('div');
             $div2->id = 'container';
-            $div2->style = 'width:1552px;height:1250px';
+            $div2->style = 'width:1553px;height:1250px;';
             $div2->add($html2);
 
             $html2->enableSection('main', [
@@ -398,16 +403,9 @@ class MetaAgentesViewListComplete extends TPage
                 'title' => 'Metas dos Agentes'
             ]);
 
-            // Adicionando o gráfico ao container
-            $container = new TVBox;
-            $container->style = 'width: 100%';
-            $container->add($div);
-
             $container2 = new TVBox;
             $container2->style = 'width: 100%';
             $container2->add($div2);
-
-            parent::add($container); // Adiciona o gráfico
 
             parent::add($container2); // Adiciona o segundo gráfico
 
