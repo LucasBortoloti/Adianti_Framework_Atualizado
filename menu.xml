@@ -154,9 +154,13 @@
                 <icon>fas:database fa-fw</icon>
                 <action>VigepiAgenteList</action>
               </menuitem>
-              <menuitem label='Meta Agentes com Grafico'>
+              <menuitem label='Meta Agentes List com Grafico'>
                 <icon>fas:database fa-fw</icon>
                 <action>MetaAgentesViewListComplete</action>
+              </menuitem>
+              <menuitem label='Meta Agentes Dashboard'>
+                <icon>fas:database fa-fw</icon>
+                <action>MetaAgentesDashboard</action>
               </menuitem>
               <menuitem label='Gráfico Meta Agentes'>
                 <icon>fas:database fa-fw</icon>

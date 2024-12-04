@@ -31,7 +31,7 @@ use Adianti\Wrapper\BootstrapFormBuilder;
  * MetaAgentesViewList Listing
  * @author Lucas Bortoloti <bortoloti91@gmail.com
  */
-class MetaAgentesViewListComplete extends TPage
+class MetaAgentesDashboard extends TPage
 {
     private $form; // form
     private $datagrid; // listing
@@ -40,10 +40,6 @@ class MetaAgentesViewListComplete extends TPage
     private $loaded;
     private $deleteButton;
 
-    /**
-     * Class constructor
-     * Creates the page, the form and the listing
-     */
     public function __construct()
     {
 
@@ -51,7 +47,7 @@ class MetaAgentesViewListComplete extends TPage
 
         // creates the form
         $this->form = new BootstrapFormBuilder('form_search_MetaAgentesView');
-        $this->form->setFormTitle('MetaAgentesViewListComplete');
+        $this->form->setFormTitle('MetaAgentesDashboard');
 
         $data_inicial = new TDate('data_inicial');
         $data_final = new TDate('data_final');
@@ -77,97 +73,10 @@ class MetaAgentesViewListComplete extends TPage
         // add the search form actions
         $btn = $this->form->addAction(_t('Find'), new TAction([$this, 'onSearch']), 'fa:search');
         $btn->class = 'btn btn-sm btn-primary';
-        $this->form->addActionLink(_t('New'), new TAction(['MetaAgentesViewForm', 'onEdit']), 'fa:plus green');
 
-        // creates a Datagrid
-        $this->datagrid = new BootstrapDatagridWrapper(new TDataGrid);
-        $this->datagrid->style = 'width: 100%';
-        $this->datagrid->datatable = 'true';
-        // $this->datagrid->enablePopover('Popover', 'Hi <b> {name} </b>');
-
-        // creates the datagrid columns 
-        $column_id = new TDataGridColumn('id', 'Id', 'left');
-        $column_agravo_id = new TDataGridColumn('agravo_id', 'Agravo Id', 'center');
-        $column_atividade_tipo_id = new TDataGridColumn('atividade_tipo_id', 'Atividade Tipo', 'center');
-        $column_dia = new TDataGridColumn('dia', 'Data', 'center');
-        $column_agente_id = new TDataGridColumn('agente_id', 'Agente Id', 'center');
-        $column_agente_login = new TDataGridColumn('agente_login', 'Agente Login', 'center');
-        $column_agente_nome = new TDataGridColumn('agente_nome', 'Agente Nome', 'center');
-        $column_atividade = new TDataGridColumn('atividade', 'Atividade', 'center');
-        $column_normal_ou_recuperado = new TDataGridColumn('normal_ou_recuperado', 'Normal ou Recuperado', 'center');
-        $column_meta_diaria = new TDataGridColumn('meta_diaria', 'Meta Diária', 'center');
-        $column_atingiu_meta_diaria = new TDataGridColumn('atingiu_meta_diaria', 'Atingiu Meta Diária', 'center');
-
-        // add the columns to the DataGrid 
-        $this->datagrid->addColumn($column_id);
-        $this->datagrid->addColumn($column_agravo_id);
-        $this->datagrid->addColumn($column_atividade_tipo_id);
-        $this->datagrid->addColumn($column_dia);
-        $this->datagrid->addColumn($column_agente_id);
-        $this->datagrid->addColumn($column_agente_login);
-        $this->datagrid->addColumn($column_agente_nome);
-        $this->datagrid->addColumn($column_atividade);
-        $this->datagrid->addColumn($column_normal_ou_recuperado);
-        $this->datagrid->addColumn($column_meta_diaria);
-        $this->datagrid->addColumn($column_atingiu_meta_diaria);
-
-        $action1 = new TDataGridAction(['MetaAgentesViewForm', 'onEdit'], ['id' => '{id}']);
-        $action2 = new TDataGridAction([$this, 'onDelete'], ['id' => '{id}']);
-
-        // $this->datagrid->addAction($action1, _t('Edit'),   'far:edit blue');
-        // $this->datagrid->addAction($action2, _t('Delete'), 'far:trash-alt red');
-
-        // create the datagrid model
-        $this->datagrid->createModel();
-
-        // creates the page navigation
-        $this->pageNavigation = new TPageNavigation;
-        $this->pageNavigation->setAction(new TAction([$this, 'onReload']));
-        $this->pageNavigation->setWidth($this->datagrid->getWidth());
-
-        // vertical box container
-        $container = new TVBox;
-        $container->style = 'width: 100%';
-        // $container->add(new TXMLBreadCrumb('menu.xml', __CLASS__));
-        $container->add($this->form);
-        $container->add(TPanelGroup::pack('', $this->datagrid, $this->pageNavigation));
-
-        parent::add($container);
+        parent::add($this->form);
     }
 
-    /**
-     * Inline record editing
-     * @param $param Array containing:
-     *              key: object ID value
-     *              field name: object attribute to be updated
-     *              value: new attribute content 
-     */
-    public function onInlineEdit($param)
-    {
-        try {
-            // get the parameter $key
-            $field = $param['field'];
-            $key   = $param['key'];
-            $value = $param['value'];
-
-            TTransaction::open('vigepi'); // open a transaction with database
-            $object = new MetaAgentesView($key); // instantiates the Active Record
-            $object->{$field} = $value;
-            $object->store(); // update the object in the database
-            TTransaction::close(); // close the transaction
-
-            $this->onReload($param); // reload the listing
-            new TMessage('info', "Record Updated");
-        } catch (Exception $e) // in case of exception
-        {
-            new TMessage('error', $e->getMessage()); // shows the exception error message
-            TTransaction::rollback(); // undo all pending operations
-        }
-    }
-
-    /**
-     * Register the filter in the session
-     */
     public function onSearch()
     {
         // get the search form data
@@ -259,9 +168,6 @@ class MetaAgentesViewListComplete extends TPage
         $this->onReload($param);
     }
 
-    /**
-     * Load the datagrid with data
-     */
     public function onReload($param = NULL)
     {
         try {
@@ -356,7 +262,7 @@ class MetaAgentesViewListComplete extends TPage
 
             $div = new TElement('div');
             $div->id = 'container';
-            $div->style = 'width:1553px;height:1030px;';
+            $div->style = 'width:1200px;height:1030px;';
             $div->add($html);
 
             $html->enableSection('main', [
@@ -375,7 +281,7 @@ class MetaAgentesViewListComplete extends TPage
 
             parent::add($container); // Adiciona o gráfico
 
-            $html2 = new THtmlRenderer('app/resources/google_column_chart.html');
+            $html2 = new THtmlRenderer('app/resources/google_bar_chart.html');
 
             $metas = $repository->load($criteria, FALSE);
 
@@ -391,7 +297,7 @@ class MetaAgentesViewListComplete extends TPage
 
             $div2 = new TElement('div');
             $div2->id = 'container';
-            $div2->style = 'width:1553px;height:1250px;';
+            $div2->style = 'width:1200px;height:1030px;';
             $div2->add($html2);
 
             $html2->enableSection('main', [
@@ -409,26 +315,47 @@ class MetaAgentesViewListComplete extends TPage
 
             parent::add($container2); // Adiciona o segundo gráfico
 
+            // $html3 = new THtmlRenderer('app/resources/google_column_chart.html');
+
+            // $infos = $repository->load($criteria, FALSE);
+
+            // $dados = [['Nome', 'Normal/Recuperado', 'Meta']];
+
+            // foreach ($infos as $info) {
+            //     $dados[] = [
+            //         $info->agente_nome . ' (' . TDate::convertToMask($info->dia, 'yyyy-mm-dd', 'dd/mm/yyyy') . ')',
+            //         (float)$info->normal_ou_recuperado,
+            //         (float)$info->meta_diaria
+            //     ];
+            // }
+
+            // $div3 = new TElement('div');
+            // $div3->id = 'container';
+            // $div3->style = 'width:1200px;height:1250px;';
+            // $div3->add($html3);
+
+            // $html3->enableSection('main', [
+            //     'data' => json_encode($dados),
+            //     'width' => '100%',
+            //     'height' => '1000px',
+            //     'title' => 'Metas dos Agentes',
+            //     'xtitle' => 'Agente',
+            //     'ytitle' => 'Normal/Recuperado'
+            // ]);
+
+            // $container3 = new TVBox;
+            // $container3->style = 'width: 100%';
+            // $container3->add($div3);
+
+            // parent::add($container3); // Adiciona o segundo gráfico
+
             if (is_callable($this->transformCallback)) {
                 call_user_func($this->transformCallback, $objects, $param);
-            }
-
-            $this->datagrid->clear();
-            if ($objects) {
-                // iterate the collection of active records
-                foreach ($objects as $object) {
-                    // add the object inside the datagrid
-                    $this->datagrid->addItem($object);
-                }
             }
 
             // reset the criteria for record count
             $criteria->resetProperties();
             $count = $repository->count($criteria);
-
-            $this->pageNavigation->setCount($count); // count of records
-            $this->pageNavigation->setProperties($param); // order, page
-            $this->pageNavigation->setLimit($limit); // limit
 
             // close the transaction
             TTransaction::close();
@@ -439,44 +366,6 @@ class MetaAgentesViewListComplete extends TPage
         }
     }
 
-    /**
-     * Ask before deletion
-     */
-    public static function onDelete($param)
-    {
-        // define the delete action
-        $action = new TAction([__CLASS__, 'Delete']);
-        $action->setParameters($param); // pass the key parameter ahead
-
-        // shows a dialog to the user
-        new TQuestion(AdiantiCoreTranslator::translate('Do you really want to delete ?'), $action);
-    }
-
-    /**
-     * Delete a record
-     */
-    public static function Delete($param)
-    {
-        try {
-            $key = $param['key']; // get the parameter $key
-            TTransaction::open('vigepi'); // open a transaction with database
-            $object = new MetaAgentesView($key, FALSE); // instantiates the Active Record
-            $object->delete(); // deletes the object from the database
-            TTransaction::close(); // close the transaction
-
-            $pos_action = new TAction([__CLASS__, 'onReload']);
-            new TMessage('info', AdiantiCoreTranslator::translate('Record deleted'), $pos_action); // success message
-        } catch (Exception $e) // in case of exception
-        {
-            new TMessage('error', $e->getMessage()); // shows the exception error message
-            TTransaction::rollback(); // undo all pending operations
-        }
-    }
-
-    /**
-     * method show()
-     * Shows the page
-     */
     public function show()
     {
         // check if the datagrid is already loaded
