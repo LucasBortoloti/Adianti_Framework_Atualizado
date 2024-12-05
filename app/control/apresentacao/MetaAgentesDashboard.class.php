@@ -262,26 +262,26 @@ class MetaAgentesDashboard extends TPage
 
             $div = new TElement('div');
             $div->id = 'container';
-            $div->style = 'width:1200px;height:1030px;';
+            $div->style = 'width:700px;height:600px;';
             $div->add($html);
 
             $html->enableSection('main', [
                 'data' => json_encode($dados),
-                'width' => '100%',
-                'height' => '1000px',
+                'width' => '95%',
+                'height' => '610px',
                 'xtitle' => 'Meta',
                 'ytitle' => 'Atingido/Não Atingido',
                 'title' => 'Metas dos Agentes'
             ]);
 
             // Adicionando o gráfico ao container
-            $container = new TVBox;
-            $container->style = 'width: 100%';
+            $container = new TPanelGroup;
+            $container->style = 'display: inline-block; width: 44%; vertical-align: top;'; // Ajuste o estilo para exibir lado a lado
             $container->add($div);
 
             parent::add($container); // Adiciona o gráfico
 
-            $html2 = new THtmlRenderer('app/resources/google_bar_chart.html');
+            $html2 = new THtmlRenderer('app/resources/google_column_chart.html');
 
             $metas = $repository->load($criteria, FALSE);
 
@@ -297,20 +297,20 @@ class MetaAgentesDashboard extends TPage
 
             $div2 = new TElement('div');
             $div2->id = 'container';
-            $div2->style = 'width:1200px;height:1030px;';
+            $div2->style = 'width:920px;height:600px;';
             $div2->add($html2);
 
             $html2->enableSection('main', [
                 'data' => json_encode($dados),
-                'width' => '100%',
-                'height' => '1000px',
+                'width' => '91%',
+                'height' => '610px',
                 'xtitle' => 'Agente',
                 'ytitle' => 'Normal/Recuperado',
                 'title' => 'Metas dos Agentes'
             ]);
 
-            $container2 = new TVBox;
-            $container2->style = 'width: 100%';
+            $container2 = new TPanelGroup;
+            $container2->style = 'display: inline-block; width: 55%; vertical-align: top;'; // Ajuste o estilo para exibir lado a lado
             $container2->add($div2);
 
             parent::add($container2); // Adiciona o segundo gráfico
