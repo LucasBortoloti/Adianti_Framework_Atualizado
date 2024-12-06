@@ -48,6 +48,7 @@ class MetaAgentesDashboard extends TPage
         // creates the form
         $this->form = new BootstrapFormBuilder('form_search_MetaAgentesView');
         $this->form->setFormTitle('MetaAgentesDashboard');
+        $this->form->setProperty('style', 'width: 99.2%;');
 
         $data_inicial = new TDate('data_inicial');
         $data_final = new TDate('data_final');
@@ -262,7 +263,7 @@ class MetaAgentesDashboard extends TPage
 
             $div = new TElement('div');
             $div->id = 'container';
-            $div->style = 'width:700px;height:600px;';
+            $div->style = 'width:700px;height:605px;';
             $div->add($html);
 
             $html->enableSection('main', [
@@ -297,7 +298,7 @@ class MetaAgentesDashboard extends TPage
 
             $div2 = new TElement('div');
             $div2->id = 'container';
-            $div2->style = 'width:920px;height:600px;';
+            $div2->style = 'width:920px;height:605px;';
             $div2->add($html2);
 
             $html2->enableSection('main', [
